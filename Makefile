@@ -6,7 +6,7 @@
 #    By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/21 11:05:07 by mfortuna          #+#    #+#              #
-#    Updated: 2024/09/03 11:42:29 by mfortuna         ###   ########.fr        #
+#    Updated: 2024/09/03 13:52:31 by mfortuna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ MAKE			= make -C
 all: $(NAME) 
 
 $(NAME) :  $(OBJS) $(NAMELIB)
-	$(CC) -g $(CFLAGS) -o $(NAME) $(SRC) $(NAMELIB)
+	$(CC) -g $(CFLAGS) -o $(NAME) $(SRC) $(NAMELIB) -lreadline
 
 $(NAMELIB) : $(LIBFT_PATH)
 	$(MAKE) $(LIBFT_PATH)
