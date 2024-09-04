@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:36:53 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/09/04 15:45:36 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/09/04 17:53:32 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,21 +20,18 @@ void	get_prompt(t_data *data)
 void ft_execute(t_data *data)
 {
 	pid_t 	pid;
-	char	*path;
 
-	path = find_path(data->cmd, data->env);
-	if (!path)
-		return (perror("cmd not found\n"));
 	pid = fork();
 	if (pid < 0)
 		return(perror("fork"));
 	if (pid == 0)
 	{
-		execve(path, ft_fullcmd(data->cmd), data->env);
+		execve(data->path, data->full_cmd, data->env);
 		exit(0);
 	}
 	waitpid(pid, 0, 0);
-	free(path);
+	free(data->path);
+	ft_freearr(data->full_cmd);
 }
 
 int	get_cmd(t_data *data)
@@ -43,7 +40,9 @@ int	get_cmd(t_data *data)
 	data->cmd = readline(data->prompt);
 	while (ft_strncmp(data->cmd, "exit", 4) != 0)
 	{
-		if(find_path(data->cmd, data->env))
+		data->full_cmd = ft_fullcmd(data->cmd);
+		data->path = find_path(data->full_cmd[0], data->env);
+		if(data->path)
 			ft_execute(data);
 		free(data->cmd);
 		data->cmd = readline(data->prompt);

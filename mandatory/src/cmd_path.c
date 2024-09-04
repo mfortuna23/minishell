@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 15:20:51 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/09/04 15:52:45 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/09/04 18:03:53 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,17 @@ char	*find_path(char *cmd, char **env)
 		full_path = ft_strjoin(half_path, cmd);
 		free(half_path);
 		if (access(full_path, X_OK) == 0)
+		{
+			ft_freearr(paths);
 			return (full_path);
+		}
 		free(full_path);
 		i++;
 	}
 	ft_freearr(paths);
 	paths = NULL;
 	full_path = NULL;
+	ft_printf("%s : command not found\n", cmd);
 	return (0);
 }
 
