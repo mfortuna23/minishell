@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:26:18 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/09/04 11:27:13 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/09/04 15:39:22 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 # include "libft/libft.h"
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <sys/types.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 
 typedef struct s_data
 {
@@ -22,5 +25,8 @@ typedef struct s_data
 	char	*cmd;
 	char	*prompt;
 }			t_data;
+
+char	**ft_fullcmd(char *cmd);
+char	*find_path(char *cmd, char **env);
 
 #endif

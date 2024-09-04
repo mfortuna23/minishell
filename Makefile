@@ -6,7 +6,7 @@
 #    By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/21 11:05:07 by mfortuna          #+#    #+#              #
-#    Updated: 2024/09/03 13:52:31 by mfortuna         ###   ########.fr        #
+#    Updated: 2024/09/04 15:35:38 by mfortuna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ LIBFT_PATH		= $(MANDATORY)libft/
 NAMELIB			= $(MANDATORY)libft/libft.a
 MANDATORY		= mandatory/
 SRC_M			= $(MANDATORY)src/
-SRC				= $(addprefix $(SRC_M), main.c)
+SRC				= $(addprefix $(SRC_M), main.c cmd_path.c)
 OBJS			= $(SRC:%.c=%.o)
 AR				= ar rc
 MAKE			= make -C
