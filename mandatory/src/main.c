@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:36:53 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/09/04 17:53:32 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/09/05 11:30:47 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,17 +37,17 @@ void ft_execute(t_data *data)
 int	get_cmd(t_data *data)
 {
 	get_prompt(data);
-	data->cmd = readline(data->prompt);
+	data->input = readline(data->prompt);
 	while (ft_strncmp(data->cmd, "exit", 4) != 0)
 	{
-		data->full_cmd = ft_fullcmd(data->cmd);
+		data->full_cmd = ft_fullcmd(data->input);
 		data->path = find_path(data->full_cmd[0], data->env);
 		if(data->path)
 			ft_execute(data);
-		free(data->cmd);
-		data->cmd = readline(data->prompt);
+		free(data->input);
+		data->input = readline(data->prompt);
 	}
-	free(data->cmd);
+	free(data->input);
 	return (0);
 }
 

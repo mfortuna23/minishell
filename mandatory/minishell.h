@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:26:18 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/09/04 17:51:35 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/09/05 12:19:15 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,35 @@
 
 typedef struct s_data
 {
-	char	**env;
-	char	*cmd;
-	char	**full_cmd;
-	char	*path;
-	char	*prompt;
+	char			**env;
+	char			*input;
+	char			**full_cmd;
+	char			*path;
+	char			*prompt;
+	int				n_cmd;
+	struct s_cmd	**cmd;
+	
 }			t_data;
+
+typedef struct s_cmd
+{
+	char			*cmd;
+	char			*path;
+	char			**full_cmd;
+	char			*args;
+	int				fd_in;
+	int				fd_out;
+	char			*infile;
+	char			*outfile;
+	bool			pipe;
+	pid_t			pid;
+	struct s_cmd	*next;
+}			t_cmd;
 
 char	**ft_fullcmd(char *cmd);
 char	*find_path(char *cmd, char **env);
+t_cmd	**create_cmds(int n);
+void	 add_last(t_cmd **head);
+t_cmd	*create_node(void);
 
 #endif
