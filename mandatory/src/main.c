@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:36:53 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/09/05 11:30:47 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/09/06 09:32:53 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ void	get_prompt(t_data *data)
 	data->prompt = "\001\033[1;96m\002minishell\001\033[0m\002 \001\033[3;95m\002> \001\033[0m\002";
 }
 
-void ft_execute(t_data *data)
+void	ft_execute(t_data *data)
 {
-	pid_t 	pid;
+	pid_t	pid;
 
 	pid = fork();
 	if (pid < 0)
-		return(perror("fork"));
+		return (perror("fork"));
 	if (pid == 0)
 	{
 		execve(data->path, data->full_cmd, data->env);
@@ -42,7 +42,7 @@ int	get_cmd(t_data *data)
 	{
 		data->full_cmd = ft_fullcmd(data->input);
 		data->path = find_path(data->full_cmd[0], data->env);
-		if(data->path)
+		if (data->path)
 			ft_execute(data);
 		free(data->input);
 		data->input = readline(data->prompt);
