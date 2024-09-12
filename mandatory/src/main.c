@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:36:53 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/09/06 09:32:53 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/09/12 13:08:16 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,12 @@ int	get_cmd(t_data *data)
 	data->input = readline(data->prompt);
 	while (ft_strncmp(data->cmd, "exit", 4) != 0)
 	{
-		data->full_cmd = ft_fullcmd(data->input);
+/* 		data->full_cmd = ft_fullcmd(data->input);
 		data->path = find_path(data->full_cmd[0], data->env);
 		if (data->path)
 			ft_execute(data);
+		*/
+		input_user(data);
 		free(data->input);
 		data->input = readline(data->prompt);
 	}

@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:26:18 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/09/05 12:19:15 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/09/12 13:11:01 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ typedef struct s_data
 	char			*prompt;
 	int				n_cmd;
 	struct s_cmd	**cmd;
-	
 }			t_data;
 
 typedef struct s_cmd
@@ -51,5 +50,8 @@ char	*find_path(char *cmd, char **env);
 t_cmd	**create_cmds(int n);
 void	 add_last(t_cmd **head);
 t_cmd	*create_node(void);
+int		input_user(t_data *data);
+char	**split_cmd(char *s);
+void 	count_cmds(t_data *data);
 
 #endif
