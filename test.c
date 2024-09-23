@@ -16,7 +16,7 @@ int token_count_two(char *s, int i)
 			i++;
 			if (s[i] > ' ')
 			{
-				while (s[i] == '|')
+				while (s[i] == '|' || s[i] == ' ')
 					i++;
 				words++;
 				i--;
@@ -24,14 +24,46 @@ int token_count_two(char *s, int i)
 		}
 		i++;
 	}
-	return (words);
+	if (words > 2)
+		return (2);
+	return (1);
 }
 
-int	token_count(char *s, int i, int j)
+int word_end (char *s, int i)
 {
-	int	words;
+	while (s[i] > ' ')
+	{
+		if (s[i] == '|')
+		{
+			printf("stopped at '%c'\n", s[i]);
+			return (i);
+		}
+		i++;
+	}
+	printf("stopped at '%c'\n", s[i]);
+	return (i);
+}
 
-	words = 0;
+int count_pipe (char *s, int i)
+{
+	int j;
+
+	j = i;
+	while (s[i] > ' ')
+	{
+		if (s[i] == '|')
+		{
+			if (j == i)
+				return (0);
+			return (1);
+		}
+		i++;
+	}
+	return (0);
+}
+
+int	token_count(char *s, int i, int j, int words)
+{
 	while (s[i])
 	{
 		while ((s[i] <= ' ') && s[i])
@@ -42,14 +74,17 @@ int	token_count(char *s, int i, int j)
 			if (s[i] == 34 || s[i] == 39)
 			{
 				j = i;
-				i++;
-				while ((s[i] != s[j]) && s[i])
-					i++;
+				while ((s[++i] != s[j]) && s[i]);
 			}
 			if ((s[i] > ' ') && s[i])
 			{
-				words += token_count_two(s, i);
-				while ((s[++i] > ' ') && s[i]);
+				words+= count_pipe(s, i);
+				i = word_end(s, i);
+			}
+			if (s[i] == '|')
+			{
+				while (s[i] == '|' || s[i] == ' ')
+					i++;
 			}
 		}
 	}
@@ -88,45 +123,49 @@ char	*get_word(char *s, int i, int j)
 	return (NULL);
 }
 
-char	**split_cmd(char *s)
+int	ft_strtok(t_data *data)
 {
 	int		i;
 	int		x;
 	int		words;
-	char	**arr;
 
-	words = token_count(s, 0, 0);
-	arr = malloc((words + 1) * sizeof(char *));
+	words = token_count(data->input, 0, 0, 0);
+	if (words < 1)
+		return (1);
+	data->tokens = ft_calloc((words + 1), sizeof(char *));
 	i = 0;
-	arr[0] = get_word(s, 0, 0);
+	data->tokens[0] = get_word(data->input, 0, 0);
 	x = 1;
-	while (x < words && s[i])
+	while (x < words && data->input[i])
 	{
-		while (s[i] == '|')
+		while (data->input[i] == '|' || data->input[i] == ' ')
 			i++;
-		if (arr[x - 1][0] != '|')
-			i += ft_strlen(arr[x - 1]);
-		while (s[i] <= ' ')
+		if (data->tokens[x - 1][0] != '|')
+			i += ft_strlen(data->tokens[x - 1]);
+		while (data->input[i] <= ' ')
 			i++;
-		arr[x] = get_word(s, i, 0);
+		data->tokens[x] = get_word(data->input, i, 0);
 		x++;
 	}
-	return (arr);
+	if (data->tokens[x] == NULL)
+		free(data->tokens[x]);
+	return (0);
 }
 
 int main (int argc, char **argv)
 {
-	char **arr;
+	t_data data;
 	int x = 0;
 
 	if (argc == 1)
 		return(1);
-	arr = split_cmd(argv[1]);
-	while (arr[x])
+	data.input = argv[1];
+	ft_strtok(&data);
+	while (data.tokens[x])
 	{
-		printf("%s\n", arr[x]);
+		printf("%s\n", data.tokens[x]);
 		x++;
 	}
-	printf("it has %i many words \n", token_count(argv[1], 0, 0));
+	printf("it has %i many words \n", token_count(argv[1], 0, 0, 0));
 	return (0);
 }

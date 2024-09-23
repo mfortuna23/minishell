@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:27:08 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/09/17 14:38:29 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/09/23 15:22:18 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	input_user(t_data *data)
 	current = (*data->cmd);
 	count_cmds(data);
 	data->cmd = create_cmds(data->n_cmd);
-	data->tokens = split_cmd(data->input);
+	data->tokens = ft_strtok(data);
 	define_cmds(data, current);
 }
 
