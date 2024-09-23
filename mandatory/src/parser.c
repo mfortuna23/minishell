@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:27:08 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/09/13 12:26:27 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/09/17 14:38:29 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ int divide_cmds(t_data *data)
 {
 	
 }
-
+/* define each cmd */
 int define_cmds(t_data *data, t_cmd *current)
 {
 	int	cmds;
 	int	i;
-	
+
 	cmds = 1;
 	i = 0;
 	if (data->n_cmd == 1)
@@ -39,7 +39,7 @@ int define_cmds(t_data *data, t_cmd *current)
 		}
 	}
 }
-
+/* recives and manages input from user */
 int	input_user(t_data *data)
 {
 	int		i;
@@ -50,6 +50,6 @@ int	input_user(t_data *data)
 	count_cmds(data);
 	data->cmd = create_cmds(data->n_cmd);
 	data->tokens = split_cmd(data->input);
-	define_cmds(data);
+	define_cmds(data, current);
 }
 
