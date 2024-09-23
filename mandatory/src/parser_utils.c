@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 10:14:09 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/09/23 15:21:31 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/09/23 17:11:22 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ char	*get_word(char *s, int i, int j)
 	}
 	return (NULL);
 }
-
+/* falta verificar se o file n\ao esta junto com '<' aaaaaaaaaaaaaaaaaaaaaaaaaaaaaah */
 int	ft_strtok(t_data *data)
 {
 	int		i;

@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:26:18 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/09/23 15:21:49 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/09/23 16:54:40 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,5 @@ void	 add_last(t_cmd **head);
 t_cmd	*create_node(void);
 int		input_user(t_data *data);
 int		ft_strtok(t_data *data);
-void 	count_cmds(t_data *data);
 
 #endif
