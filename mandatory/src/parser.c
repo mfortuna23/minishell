@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:27:08 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/09/24 14:14:50 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/09/24 14:17:29 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ int divide_cmds(t_cmd *current, t_data *data, int i, int start)
 	else
 		size = (i - start) + 1;
 	token = 0;
-	current->full_cmd = malloc(size * sizeof(char *));
+	current->full_tokens = malloc(size * sizeof(char *));
 	while (start <= size)
 	{
-		current->full_cmd[token] = ft_strdup(data->tokens[start]);
+		current->full_tokens[token] = ft_strdup(data->tokens[start]);
 		token++;
 		start++;
 	}
