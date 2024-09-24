@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:27:08 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/09/23 17:09:04 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/09/24 14:14:50 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int define_cmds(t_data *data, t_cmd *current)
 	j = 0;
 	if (data->n_cmd == 1)
 	{
-		current->full_cmd = data->tokens;
+		current->full_tokens = data->tokens;
 		return (0);
 	}
 	while (data->tokens[i])
@@ -58,6 +58,42 @@ int define_cmds(t_data *data, t_cmd *current)
 	}
 	return (0);
 }
+
+int	final_token_count (char **arr)
+{
+	int count;
+
+	count = 0;
+	while (arr[count])
+		count++;
+	return (count);
+}
+
+int	redirection(t_cmd *cmd, char **input, char c)
+{
+	int i;
+	
+	i = 0;
+	if (c == '<')
+	{
+		while (input[0][i] == '<')
+			i++;
+		return (i);
+	}
+}
+
+int cmd_line(t_cmd *cmd, char **input)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	while (input[i])
+	{
+		if (redirection(cmd, input, '<'))
+	}
+}
 /* organize command, cmd, args input and output ... */
 int org_cmds(t_data *data)
 {
@@ -70,8 +106,11 @@ int org_cmds(t_data *data)
 	i = 0;
 	while (current)
 	{
-		
+		if (cmd_line(current, data->tokens) == 1)
+			return (1);
+		current = current->next;
 	}
+	return (0);
 }
 
 void count_cmds(t_data *data)

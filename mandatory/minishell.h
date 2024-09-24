@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:26:18 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/09/23 16:54:40 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/09/24 11:45:40 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,18 @@ typedef struct s_data
 
 typedef struct s_cmd
 {
-	char			*cmd;
-	char			*path;
-	char			**full_cmd;
-	char			*args;
-	int				fd_in;
-	int				fd_out;
-	char			*infile;
-	char			*outfile;
-	bool			pipe;
-	pid_t			pid;
-	struct s_cmd	*next;
+	char			**cmd;		//final cmd
+	char			*path;		//path_to cmd
+	char			**full_tokens; //tokens from this cmd
+	int				fd_in;		//parser will not handle this
+	int				fd_out;		//parser will not handle this
+	char			*infile;	//null if notmentioned in cmd
+	char			*outfile;	//same
+	bool			pipe;		//more than this cmd...
+	bool			here_doc;	//if << true
+	bool			appen;		//if >> true
+	pid_t			pid;		//parser will not handle this
+	struct s_cmd	*next;		//if there is pipe else null
 }			t_cmd;
 
 char	**ft_fullcmd(char *cmd);
