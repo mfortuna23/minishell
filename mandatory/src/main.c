@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:36:53 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/09/13 11:05:21 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/10/07 11:30:58 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,22 +18,22 @@ void	get_prompt(t_data *data)
 }
 
 /* executes program */
-void	ft_execute(t_data *data)
-{
-	pid_t	pid;
+// void	ft_execute(t_data *data)
+// {
+// 	pid_t	pid;
 
-	pid = fork();
-	if (pid < 0)
-		return (perror("fork"));
-	if (pid == 0)
-	{
-		execve(data->path, data->full_cmd, data->env);
-		exit(0);
-	}
-	waitpid(pid, 0, 0);
-	free(data->path);
-	ft_freearr(data->full_cmd);
-}
+// 	pid = fork();
+// 	if (pid < 0)
+// 		return (perror("fork"));
+// 	if (pid == 0)
+// 	{
+// 		execve(data->path, data->tokens, data->env);
+// 		exit(0);
+// 	}
+// 	waitpid(pid, 0, 0);
+// 	free(data->path);
+// 	ft_freearr(data->tokens);
+// }
 
 /* recives input from user */
 int	get_cmd(t_data *data)
@@ -42,11 +42,17 @@ int	get_cmd(t_data *data)
 	data->input = readline(data->prompt);
 	while (ft_strncmp(data->input, "exit", 4) != 0)
 	{
- 		data->full_cmd = ft_fullcmd(data->input);
-		data->path = find_path(data->full_cmd[0], data->env);
-		if (data->path)
-			ft_execute(data);
+ 		if (input_user(data) == 0)
+		{		
+			// data->path = find_path(data->tokens[0], data->env);
+			// if "cd" execute in main
+			// if (data->path)
+			// 	ft_execute(data);
+		}
 		free(data->input);
+		ft_freearr(data->tokens);
+		while (data->cmd != NULL)
+			delete_last(data);
 		data->input = readline(data->prompt);
 	}
 	free(data->input);
