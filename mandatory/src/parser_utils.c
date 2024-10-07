@@ -6,133 +6,94 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 10:14:09 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/09/13 14:33:24 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/10/02 11:36:53 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int token_count_two(char *s, int i)
+int check_chars(char c)
 {
-	int words;
-
-	words = 0;
-	while ((s[i] > ' ') && s[i])
-	{
-		if (s[i] == '|')
-		{
-			words ++;
-			i++;
-			if (s[i] > ' ')
-			{
-				while (s[i] == '|')
-					i++;
-				words++;
-				i--;
-			}
-		}
-		i++;
-	}
-	return (words);
+	if (c == '|' || c == '<' || c == '>')
+		return (1);
+	return (0);
 }
 
-int	token_count(char *s, int i, int j)
+int token_count(char *s, int i, int count, char c)
 {
-	int	words;
-
-	words = 0;
 	while (s[i])
 	{
-		while ((s[i] <= ' ') && s[i])
+		while (s[i] <= ' ' && (s[i]))
 			i++;
-		if (s[i] > ' ')
+		if (s[i] > ' ' && s[i])
 		{
-			words ++;
-			if (s[i] == 34 || s[i] == 39)
+			c = s[i++];
+			count ++;
+			if (c == 34 || c == 39)
 			{
-				j = i;
+				while (c != s[i] && (s[i++]));
+				if (s[i] == 0)
+					return (-1);
+			}
+			while (s[i] > ' ')
 				i++;
-				while ((s[i] != s[j]) && s[i])
+		}
+	}
+	return (count);
+}
+/* fill data->parser */
+int less_space(t_data *data, char *arr, int i)
+{
+	int count;
+
+	count = 0;
+	while (arr[i])
+	{
+		while (arr[i] <= ' ' && (arr[i]))
+			i++;
+		while (arr[i] > ' ')
+		{
+			if (arr[i] == '|')
+			{
+				while (arr[i] == '|')
+				{
+					data->parser[count++] = arr[i++];
+					while (arr[i] == ' ')
+						i++;
+				}
+				data->parser[count++] = ' ';
+			}
+			data->parser[count++] = arr[i++];
+		}
+		data->parser[count++] = arr[i++];
+	}
+	return (0);
+}
+/* count necessary chars for data->parser */
+int	skip_spaces(t_data *data, char *arr, int i, int count)
+{
+	while (arr[i])
+	{
+		while (arr[i] <= ' ' && (arr[i]))
+			i++;
+		while (arr[i] > ' ')
+		{
+			count ++;
+			while (arr[i] == '|' || arr[i] == ' ')
+			{
+				if (arr[i] == '|')
+				{
+					i++;
+					count++;
+				}
+				else
 					i++;
 			}
-			if ((s[i] > ' ') && s[i])
-			{
-				words += token_count_two(s, i);
-				while ((s[++i] > ' ') && s[i]);
-			}
+			i++;
 		}
+		count ++;
 	}
-	return (words);
-}
-
-char	*get_quotes(char *s, int i, int j)
-{
-	while ((s[i] != s[j]) && s[i])
-		i++;
-	return (ft_substr(s, j, (i - j) + 1));
-}
-
-char	*get_word(char *s, int i, int j)
-{
-	if (s[i] == '|')
-		return (ft_substr(s, i, 1));
-	while (s[i] <= ' ' && s[i])
-		i++;
-	if (s[i] > ' ' && s[i])
-	{
-		if (s[i] == 34 || s[i] == 39)
-			return (get_quotes(s, i + 1, i));
-		j = i;
-		while (s[i] > ' ')
-		{
-			i++;
-			if (s[i] <= ' ' || s[i] == 0 || s[i] == '|')
-			{
-				if (s[i] == '|')
-					return (ft_substr(s, j, (i - j)));
-				return (ft_substr(s, j, (i - j) + 1));
-			}
-		}
-	}
-	return (NULL);
-}
-
-char	**split_cmd(char *s)
-{
-	int		i;
-	int		x;
-	int		words;
-	char	**arr;
-
-	words = token_count(s, 0, 0);
-	arr = malloc((words + 1) * sizeof(char *));
-	i = 0;
-	arr[0] = get_word(s, 0, 0);
-	x = 1;
-	while (x < words && s[i])
-	{
-		while (s[i] == '|')
-			i++;
-		if (arr[x - 1][0] != '|')
-			i += ft_strlen(arr[x - 1]);
-		while (s[i] <= ' ')
-			i++;
-		arr[x] = get_word(s, i, 0);
-		x++;
-	}
-	return (arr);
-}
-
-void count_cmds(t_data *data)
-{
-	int i;
-
-	i = 0;
-	data->n_cmd = 1;
-	while (data->input[i])
-	{
-		if (data->input[i] == '|')
-			data->n_cmd++;
-		i++;
-	}
+	data->parser = ft_calloc(count + 1, sizeof(char));
+	less_space(data, arr, 0);
+	return (0);
 }

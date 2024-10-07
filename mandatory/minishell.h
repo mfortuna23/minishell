@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:26:18 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/09/13 12:16:27 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/10/07 11:31:51 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,35 +23,43 @@ typedef struct s_data
 {
 	char			**env;
 	char			*input;
+	char			*parser;
 	char			**tokens;
 	char			*path;
 	char			*prompt;
 	int				n_cmd;
-	struct s_cmd	**cmd;
+	struct s_cmd	*cmd;
 }			t_data;
 
 typedef struct s_cmd
 {
-	char			*cmd;
-	char			*path;
-	char			**full_cmd;
-	char			*args;
-	int				fd_in;
-	int				fd_out;
-	char			*infile;
-	char			*outfile;
-	bool			pipe;
-	pid_t			pid;
-	struct s_cmd	*next;
+	char			**cmd;			//final cmd
+	char			*path;			//path_to cmd
+	char			**full_tokens;	//tokens from this cmd
+	int				fd_in;			//parser will not handle this
+	int				fd_out;			//parser will not handle this
+	char			*infile;		//null if notmentioned in cmd
+	char			*outfile;		//same
+	bool			pipe;			//more than this cmd...
+	bool			here_doc;		//if << true
+	bool			appen;			//if >> true
+	int				return_value;	// return value of this cmd
+	pid_t			pid;			//parser will not handle this
+	struct s_cmd	*next;			//if there is pipe else null
 }			t_cmd;
 
 char	**ft_fullcmd(char *cmd);
 char	*find_path(char *cmd, char **env);
-t_cmd	**create_cmds(int n);
+void	create_cmds(t_data *data);
 void	 add_last(t_cmd **head);
 t_cmd	*create_node(void);
 int		input_user(t_data *data);
-char	**split_cmd(char *s);
-void 	count_cmds(t_data *data);
+int		ft_strtok(t_data *data);
+int		skip_spaces(t_data *data, char *arr, int i, int count);
+int 	less_space(t_data *data, char *arr, int i);
+int 	token_count(char *s, int i, int count, char c);
+int 	check_chars(char c);
+void    delete_last(t_data *cmd);
+
 
 #endif
