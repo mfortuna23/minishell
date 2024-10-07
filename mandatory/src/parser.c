@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:27:08 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/10/07 11:57:05 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/10/07 12:11:25 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	ft_redirect(t_data *data, t_cmd *current, int y, int x)
 	}
 	else if (x > 1)
 		current->appen = true;
-	current->infile = ft_strdup(data->tokens[++y]);
+	current->outfile = ft_strdup(data->tokens[++y]);
 	return (2);
 }
 int ft_cmd_args(t_data *data, t_cmd *node, int y, int x)
