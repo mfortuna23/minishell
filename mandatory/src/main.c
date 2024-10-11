@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:36:53 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/10/07 11:30:58 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/10/11 12:12:44 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,10 @@ int	get_cmd(t_data *data)
 	data->input = readline(data->prompt);
 	while (ft_strncmp(data->input, "exit", 4) != 0)
 	{
+		add_history(data->input);
  		if (input_user(data) == 0)
 		{		
+			// CHECK EMPTY IMPUT!!!!!!!!!
 			// data->path = find_path(data->tokens[0], data->env);
 			// if "cd" execute in main
 			// if (data->path)
@@ -53,6 +55,7 @@ int	get_cmd(t_data *data)
 		ft_freearr(data->tokens);
 		while (data->cmd != NULL)
 			delete_last(data);
+		free(data->parser);
 		data->input = readline(data->prompt);
 	}
 	free(data->input);
