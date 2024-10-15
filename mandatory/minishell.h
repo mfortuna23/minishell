@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:26:18 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/10/07 11:31:51 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/10/15 09:55:18 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ int 	less_space(t_data *data, char *arr, int i);
 int 	token_count(char *s, int i, int count, char c);
 int 	check_chars(char c);
 void    delete_last(t_data *cmd);
+int		ft_fprintf(int fd, int r_value, const char *s, ...);
+void	delete_cmds(t_data *data);
 
 
 #endif
