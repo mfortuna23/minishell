@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:26:18 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/10/15 09:55:18 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/10/15 14:48:26 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ int 	check_chars(char c);
 void    delete_last(t_data *cmd);
 int		ft_fprintf(int fd, int r_value, const char *s, ...);
 void	delete_cmds(t_data *data);
+int		split_tokens(t_data *data, int x, int i, int j);
 
 
 #endif
