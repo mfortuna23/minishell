@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:31:46 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/10/07 11:31:24 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/10/15 09:55:09 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,24 +73,33 @@ void	free_mem(t_cmd *del)
         free (del);
 }
 
-void    delete_last(t_data *data)
+void delete_last (t_data *data)
 {
-		t_cmd  *last;
-		t_cmd  *del;
+	t_cmd  *last;
+	t_cmd  *del;
 
-		last = data->cmd;
-		del = NULL;
-		if (last->next == NULL)
-		{
-			free_mem(last);
-			data->cmd = NULL;
-			return ;
-		}
-		while (last->next->next != NULL)
-			last = last->next;
-		del = last->next;
-		last->next = NULL;
-		free_mem(del);
+	last = data->cmd;
+	del = NULL;
+	if (last->next == NULL)
+	{
+		free_mem(last);
+		data->cmd = NULL;
 		return ;
+	}
+	while (last->next->next != NULL)
+		last = last->next;
+	del = last->next;
+	last->next = NULL;
+	free_mem(del);		
+}
+
+void	delete_cmds(t_data *data)
+{
+	free(data->input);
+	free(data->parser);
+	ft_freearr(data->tokens);
+	while (data->cmd)
+		delete_last(data);
+	return ;
 }
 

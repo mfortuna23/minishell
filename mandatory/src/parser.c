@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:27:08 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/10/07 12:11:25 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/10/15 11:20:28 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int ft_cmd_args(t_data *data, t_cmd *node, int y, int x)
 	i = 0;
 	while ((data->tokens[y]) && check_chars(data->tokens[y][x]) == 0)
 		node->cmd[i++] = ft_strdup(data->tokens[y++]);
+	node->cmd[i] = 0;
 	return (y);
 }
 int parsing(t_data *data, int y, int x)
@@ -68,7 +69,7 @@ int parsing(t_data *data, int y, int x)
 		else if (data->tokens[y][x] == '|')
 		{
 			if (y == 0)
-				return (printf("parser error near '|' \n"));
+				return (ft_fprintf(2, 1,"parser error near '|' \n"));
 			add_last(&data->cmd);
 			node->pipe = true;
 			node = node->next;
@@ -91,6 +92,7 @@ int	ft_strtok(t_data *data)
 
 	j = 0;
 	i = 0;
+	ft_memset(arr, 0, 1024);
 	while (data->input[i])
 	{
 		while (data->input[i] <= ' ' && (data->input[i]))
@@ -114,11 +116,8 @@ int	ft_strtok(t_data *data)
 /* recives and manages input from user */
 int	input_user(t_data *data)
 {
-	// int		i;
-	// // t_cmd	*current;
-
-	// i = 0;
-	// current = (*data->cmd);
+	if (data->input[0] == 0)
+		return (1);
 	if (ft_strtok(data) > 0)
 		return (1);
 	print_cmds(data);

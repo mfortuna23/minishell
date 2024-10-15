@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:36:53 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/10/11 12:12:44 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/10/15 10:39:33 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 void	get_prompt(t_data *data)
 {
 	data->prompt = "\001\033[1;96m\002minishell\001\033[0m\002 \001\033[3;95m\002> \001\033[0m\002";
+	data->input = NULL;
+	data->parser = NULL;
+	data->tokens = NULL;
+	data->path = NULL;
+	data->cmd = NULL;
 }
 
 /* executes program */
@@ -44,18 +49,14 @@ int	get_cmd(t_data *data)
 	{
 		add_history(data->input);
  		if (input_user(data) == 0)
-		{		
-			// CHECK EMPTY IMPUT!!!!!!!!!
+		{
 			// data->path = find_path(data->tokens[0], data->env);
 			// if "cd" execute in main
 			// if (data->path)
 			// 	ft_execute(data);
 		}
-		free(data->input);
-		ft_freearr(data->tokens);
 		while (data->cmd != NULL)
-			delete_last(data);
-		free(data->parser);
+			delete_cmds(data);
 		data->input = readline(data->prompt);
 	}
 	free(data->input);
