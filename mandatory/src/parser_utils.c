@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 10:14:09 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/10/15 15:00:58 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/10/17 11:02:51 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,10 +100,11 @@ int	skip_spaces(t_data *data, char *arr, int i, int count)
 
 int	split_tokens(t_data *data, int x, int i, int j)
 {
-	data->tokens = malloc((token_count(data->parser, 0, 0, 0) + 1) * sizeof(char*));
-	while (data->parser[i])
+	data->n_tokens = token_count(data->parser, 0, 0, 0);
+	data->tokens = malloc((data->n_tokens + 1) * sizeof(char*));
+	while (data->parser[i] && (x < data->n_tokens))
 	{
-		while (data->parser[i] <= ' ' && data->parser[i])
+		while (data->parser[i] <= ' ')
 			i++;
 		if (data->parser[i] > ' ')
 		{
@@ -113,13 +114,13 @@ int	split_tokens(t_data *data, int x, int i, int j)
 				if ((data->parser[i] == 34 || data->parser[i] == 39) && j == i)
 				{
 					while ((data->parser[++i] != data->parser[j]) && data->parser[i]);
-					if (data->parser[i] == 0)
+					if (data->parser[i++] == 0)
 						return (1);
-					data->tokens[x++] = ft_substr(data->parser, j, (i - j) + 1);
+					data->tokens[x++] = ft_substr(data->parser, j, (i - j));
+					break ;
 				}
-				i++;
-				if (data->parser[i] <= ' ' || data->parser == 0)
-					data->tokens[x++] = ft_substr(data->parser, j, (i - j) + 1);
+				if ((data->parser[++i] <= ' ' || data->parser[i] == 0) && (x < data->n_tokens))
+					data->tokens[x++] = ft_substr(data->parser, j, (i - j));
 			}
 		}
 	}
