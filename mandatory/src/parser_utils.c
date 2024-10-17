@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 10:14:09 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/10/17 11:02:51 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/10/17 13:39:55 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ int less_space(t_data *data, char *arr, int i)
 			}
 			data->parser[count++] = arr[i++];
 		}
-		data->parser[count++] = arr[i++];
+		if (arr[i])
+			data->parser[count++] = arr[i++];
 	}
 	return (0);
 }
@@ -101,7 +102,7 @@ int	skip_spaces(t_data *data, char *arr, int i, int count)
 int	split_tokens(t_data *data, int x, int i, int j)
 {
 	data->n_tokens = token_count(data->parser, 0, 0, 0);
-	data->tokens = malloc((data->n_tokens + 1) * sizeof(char*));
+	data->tokens = ft_calloc((data->n_tokens + 1), sizeof(char*));
 	while (data->parser[i] && (x < data->n_tokens))
 	{
 		while (data->parser[i] <= ' ')
