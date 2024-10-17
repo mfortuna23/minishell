@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:27:08 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/10/15 11:20:28 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/10/15 14:49:08 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,27 +20,26 @@ int	ft_redirect(t_data *data, t_cmd *current, int y, int x)
 		while (data->tokens[y][x] == '<')
 			x++;
 		if (x > 3)
-		{
-			ft_putstr_fd("parser error near : '<'", 2);
-			return(-1);
-		}
+			return(ft_fprintf(2, -1, "parser error near : '<'"));
 		else if (x > 1)
 			current->here_doc = true;
-		current->infile = ft_strdup(data->tokens[++y]);
+		if (!data->tokens[++y])
+			return (-1);
+		current->infile = ft_strdup(data->tokens[y]);
 		return (2);
 	}
 	while (data->tokens[y][x] == '>')
 		x++;
 	if (x > 2)
-	{
-		ft_putstr_fd("parser error near : '>'", 2);
-		return(-1);
-	}
+		return(ft_fprintf(2, -1, "parser error near : '>'"));
 	else if (x > 1)
 		current->appen = true;
-	current->outfile = ft_strdup(data->tokens[++y]);
+	if (!data->tokens[++y])
+		return (-1);
+	current->outfile = ft_strdup(data->tokens[y]);
 	return (2);
 }
+
 int ft_cmd_args(t_data *data, t_cmd *node, int y, int x)
 {
 	int count;
@@ -57,6 +56,7 @@ int ft_cmd_args(t_data *data, t_cmd *node, int y, int x)
 	node->cmd[i] = 0;
 	return (y);
 }
+
 int parsing(t_data *data, int y, int x)
 {
 	t_cmd *node;
@@ -65,10 +65,9 @@ int parsing(t_data *data, int y, int x)
 	{
 		if (data->tokens[y][x] == '<' || data->tokens[y][x] == '>')
 			y = ft_redirect(data, node, y, 0);
-			// check for multiple files
 		else if (data->tokens[y][x] == '|')
 		{
-			if (y == 0)
+			if (y == 0 || data->tokens[y][1] == '|')
 				return (ft_fprintf(2, 1,"parser error near '|' \n"));
 			add_last(&data->cmd);
 			node->pipe = true;
@@ -106,9 +105,9 @@ int	ft_strtok(t_data *data)
 	}
 	arr[j++] = 0;
 	skip_spaces(data, arr, 0, 0);
-	data->tokens = ft_split(data->parser, ' ');
+	split_tokens(data, 0, 0, 0);
 	create_cmds(data);
-	if (parsing(data, 0, 0) > 0)
+	if (parsing(data, 0, 0) == 1)
 		return (1);
 	return (0);
 }
@@ -118,7 +117,9 @@ int	input_user(t_data *data)
 {
 	if (data->input[0] == 0)
 		return (1);
-	if (ft_strtok(data) > 0)
+	if (ft_strtok(data) == 1)
+		return (1);
+	if (data->cmd->cmd == NULL )
 		return (1);
 	print_cmds(data);
 	return (0);

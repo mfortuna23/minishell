@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:36:53 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/10/15 10:39:33 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/10/15 13:26:55 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ int	get_cmd(t_data *data)
 		add_history(data->input);
  		if (input_user(data) == 0)
 		{
-			// data->path = find_path(data->tokens[0], data->env);
 			// if "cd" execute in main
+			// data->path = find_path(data->tokens[0], data->env);
 			// if (data->path)
 			// 	ft_execute(data);
 		}
