@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:26:18 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/10/17 10:41:59 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/10/21 11:38:29 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,14 @@ void	 add_last(t_cmd **head);
 t_cmd	*create_node(void);
 int		input_user(t_data *data);
 int		ft_strtok(t_data *data);
-int		skip_spaces(t_data *data, char *arr, int i, int count);
-int 	less_space(t_data *data, char *arr, int i);
+int 	less_space(t_data *data, char *arr, int i, int count);
 int 	token_count(char *s, int i, int count, char c);
 int 	check_chars(char c);
 void    delete_last(t_data *cmd);
 int		ft_fprintf(int fd, int r_value, const char *s, ...);
 void	delete_cmds(t_data *data);
 int		split_tokens(t_data *data, int x, int i, int j);
+char	*str_join(char *s1, char *s2);
 
 
 #endif
