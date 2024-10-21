@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:27:08 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/10/17 15:22:41 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/10/21 11:40:17 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,6 @@ int parsing(t_data *data, int y, int x)
 		if (y < 0)
 			return (1);
 	}
-	if (node->cmd)
-		return (0);
-	node->cmd = ft_split(readline("> "), ' ');
 	return (0);
 }
 
@@ -107,7 +104,8 @@ int	ft_strtok(t_data *data)
 		arr[j++] = ' ';
 	}
 	arr[j++] = 0;
-	skip_spaces(data, arr, 0, 0);
+	data->parser = ft_calloc(1024, sizeof(char));
+	less_space(data, arr, 0, 0);
 	split_tokens(data, 0, 0, 0);
 	return (0);
 }
@@ -117,6 +115,8 @@ int	input_user(t_data *data)
 {
 	if (data->input[0] == 0)
 		return (1);
+	while (data->input[ft_strlen(data->input) - 1] == '|')
+		data->input = str_join(data->input, readline("> "));
 	if (ft_strtok(data) == 1)
 		return (1);
 	create_cmds(data);
