@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:27:08 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/10/21 11:40:17 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/10/22 14:04:17 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,20 +83,16 @@ int parsing(t_data *data, int y, int x)
 }
 
 /* parser */
-int	ft_strtok(t_data *data)
+int	ft_strtok(t_data *data, int i, int j)
 {
 	char 	arr[1024];
-	int		i;
-	int		j;
 
-	j = 0;
-	i = 0;
 	ft_memset(arr, 0, 1024);
 	while (data->input[i])
 	{
 		while (data->input[i] <= ' ' && (data->input[i]))
 			i++;
-		while (check_chars(data->input[i]) == 1)
+		while (check_chars(data->input[i]) > 0)
 			arr[j++] = data->input[i++];
 		arr[j++] = ' ';
 		while (data->input[i] > ' ' && check_chars(data->input[i]) == 0)
@@ -107,17 +103,43 @@ int	ft_strtok(t_data *data)
 	data->parser = ft_calloc(1024, sizeof(char));
 	less_space(data, arr, 0, 0);
 	split_tokens(data, 0, 0, 0);
+	i = 0;
+	while (data->tokens[i])
+	{
+		if (check_chars(data->tokens[i][0]) == 2)
+			return (ft_fprintf(2, 1, "parser error near '%c'\n", data->tokens[i][0]));
+		i++;
+	}
+	return (0);
+}
+
+int get_fullinput(t_data *data, int i)
+{
+	if (data->input[0] == 0)
+		return (1);
+	i = ft_strlen(data->input) - 1;
+	while (data->input[i] == '|' || data->input[i] == ' ')
+	{
+		if (data->input[i] == ' ')
+			i--;
+		else
+		{
+			if (ft_strnstr(data->input, "<|", 100) || ft_strnstr(data->input, ">|", 100) || \
+			ft_strnstr(data->input, "|", 1))
+				return (ft_fprintf(2, 1, "parser error near '|' \n"));
+			data->input = str_join(data->input, readline("> "));
+			i = ft_strlen(data->input) - 1;
+		}
+	}
 	return (0);
 }
 
 /* recives and manages input from user */
 int	input_user(t_data *data)
 {
-	if (data->input[0] == 0)
+	if (get_fullinput(data, 0) == 1)
 		return (1);
-	while (data->input[ft_strlen(data->input) - 1] == '|')
-		data->input = str_join(data->input, readline("> "));
-	if (ft_strtok(data) == 1)
+	if (ft_strtok(data, 0, 0) == 1)
 		return (1);
 	create_cmds(data);
 	if (parsing(data, 0, 0) == 1)
@@ -126,8 +148,6 @@ int	input_user(t_data *data)
 		return (1);
 	print_cmds(data);
 	return (0);
-// dealing with parser errors -> and return;
-// create a function that dividies input into diferent commands
 }
 
 void print_cmds(t_data *data)
