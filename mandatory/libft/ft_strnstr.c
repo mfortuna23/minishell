@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 11:27:45 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/09/03 11:28:44 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/10/22 13:44:38 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*ft_strnstr(const char *s1, const char *s2, size_t n)
 		return ((char *)s1);
 	if (s1[i] == 0 || ft_strlen(s2) > ft_strlen(s1))
 		return (NULL);
-	while (i <= n)
+	while (i <= n && s2[i + j])
 	{
 		while (s1[i + j] == s2[j])
 		{

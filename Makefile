@@ -6,7 +6,7 @@
 #    By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/21 11:05:07 by mfortuna          #+#    #+#              #
-#    Updated: 2024/10/21 11:06:45 by mfortuna         ###   ########.fr        #
+#    Updated: 2024/10/22 12:08:33 by mfortuna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,7 @@ MAKE			= make -C
 all: $(NAME) 
 
 $(NAME) :  $(OBJS) $(NAMELIB)
-	$(CC) -g $(CFLAGS) -o $(NAME) $(SRC) $(NAMELIB) -lreadline
+	$(CC) -g $(CFLAGS) -o $(NAME) $(SRC) $(LIBFT_PATH)ft_strnstr.c $(NAMELIB) -lreadline
 	valgrind -q --leak-check=full --show-leak-kinds=all --suppressions=ignore_readline_leaks.supp --track-fds=yes ./$(NAME)
 
 $(NAMELIB) : $(LIBFT_PATH)

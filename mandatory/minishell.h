@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:26:18 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/10/21 11:38:29 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/10/22 14:01:37 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	create_cmds(t_data *data);
 void	 add_last(t_cmd **head);
 t_cmd	*create_node(void);
 int		input_user(t_data *data);
-int		ft_strtok(t_data *data);
+int		ft_strtok(t_data *data, int i, int j);
 int 	less_space(t_data *data, char *arr, int i, int count);
 int 	token_count(char *s, int i, int count, char c);
 int 	check_chars(char c);

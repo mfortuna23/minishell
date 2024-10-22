@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:36:53 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/10/21 14:13:43 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/10/22 14:57:16 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int	get_cmd(t_data *data)
 	data->input = readline(data->prompt);
 	while (ft_strncmp(data->input, "exit", 4) != 0)
 	{
+		add_history(data->input);
  		if (input_user(data) == 0)
 		{
 			// if "cd" execute in main
@@ -54,8 +55,7 @@ int	get_cmd(t_data *data)
 			// if (data->path)
 			// 	ft_execute(data);
 		}
-		while (data->cmd != NULL)
-			delete_cmds(data);
+		delete_cmds(data);
 		data->input = readline(data->prompt);
 	}
 	free(data->input);
