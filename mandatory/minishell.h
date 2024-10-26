@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:26:18 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/10/22 14:01:37 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/10/25 11:51:24 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,17 @@ typedef struct s_data
 	char			*prompt;
 	int				n_tokens;
 	struct s_cmd	*cmd;
+	struct s_env	*var;
 }			t_data;
+
+typedef struct s_env
+{
+	char			*full;
+	char 			*name;
+	char 			*value;
+	struct s_env	*next;
+}		t_env;
+
 
 typedef struct s_cmd
 {
@@ -63,6 +73,10 @@ int		ft_fprintf(int fd, int r_value, const char *s, ...);
 void	delete_cmds(t_data *data);
 int		split_tokens(t_data *data, int x, int i, int j);
 char	*str_join(char *s1, char *s2);
-
+t_env	*create_env_node(void);
+void	add_last_env(t_env **head);
+void	free_env(t_env *del);
+void	del_lastenv(t_data *data);
+void	ms_bomb(t_data *data);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:27:08 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/10/22 14:04:17 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/10/24 10:10:29 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ int	input_user(t_data *data)
 		return (1);
 	if (data->cmd->cmd == NULL )
 		return (1);
-	print_cmds(data);
+	// print_cmds(data);
 	return (0);
 }
 

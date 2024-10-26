@@ -6,7 +6,7 @@
 #    By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/21 11:05:07 by mfortuna          #+#    #+#              #
-#    Updated: 2024/10/22 12:08:33 by mfortuna         ###   ########.fr        #
+#    Updated: 2024/10/25 10:44:59 by mfortuna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ NAMELIB			= $(MANDATORY)libft/libft.a
 MANDATORY		= mandatory/
 SRC_M			= $(MANDATORY)src/
 SRC				= $(addprefix $(SRC_M), main.c cmd_path.c parser.c \
- parser_utils.c struct_cmds.c ft_fprintf.c utils.c)
+ parser_utils.c struct_cmds.c ft_fprintf.c utils.c struct_env.c)
 OBJS			= $(SRC:%.c=%.o)
 AR				= ar rc
 MAKE			= make -C
