@@ -6,11 +6,11 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:27:08 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/10/24 10:10:29 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/10/28 10:09:40 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
 void print_cmds(t_data *data);
 int	ft_redirect(t_data *data, t_cmd *current, int y, int x)
@@ -81,6 +81,20 @@ int parsing(t_data *data, int y, int x)
 	}
 	return (0);
 }
+/* check for special chars not required by the subject */
+int check_not_req(t_data *data)
+{
+	int i;
+
+	i = 0;
+	while (data->tokens[i])
+	{
+		if (check_chars(data->tokens[i][0]) == 2)
+			return (ft_fprintf(2, 1, "parser error near '%c'\n", data->tokens[i][0]));
+		i++;
+	}
+	return (0);
+}
 
 /* parser */
 int	ft_strtok(t_data *data, int i, int j)
@@ -103,13 +117,8 @@ int	ft_strtok(t_data *data, int i, int j)
 	data->parser = ft_calloc(1024, sizeof(char));
 	less_space(data, arr, 0, 0);
 	split_tokens(data, 0, 0, 0);
-	i = 0;
-	while (data->tokens[i])
-	{
-		if (check_chars(data->tokens[i][0]) == 2)
-			return (ft_fprintf(2, 1, "parser error near '%c'\n", data->tokens[i][0]));
-		i++;
-	}
+	if (check_not_req(data) == 1)
+		return (1);
 	return (0);
 }
 

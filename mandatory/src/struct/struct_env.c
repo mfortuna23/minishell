@@ -6,11 +6,11 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 09:19:49 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/10/25 12:24:49 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/10/28 10:09:26 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
 t_env	*create_env_node(void)
 {

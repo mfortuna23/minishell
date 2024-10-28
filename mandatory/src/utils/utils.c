@@ -6,11 +6,11 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 11:01:03 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/10/23 18:43:52 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/10/28 10:09:03 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
 char *str_join(char *s1, char *s2)
 {

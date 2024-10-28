@@ -6,7 +6,7 @@
 #    By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/21 11:05:07 by mfortuna          #+#    #+#              #
-#    Updated: 2024/10/25 10:44:59 by mfortuna         ###   ########.fr        #
+#    Updated: 2024/10/28 10:35:35 by mfortuna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,10 +20,13 @@ LIBFT_PATH		= $(MANDATORY)libft/
 NAMELIB			= $(MANDATORY)libft/libft.a
 MANDATORY		= mandatory/
 SRC_M			= $(MANDATORY)src/
-SRC				= $(addprefix $(SRC_M), main.c cmd_path.c parser.c \
- parser_utils.c struct_cmds.c ft_fprintf.c utils.c struct_env.c)
-OBJS			= $(SRC:%.c=%.o)
-AR				= ar rc
+EXEC			= $(addprefix $(SRC_M)exec/, cmd_path.c)
+PARSER			= $(addprefix $(SRC_M)parser/, parser.c parser_utils.c)
+STRUCT			= $(addprefix $(SRC_M)struct/, struct_cmds.c struct_env.c)
+UTILS			= $(addprefix $(SRC_M)utils/, utils.c ft_fprintf.c)
+SRC				= $(SRC_M)main.c $(EXEC) $(PARSER) $(STRUCT) $(UTILS)
+ODIR			= obj
+OBJS			= $(patsubst %.c,$(ODIR)/%.o,$(SRC))
 MAKE			= make -C
 
 
@@ -36,11 +39,13 @@ $(NAME) :  $(OBJS) $(NAMELIB)
 $(NAMELIB) : $(LIBFT_PATH)
 	$(MAKE) $(LIBFT_PATH)
 
-$(SRC_M)%.o: %.c
+$(ODIR)/%.o: $(SDIR)/%.c | $(ODIR)
+	mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -g -I . -c $<
 
 clean:
 	$(RM) $(SRC_M)*.o
+	${RM} ${ODIR}
 	$(MAKE) $(LIBFT_PATH) clean
 
 fclean: clean

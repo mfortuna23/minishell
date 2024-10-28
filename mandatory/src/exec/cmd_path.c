@@ -6,11 +6,11 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 15:20:51 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/09/13 12:04:59 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/10/28 10:09:17 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../minishell.h"
 
 /* find path to executeble || delete later */
 char	*find_path(char *cmd, char **env)
