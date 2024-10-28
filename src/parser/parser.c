@@ -6,14 +6,14 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:27:08 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/10/28 10:09:40 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/10/28 12:00:12 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "../../includes/minishell.h"
 
-void print_cmds(t_data *data);
-int	ft_redirect(t_data *data, t_cmd *current, int y, int x)
+void	print_cmds(t_data *data);
+int		ft_redirect(t_data *data, t_cmd *current, int y, int x)
 {
 	if (data->tokens[y][x] == '<')
 	{
@@ -40,7 +40,7 @@ int	ft_redirect(t_data *data, t_cmd *current, int y, int x)
 	return (2);
 }
 
-int ft_cmd_args(t_data *data, t_cmd *node, int y, int x)
+int 	ft_cmd_args(t_data *data, t_cmd *node, int y, int x)
 {
 	int count;
 	int	i;
@@ -57,7 +57,7 @@ int ft_cmd_args(t_data *data, t_cmd *node, int y, int x)
 	return (y);
 }
 
-int parsing(t_data *data, int y, int x)
+int		parsing(t_data *data, int y, int x)
 {
 	t_cmd *node;
 	node = data->cmd;
@@ -97,7 +97,7 @@ int check_not_req(t_data *data)
 }
 
 /* parser */
-int	ft_strtok(t_data *data, int i, int j)
+int		ft_strtok(t_data *data, int i, int j)
 {
 	char 	arr[1024];
 
@@ -122,7 +122,7 @@ int	ft_strtok(t_data *data, int i, int j)
 	return (0);
 }
 
-int get_fullinput(t_data *data, int i)
+int 	get_fullinput(t_data *data, int i)
 {
 	if (data->input[0] == 0)
 		return (1);
@@ -144,7 +144,7 @@ int get_fullinput(t_data *data, int i)
 }
 
 /* recives and manages input from user */
-int	input_user(t_data *data)
+int		input_user(t_data *data)
 {
 	if (get_fullinput(data, 0) == 1)
 		return (1);

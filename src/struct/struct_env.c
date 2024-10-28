@@ -6,11 +6,11 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 09:19:49 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/10/28 10:09:26 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/10/28 11:40:49 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "../../includes/minishell.h"
 
 t_env	*create_env_node(void)
 {
@@ -73,4 +73,16 @@ void	del_lastenv(t_data *data)
 	}
 	del->next = NULL;
 	free_env(node);
+}
+
+t_env	*find_last_env(t_env **env)
+{
+	t_env	*node;
+
+	node = (*env);
+	if (node == NULL)
+		return (NULL);
+	while (node->next != NULL)
+		node = node->next;
+	return (node);
 }

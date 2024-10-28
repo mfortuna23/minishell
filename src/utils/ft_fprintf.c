@@ -6,11 +6,11 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 11:10:11 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/10/28 10:09:10 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/10/28 11:02:31 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "../../includes/minishell.h"
 
 void ft_fprintnbr (long n, char *str, int base, int fd)
 {

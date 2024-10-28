@@ -6,11 +6,11 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 10:14:09 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/10/28 10:09:46 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/10/28 11:02:16 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../minishell.h"
+#include "../../includes/minishell.h"
 
 int check_chars(char c)
 {
