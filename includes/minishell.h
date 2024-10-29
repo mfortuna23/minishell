@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:26:18 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/10/28 12:09:24 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:55:42 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ void	add_last_env(t_env **head);
 void	free_env(t_env *del);
 void	del_lastenv(t_data *data);
 t_env	*find_last_env(t_env **env);
+t_env	*find_var(t_data *data, char *name);
+void	del_varenv(t_data *data, char *name);
 
 /****************************/
 /*			EXEC			*/
