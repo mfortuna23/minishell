@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 09:19:49 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/10/29 11:36:44 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/10/30 13:47:04 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_env	*create_env_node(void)
 	env->full = NULL;
 	env->name = NULL;
 	env->value = NULL;
+	env->alive = true;
 	env->next = NULL;
 	return (env);
 }
