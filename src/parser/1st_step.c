@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:38:58 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/10/29 12:55:47 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/10/30 10:03:44 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int		get_cmd(t_data *data)
 		add_history(data->input);
  		if (input_user(data) == 0)
 		{
-			if (check_for_built(data) == 0)
+			if (check_for_built(data, data->cmd) == 0)
 			 	data->return_v = ft_execute(data);
 		}
 		if (data->cmd)

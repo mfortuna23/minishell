@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:26:18 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/10/29 12:55:42 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/10/30 13:48:42 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct s_env
 	char			*full;
 	char 			*name;
 	char 			*value;
+	bool			alive; // verifica se foram apagadas. aka podemos ver as variaveis mas elas nao serao visiveis no env
 	struct s_env	*next;
 }		t_env;
 
@@ -106,7 +107,7 @@ void	del_varenv(t_data *data, char *name);
 /*			EXEC			*/
 /****************************/
 
-int		ft_execute(t_data *data);
+int		ft_execute(t_data *data); // E preciso verificar se tem buitins quando chega nesta funcao mas serao ignorados
 
 /****************************/
 /*			UTILS			*/
@@ -120,7 +121,7 @@ char	*str_join(char *s1, char *s2);
 /*			BUITINS			*/
 /****************************/
 
-int		check_for_built(t_data *data);
+int		check_for_built(t_data *data, t_cmd	*cmd);
 
 
 #endif
