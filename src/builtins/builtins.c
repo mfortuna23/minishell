@@ -6,12 +6,13 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:22:58 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/10/30 14:54:57 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/10/31 13:24:32 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+// only works alone
 int		ft_cd(t_data *data)
 {
 	data->return_v = 0;
@@ -30,7 +31,7 @@ int		ft_cd(t_data *data)
 	}
 	return (1);
 }
-
+//only works alone
 int		ft_unset(t_data	*data)
 {
 	t_env	*node;
@@ -46,7 +47,7 @@ int		ft_unset(t_data	*data)
 	node->alive = false;
 	return (0);
 }
-
+// i need to fork the process
 int		ft_env(t_data *data)
 {
 	t_env	*node;
@@ -61,7 +62,7 @@ int		ft_env(t_data *data)
 	}
 	return (0);
 }
-
+//only works alone
 int		ft_export (t_data *data)
 {
 	t_env	*node;
@@ -71,7 +72,6 @@ int		ft_export (t_data *data)
 		return (1);
 	if (!ft_strchr(data->cmd->cmd[1], '='))
 		return (1);
-	// find if the variable already exists and make it alive
 	add_last_env(&data->var);
 	node = find_last_env(&data->var);
 	node->full = ft_strdup(data->cmd->cmd[1]);
@@ -99,7 +99,7 @@ int		check_for_built(t_data *data, t_cmd	*cmd)
 		return (ft_unset(data));
 	else if (ft_strncmp(cmd->cmd[0], "env", 3) == 0)
 		return (ft_env(data));
-	else if (ft_strncmp(cmd->cmd[0], "pwd", 3) == 0)
+	else if (ft_strncmp(cmd->cmd[0], "pwd", 3) == 0) // need to fork the process
 		return (ft_fprintf(1, 1, "%s\n", data->path));
 	else if (ft_strncmp(cmd->cmd[0], "export", 6) == 0)
 		return (ft_export(data));
