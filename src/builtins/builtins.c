@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
+/*   By: mariafortunato <mariafortunato@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:22:58 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/10/30 14:54:57 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/07 00:34:27 by mariafortun      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ int		check_for_built(t_data *data, t_cmd	*cmd)
 	t_env *node;
 
 	node = data->var;
+	(void)node;
 	if (ft_strnstr(cmd->cmd[0], "cd", 2))
 		return (ft_cd(data));
 	else if (ft_strncmp(cmd->cmd[0], "unset", 5) == 0)
