@@ -3,14 +3,22 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+         #
+#    By: mariafortunato <mariafortunato@student.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/21 11:05:07 by mfortuna          #+#    #+#              #
-#    Updated: 2024/10/29 11:37:55 by mfortuna         ###   ########.fr        #
+#    Updated: 2024/11/08 10:50:14 by mariafortun      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 .INCLUDEDIRS	: /mandatory /libft
+
+UNAME_S := $(shell uname -s)
+
+ifeq ($(UNAME_S),Linux)
+    RUN_MS = valgrind -q --leak-check=full --show-leak-kinds=all --suppressions=ignore_readline_leaks.supp --track-fds=yes ./$(NAME)
+else ifeq ($(UNAME_S),Darwin)
+    RUN_MS = leaks -atExit -- ./$(NAME)
+endif
 
 CC				= cc
 CFLAGS			= -Wall -Werror -Wextra 
@@ -24,7 +32,7 @@ EXEC			= $(addprefix $(SRC_M)exec/, cmd_path.c ft_execute.c)
 PARSER			= $(addprefix $(SRC_M)parser/, parser.c parser_utils.c 1st_step.c)
 STRUCT			= $(addprefix $(SRC_M)struct/, struct_cmds.c struct_env.c delete_env.c find_env.c)
 UTILS			= $(addprefix $(SRC_M)utils/, utils.c ft_fprintf.c)
-BUILT			= $(addprefix $(SRC_M)builtins/, builtins.c)
+BUILT			= $(addprefix $(SRC_M)builtins/, builtins.c export.c echo.c)
 SRC				= $(SRC_M)main.c $(EXEC) $(PARSER) $(STRUCT) $(UTILS) $(BUILT)
 ODIR			= obj
 OBJS			= $(patsubst $(SRC_M)%.c,$(ODIR)/%.o,$(SRC)) 
@@ -46,8 +54,8 @@ $(ODIR)/%.o: $(SRC_M)/%.c | $(ODIR)
 $(ODIR):
 	mkdir -p $(ODIR)
 
-leak_check : $(NAME)
-	valgrind -q --leak-check=full --show-leak-kinds=all --suppressions=ignore_readline_leaks.supp --track-fds=yes ./$(NAME)
+leaks : $(NAME)
+	$(RUN_MS)
 
 clean:
 	${RM} ${ODIR}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   1st_step.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
+/*   By: mariafortunato <mariafortunato@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:38:58 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/10/30 10:03:44 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/08 09:25:58 by mariafortun      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,6 @@ int		get_cmd(t_data *data)
 		data->input = readline(get_prompt(data));
 	}
 	ms_bomb(data);
+	clear_history();
 	return (0);
 }

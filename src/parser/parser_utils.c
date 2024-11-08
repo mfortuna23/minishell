@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
+/*   By: mariafortunato <mariafortunato@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 10:14:09 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/10/28 11:02:16 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/08 11:13:00 by mariafortun      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	split_tokens(t_data *data, int x, int i, int j)
 				if ((data->parser[i] == 34 || data->parser[i] == 39) && j == i)
 				{
 					while ((data->parser[++i] != data->parser[j]) && data->parser[i]);
-					if (data->parser[i++] == 0)
+					if (data->parser[i++] == 0) //if quotes open, need to get rest from user
 						return (1);
 					data->tokens[x++] = ft_substr(data->parser, j, (i - j));
 					break ;

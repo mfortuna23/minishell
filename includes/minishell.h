@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
+/*   By: mariafortunato <mariafortunato@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:26:18 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/10/30 13:48:42 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/08 11:08:38 by mariafortun      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,8 @@ char	*str_join(char *s1, char *s2);
 /****************************/
 
 int		check_for_built(t_data *data, t_cmd	*cmd);
+int 	ft_echo(t_data *data, char **cmd, int x, int y);
+int		ft_export(t_data *data);
 
 
 #endif

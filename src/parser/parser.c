@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
+/*   By: mariafortunato <mariafortunato@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:27:08 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/10/28 12:00:12 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/08 12:08:55 by mariafortun      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,10 +122,32 @@ int		ft_strtok(t_data *data, int i, int j)
 	return (0);
 }
 
+void	get_quotes(t_data *data, int i)
+{
+	char	c;
+	while(data->input[i])
+	{
+		if (data->input[i] == 34 || data->input[i] == 39)
+		{
+			c = data->input[i];
+			i++;
+			while (data->input[i] != c)
+			{
+				if (data->input[i] == 0)
+					data->input = str_join(data->input, readline("quote> "));
+				else
+					i++;
+			}
+		}
+		i++;
+	}
+}
+
 int 	get_fullinput(t_data *data, int i)
 {
 	if (data->input[0] == 0)
 		return (1);
+	get_quotes(data, 0);
 	i = ft_strlen(data->input) - 1;
 	while (data->input[i] == '|' || data->input[i] == ' ')
 	{
@@ -136,7 +158,7 @@ int 	get_fullinput(t_data *data, int i)
 			if (ft_strnstr(data->input, "<|", 100) || ft_strnstr(data->input, ">|", 100) || \
 			ft_strnstr(data->input, "|", 1))
 				return (ft_fprintf(2, 1, "parser error near '|' \n"));
-			data->input = str_join(data->input, readline("> "));
+			data->input = str_join(data->input, readline("pipe> "));
 			i = ft_strlen(data->input) - 1;
 		}
 	}
