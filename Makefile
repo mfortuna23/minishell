@@ -6,7 +6,7 @@
 #    By: mariafortunato <mariafortunato@student.    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/21 11:05:07 by mfortuna          #+#    #+#              #
-#    Updated: 2024/11/08 10:50:14 by mariafortun      ###   ########.fr        #
+#    Updated: 2024/11/08 12:14:57 by mariafortun      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -59,6 +59,7 @@ leaks : $(NAME)
 
 clean:
 	${RM} ${ODIR}
+	${RM} minishell.dSYM
 	$(MAKE) $(LIBFT_PATH) clean
 
 fclean: clean
