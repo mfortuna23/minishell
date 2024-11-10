@@ -6,7 +6,7 @@
 /*   By: mariafortunato <mariafortunato@student.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:27:08 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/08 12:08:55 by mariafortun      ###   ########.fr       */
+/*   Updated: 2024/11/10 02:33:30 by mariafortun      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,9 +122,12 @@ int		ft_strtok(t_data *data, int i, int j)
 	return (0);
 }
 
-void	get_quotes(t_data *data, int i)
+int	get_quotes(t_data *data, int i)
 {
 	char	c;
+	int		check;
+
+	check = 0;
 	while(data->input[i])
 	{
 		if (data->input[i] == 34 || data->input[i] == 39)
@@ -134,27 +137,31 @@ void	get_quotes(t_data *data, int i)
 			while (data->input[i] != c)
 			{
 				if (data->input[i] == 0)
+				{
+					check = -1;
 					data->input = str_join(data->input, readline("quote> "));
+				}
 				else
 					i++;
 			}
 		}
 		i++;
 	}
+	return (check);
 }
 
-int 	get_fullinput(t_data *data, int i)
+int get_pipes (t_data *data, int i)
 {
-	if (data->input[0] == 0)
-		return (1);
-	get_quotes(data, 0);
-	i = ft_strlen(data->input) - 1;
+	int check;
+
+	check = 0;
 	while (data->input[i] == '|' || data->input[i] == ' ')
 	{
 		if (data->input[i] == ' ')
 			i--;
 		else
 		{
+			check = -1;
 			if (ft_strnstr(data->input, "<|", 100) || ft_strnstr(data->input, ">|", 100) || \
 			ft_strnstr(data->input, "|", 1))
 				return (ft_fprintf(2, 1, "parser error near '|' \n"));
@@ -162,13 +169,30 @@ int 	get_fullinput(t_data *data, int i)
 			i = ft_strlen(data->input) - 1;
 		}
 	}
+	return (check);
+}
+
+int 	get_fullinput(t_data *data)
+{
+	int	q;
+	int p;
+
+	q = -1;
+	p = -1;
+	if (data->input[0] == 0)
+		return (1);
+	while (p == -1 || q == -1)
+	{
+		q = get_quotes(data, 0);
+		p = get_pipes(data, ft_strlen(data->input) - 1);
+	}
 	return (0);
 }
 
 /* recives and manages input from user */
 int		input_user(t_data *data)
 {
-	if (get_fullinput(data, 0) == 1)
+	if (get_fullinput(data) == 1)
 		return (1);
 	if (ft_strtok(data, 0, 0) == 1)
 		return (1);
