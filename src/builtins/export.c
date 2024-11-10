@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mariafortunato <mariafortunato@student.    +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/08 10:15:34 by mariafortun       #+#    #+#             */
-/*   Updated: 2024/11/08 10:16:36 by mariafortun      ###   ########.fr       */
+/*   Created: 2024/11/10 02:41:38 by mfortuna          #+#    #+#             */
+/*   Updated: 2024/11/10 02:41:42 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mariafortunato <mariafortunato@student.    +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 10:14:09 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/08 11:13:00 by mariafortun      ###   ########.fr       */
+/*   Updated: 2024/11/10 02:41:59 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

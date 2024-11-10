@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mariafortunato <mariafortunato@student.    +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/08 10:32:51 by mariafortun       #+#    #+#             */
-/*   Updated: 2024/11/08 11:46:48 by mariafortun      ###   ########.fr       */
+/*   Created: 2024/11/10 02:40:57 by mfortuna          #+#    #+#             */
+/*   Updated: 2024/11/10 02:41:02 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

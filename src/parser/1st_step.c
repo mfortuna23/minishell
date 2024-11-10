@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   1st_step.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mariafortunato <mariafortunato@student.    +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:38:58 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/08 09:25:58 by mariafortun      ###   ########.fr       */
+/*   Updated: 2024/11/10 02:41:53 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
