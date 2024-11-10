@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   delete_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mariafortunato <mariafortunato@student.    +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 11:35:23 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/08 09:39:59 by mariafortun      ###   ########.fr       */
+/*   Updated: 2024/11/10 02:42:11 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

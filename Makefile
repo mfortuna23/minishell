@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mariafortunato <mariafortunato@student.    +#+  +:+       +#+         #
+#    By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/21 11:05:07 by mfortuna          #+#    #+#              #
-#    Updated: 2024/11/08 12:14:57 by mariafortun      ###   ########.fr        #
+#    Updated: 2024/11/10 02:43:22 by mfortuna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
