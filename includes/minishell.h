@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:26:18 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/10 02:39:33 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/11 23:55:58 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int		ft_strtok(t_data *data, int i, int j);
 int 	get_fullinput(t_data *data);
 int		split_tokens(t_data *data, int x, int i, int j);
 int 	token_count(char *s, int i, int count, char c);
-int 	less_space(t_data *data, char *arr, int i, int count);
+void 	less_space(t_data *data, char *arr, int i, int count);
 int 	check_chars(char c);
 
 /****************************/
@@ -122,7 +122,7 @@ char	*str_join(char *s1, char *s2);
 /****************************/
 
 int		check_for_built(t_data *data, t_cmd	*cmd);
-int 	ft_echo(t_data *data, char **cmd, int x, int y);
+int 	ft_echo(t_data *data, char **cmd, int x);
 int		ft_export(t_data *data);
 
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct_cmds.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:31:46 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/10/28 11:02:23 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/11 22:43:25 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	delete_cmds(t_data *data)
 		free(data->input);
 	if (data->parser)
 		free(data->parser);
-	if(data->tokens)
+	if (data->tokens)
 		ft_freearr(data->tokens);
 	while (data->cmd)
 		delete_last(data);
