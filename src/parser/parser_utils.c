@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 10:14:09 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/10 02:41:59 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/12 00:08:49 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,23 +44,26 @@ int token_count(char *s, int i, int count, char c)
 	return (count);
 }
 /* fill data->parser */
-int less_space(t_data *data, char *arr, int i, int count)
+
+void less_space(t_data *data, char *arr, int i, int count)
 {
+	char	c;
+
 	while (arr[i])
 	{
-		while (arr[i] <= ' ' && (arr[i]))
-			i++;
-		while (arr[i] > ' ')
+		while (arr[i] > ' ' && (arr[i]))
 		{
+			c = arr[i];
+			if ((arr[i]) && (c == 34 || c == 36))
+			{
+				while ((arr[i]) && arr[i] != c)
+					data->parser[count++] = arr[i++];
+			}
 			if (arr[i] == '|')
 			{
-				while (arr[i] == '|')
-				{
-					data->parser[count++] = arr[i++];
-					while (arr[i] == ' ')
-						i++;
-				}
+				data->parser[count++] = arr[i++];
 				data->parser[count++] = ' ';
+				break ;
 			}
 			if (arr[i])
 				data->parser[count++] = arr[i++];
@@ -69,7 +72,6 @@ int less_space(t_data *data, char *arr, int i, int count)
 			data->parser[count++] = arr[i++];
 	}
 	data->parser[count] = 0;
-	return (0);
 }
 /* count necessary chars for data->parser */
 

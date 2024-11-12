@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:27:08 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/10 02:39:16 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/11 23:07:22 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,30 +96,44 @@ int check_not_req(t_data *data)
 	return (0);
 }
 
-/* parser */
-int		ft_strtok(t_data *data, int i, int j)
+int token_error(t_data *data, char *arr)
 {
-	char 	arr[1024];
-
-	ft_memset(arr, 0, 1024);
-	while (data->input[i])
-	{
-		while (data->input[i] <= ' ' && (data->input[i]))
-			i++;
-		while (check_chars(data->input[i]) > 0)
-			arr[j++] = data->input[i++];
-		arr[j++] = ' ';
-		while (data->input[i] > ' ' && check_chars(data->input[i]) == 0)
-			arr[j++] = data->input[i++];
-		arr[j++] = ' ';
-	}
-	arr[j++] = 0;
 	data->parser = ft_calloc(1024, sizeof(char));
 	less_space(data, arr, 0, 0);
 	split_tokens(data, 0, 0, 0);
 	if (check_not_req(data) == 1)
 		return (1);
 	return (0);
+}
+
+/* parser */
+int		ft_strtok(t_data *data, int i, int j)
+{
+	char 	arr[1024];
+	char	c;
+
+	ft_memset(arr, 0, 1024);
+	while (data->input[i])
+	{
+		while ((data->input[i]) && data->input[i] <= ' ')
+			i++;
+		while ((data->input[i]) && data->input[i] > ' ')
+		{
+			c = data->input[i];
+			arr[j++] = data->input[i++];
+			if (c == 34 || c == 39)
+			{
+				while ((data->input[i]) && (data->input[i] != c))
+					arr[j++] = data->input[i++];
+				arr[j++] = data->input[i++];
+				arr[j++] = ' ';
+				i++;
+			}
+		}
+		arr[j++] = ' ';
+	}
+	arr[j++] = 0;
+	return (token_error(data, arr));
 }
 
 int	get_quotes(t_data *data, int i)
@@ -201,7 +215,7 @@ int		input_user(t_data *data)
 		return (1);
 	if (data->cmd->cmd == NULL )
 		return (1);
-	// print_cmds(data);
+	print_cmds(data);
 	return (0);
 }
 
