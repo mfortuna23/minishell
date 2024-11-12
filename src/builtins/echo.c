@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 02:40:57 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/12 11:35:46 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/12 11:50:37 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int ft_echo(t_data *data, char **cmd, int x)
 {
 	bool	new_line;
     char	var[1024];
+	char 	c;
 
 	ft_memset(var, 0, 1024);
 	new_line = true;
@@ -70,7 +71,10 @@ int ft_echo(t_data *data, char **cmd, int x)
 	}
 	while (cmd[x])
 	{
+		c = cmd[x][0];
 		print_echo(data, cmd[x], 0);
+			if (c != 34 && cmd[x][0] != 0)
+				ft_printf("%c", 32);
 		x++;
 	}
 	if (new_line)
