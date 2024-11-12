@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 02:41:38 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/10 02:41:42 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/12 19:29:55 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ int		new_var(t_data *data, char *name)
 	if ((ft_strchr(data->cmd->cmd[1], '=') + 1) == 0)
 		return (0);
 	node->value = ft_strdup(ft_strchr(data->cmd->cmd[1], '=') + 1);
+	if (!node->value)
+		node->value = ft_substr(data->cmd->cmd[2], 1, ft_strlen(data->cmd->cmd[2] - 2));
 	return (0);
 }
 
@@ -43,9 +45,11 @@ int exist_var(t_data *data, t_env *node, char *name)
 	if ((ft_strchr(data->cmd->cmd[1], '=') + 1) == 0)
 		return (0);
 	new->value = ft_strdup(ft_strchr(data->cmd->cmd[1], '=') + 1);
+	if (!new->value)
+		new->value = ft_substr(data->cmd->cmd[2], 1, ft_strlen(data->cmd->cmd[2] - 2));
 	return (0);
 }
-
+// not working with quotes
 int		ft_export(t_data *data)
 {
 	t_env	*node;

@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:27:08 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/12 09:27:09 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/12 19:22:29 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,30 +107,26 @@ int token_error(t_data *data, char *arr)
 }
 
 /* parser */
-int		ft_strtok(t_data *data, int i, int j)
+int		ft_strtok(t_data *data, int i, int j, char c)
 {
 	char 	arr[1024];
-	char	c;
 
 	ft_memset(arr, 0, 1024);
 	while (data->input[i])
 	{
-		while ((data->input[i]) && data->input[i] <= ' ')
-			i++;
-		while ((data->input[i]) && data->input[i] > ' ')
+		c = data->input[i];
+		if (c == 34 || c == 39)
 		{
-			c = data->input[i];
+			arr[j++] = ' ';
 			arr[j++] = data->input[i++];
-			if (c == 34 || c == 39)
-			{
-				while ((data->input[i]) && (data->input[i] != c))
-					arr[j++] = data->input[i++];
+			while ((data->input[i]) && (data->input[i] != c))
 				arr[j++] = data->input[i++];
-				arr[j++] = ' ';
-				i++;
-			}
+			arr[j++] = data->input[i++];
+			arr[j++] = ' ';
+			i++;
 		}
-		arr[j++] = ' ';
+		else
+			arr[j++] = data->input[i++];
 	}
 	arr[j++] = 0;
 	return (token_error(data, arr));
@@ -208,14 +204,14 @@ int		input_user(t_data *data)
 {
 	if (get_fullinput(data) == 1)
 		return (1);
-	if (ft_strtok(data, 0, 0) == 1)
+	if (ft_strtok(data, 0, 0, 'a') == 1)
 		return (1);
 	create_cmds(data);
 	if (parsing(data, 0, 0) == 1)
 		return (1);
 	if (data->cmd->cmd == NULL )
 		return (1);
-	// print_cmds(data);
+	print_cmds(data);
 	return (0);
 }
 
