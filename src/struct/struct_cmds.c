@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   struct_cmds.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:31:46 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/10/15 09:55:09 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/11 22:43:25 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../includes/minishell.h"
 
 t_cmd	*create_node(void)
 {
@@ -95,9 +95,12 @@ void delete_last (t_data *data)
 
 void	delete_cmds(t_data *data)
 {
-	free(data->input);
-	free(data->parser);
-	ft_freearr(data->tokens);
+	if (data->input)
+		free(data->input);
+	if (data->parser)
+		free(data->parser);
+	if (data->tokens)
+		ft_freearr(data->tokens);
 	while (data->cmd)
 		delete_last(data);
 	return ;

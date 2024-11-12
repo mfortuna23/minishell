@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:27:08 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/10/15 14:49:08 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/11 23:07:22 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../includes/minishell.h"
 
-void print_cmds(t_data *data);
-int	ft_redirect(t_data *data, t_cmd *current, int y, int x)
+void	print_cmds(t_data *data);
+int		ft_redirect(t_data *data, t_cmd *current, int y, int x)
 {
 	if (data->tokens[y][x] == '<')
 	{
@@ -40,7 +40,7 @@ int	ft_redirect(t_data *data, t_cmd *current, int y, int x)
 	return (2);
 }
 
-int ft_cmd_args(t_data *data, t_cmd *node, int y, int x)
+int 	ft_cmd_args(t_data *data, t_cmd *node, int y, int x)
 {
 	int count;
 	int	i;
@@ -57,7 +57,7 @@ int ft_cmd_args(t_data *data, t_cmd *node, int y, int x)
 	return (y);
 }
 
-int parsing(t_data *data, int y, int x)
+int		parsing(t_data *data, int y, int x)
 {
 	t_cmd *node;
 	node = data->cmd;
@@ -81,50 +81,142 @@ int parsing(t_data *data, int y, int x)
 	}
 	return (0);
 }
-
-/* parser */
-int	ft_strtok(t_data *data)
+/* check for special chars not required by the subject */
+int check_not_req(t_data *data)
 {
-	char 	arr[1024];
-	int		i;
-	int		j;
+	int i;
 
-	j = 0;
 	i = 0;
-	ft_memset(arr, 0, 1024);
-	while (data->input[i])
+	while (data->tokens[i])
 	{
-		while (data->input[i] <= ' ' && (data->input[i]))
-			i++;
-		while (check_chars(data->input[i]) == 1)
-			arr[j++] = data->input[i++];
-		arr[j++] = ' ';
-		while (data->input[i] > ' ' && check_chars(data->input[i]) == 0)
-			arr[j++] = data->input[i++];
-		arr[j++] = ' ';
+		if (check_chars(data->tokens[i][0]) == 2)
+			return (ft_fprintf(2, 1, "parser error near '%c'\n", data->tokens[i][0]));
+		i++;
 	}
-	arr[j++] = 0;
-	skip_spaces(data, arr, 0, 0);
+	return (0);
+}
+
+int token_error(t_data *data, char *arr)
+{
+	data->parser = ft_calloc(1024, sizeof(char));
+	less_space(data, arr, 0, 0);
 	split_tokens(data, 0, 0, 0);
-	create_cmds(data);
-	if (parsing(data, 0, 0) == 1)
+	if (check_not_req(data) == 1)
 		return (1);
 	return (0);
 }
 
-/* recives and manages input from user */
-int	input_user(t_data *data)
+/* parser */
+int		ft_strtok(t_data *data, int i, int j)
 {
+	char 	arr[1024];
+	char	c;
+
+	ft_memset(arr, 0, 1024);
+	while (data->input[i])
+	{
+		while ((data->input[i]) && data->input[i] <= ' ')
+			i++;
+		while ((data->input[i]) && data->input[i] > ' ')
+		{
+			c = data->input[i];
+			arr[j++] = data->input[i++];
+			if (c == 34 || c == 39)
+			{
+				while ((data->input[i]) && (data->input[i] != c))
+					arr[j++] = data->input[i++];
+				arr[j++] = data->input[i++];
+				arr[j++] = ' ';
+				i++;
+			}
+		}
+		arr[j++] = ' ';
+	}
+	arr[j++] = 0;
+	return (token_error(data, arr));
+}
+
+int	get_quotes(t_data *data, int i)
+{
+	char	c;
+	int		check;
+
+	check = 0;
+	while(data->input[i])
+	{
+		if (data->input[i] == 34 || data->input[i] == 39)
+		{
+			c = data->input[i];
+			i++;
+			while (data->input[i] != c)
+			{
+				if (data->input[i] == 0)
+				{
+					check = -1;
+					data->input = str_join(data->input, readline("quote> "));
+				}
+				else
+					i++;
+			}
+		}
+		i++;
+	}
+	return (check);
+}
+
+int get_pipes (t_data *data, int i)
+{
+	int check;
+
+	check = 0;
+	while (data->input[i] == '|' || data->input[i] == ' ')
+	{
+		if (data->input[i] == ' ')
+			i--;
+		else
+		{
+			check = -1;
+			if (ft_strnstr(data->input, "<|", 100) || ft_strnstr(data->input, ">|", 100) || \
+			ft_strnstr(data->input, "|", 1))
+				return (ft_fprintf(2, 1, "parser error near '|' \n"));
+			data->input = str_join(data->input, readline("pipe> "));
+			i = ft_strlen(data->input) - 1;
+		}
+	}
+	return (check);
+}
+
+int 	get_fullinput(t_data *data)
+{
+	int	q;
+	int p;
+
+	q = -1;
+	p = -1;
 	if (data->input[0] == 0)
 		return (1);
-	if (ft_strtok(data) == 1)
+	while (p == -1 || q == -1)
+	{
+		q = get_quotes(data, 0);
+		p = get_pipes(data, ft_strlen(data->input) - 1);
+	}
+	return (0);
+}
+
+/* recives and manages input from user */
+int		input_user(t_data *data)
+{
+	if (get_fullinput(data) == 1)
+		return (1);
+	if (ft_strtok(data, 0, 0) == 1)
+		return (1);
+	create_cmds(data);
+	if (parsing(data, 0, 0) == 1)
 		return (1);
 	if (data->cmd->cmd == NULL )
 		return (1);
 	print_cmds(data);
 	return (0);
-// dealing with parser errors -> and return;
-// create a function that dividies input into diferent commands
 }
 
 void print_cmds(t_data *data)
