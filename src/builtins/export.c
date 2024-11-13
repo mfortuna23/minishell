@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 02:41:38 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/12 19:29:55 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/13 21:20:23 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,15 @@ int		new_var(t_data *data, char *name)
 	node->full = ft_strdup(data->cmd->cmd[1]);
 	if ((ft_strchr(data->cmd->cmd[1], '=') + 1) == 0)
 		return (0);
-	node->value = ft_strdup(ft_strchr(data->cmd->cmd[1], '=') + 1);
-	if (!node->value)
-		node->value = ft_substr(data->cmd->cmd[2], 1, ft_strlen(data->cmd->cmd[2] - 2));
+	if (data->cmd->cmd[2])
+		node->full = ft_strjoin(data->cmd->cmd[1], data->cmd->cmd[2]);
+	else
+		node->full = ft_strdup(data->cmd->cmd[1]);
+	node->name = ft_strdup(name);
+	if ((ft_strchr(data->cmd->cmd[1], '=') + 1) == 0)
+		return (0);
+	node->value = ft_substr(node->full, ft_strlen(name) + 2, ft_strlen(node->full));
+	node->value[ft_strlen(node->value) - 1] = 0;
 	return (0);
 }
 
@@ -40,13 +46,15 @@ int exist_var(t_data *data, t_env *node, char *name)
 	new->next = node->next;
 	tmp->next = new;
 	free_env(node);
-	new->full = ft_strdup(data->cmd->cmd[1]);
+	if (data->cmd->cmd[2])
+		new->full = ft_strjoin(data->cmd->cmd[1], data->cmd->cmd[2]);
+	else
+		new->full = ft_strdup(data->cmd->cmd[1]);
 	new->name = ft_strdup(name);
 	if ((ft_strchr(data->cmd->cmd[1], '=') + 1) == 0)
 		return (0);
-	new->value = ft_strdup(ft_strchr(data->cmd->cmd[1], '=') + 1);
-	if (!new->value)
-		new->value = ft_substr(data->cmd->cmd[2], 1, ft_strlen(data->cmd->cmd[2] - 2));
+	new->value = ft_substr(new->full, ft_strlen(name) + 2, ft_strlen(new->full));
+	new->value[ft_strlen(new->value) - 1] = 0;
 	return (0);
 }
 // not working with quotes
