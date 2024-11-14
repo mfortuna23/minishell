@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_path.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbezerra <tbezerra@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 15:20:51 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/12 10:48:34 by tbezerra         ###   ########.fr       */
+/*   Updated: 2024/11/14 11:39:26 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,10 @@ void	free_path(char **array)
 	int	i;
 
 	i = 0;
+	if (!array)
+		return ;
 	while (array[i])
 		free(array[i++]);
-	free(array);
 }
 
 char	**get_paths(t_data *data)
@@ -27,6 +28,8 @@ char	**get_paths(t_data *data)
 	t_env	*path_aux;
 	char	**path;
 
+	path_aux = NULL;
+	path = NULL;
 	if (data->cmd->path_to_cmd)
 		free_path(data->cmd->path_to_cmd);
 	path_aux = find_var(data, "PATH");
@@ -42,6 +45,10 @@ char	*ft_check_command_location(t_data *data, char *command, char *path_i)
 	char	*path_command;
 
 	path_command = NULL;
+	if (!command)
+		return (NULL);
+	if (!path_i)
+		return (NULL);
 	path_aux = ft_strjoin(path_i, "/");
 	path_command = ft_strjoin(path_aux, command);
 	free(path_aux);
@@ -62,6 +69,8 @@ char	*relative_path(t_data *data, char *command)
 	path_command = NULL;
 	if (!data->env)
 		return (NULL);
+	if (!data->cmd->path_to_cmd || data->cmd->path_to_cmd[0] == 0)
+		return	(NULL);
 	else
 	{
 		while (data->cmd->path_to_cmd[i])

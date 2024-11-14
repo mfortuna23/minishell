@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   1st_step.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:38:58 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/12 11:53:27 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/14 11:58:02 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,16 +70,20 @@ int		get_cmd(t_data *data)
 		add_history(data->input);
  		if (input_user(data) == 0)
 		{
-			//if (check_for_built(data, data->cmd) == 0)
-			set_path(data);
-			data->return_v = ft_execute(data);
+			if (ft_strnstr(data->cmd->cmd[0], "cd\0", 3))
+				ft_cd(data);
+			else
+			{
+				set_path(data);
+				data->return_v = ft_execute(data);
+			}
 		}
 		if (data->cmd)
 			delete_cmds(data);
 		free(data->prompt);
 		data->input = readline(get_prompt(data));
 	}
-	ms_bomb(data);
+	ms_bomb(data, 1);
 	clear_history();
 	return (0);
 }

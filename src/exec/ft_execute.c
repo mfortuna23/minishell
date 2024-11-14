@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execute.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbezerra <tbezerra@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:34:48 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/12 10:50:12 by tbezerra         ###   ########.fr       */
+/*   Updated: 2024/11/14 11:58:25 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,15 @@ void	ft_execve(t_data *data, t_cmd *cmd)
 	//printf("PID 1: %d\n", pid);
 	if (pid < 0)
 		return (perror("fork"));
-	if (check_for_built(data, data->cmd) == 0)
-		return;
 	else if (pid == 0)
 	{
+		if (check_for_built(data, data->cmd) == 0)
+		{
+			ms_bomb(data, 0);
+			exit(0);
+		}
 		execve(cmd->path, cmd->cmd, NULL);
+		ms_bomb(data, 0);
 		exit(0);
 	}
 	waitpid(pid, 0, 0);

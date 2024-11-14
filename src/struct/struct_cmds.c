@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct_cmds.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:31:46 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/11 22:43:25 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/14 11:25:47 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ t_cmd	*create_node(void)
 	node->return_value = 0;
 	node->next = NULL;
 	node->pid = -1;
+	node->path_to_cmd = NULL;
 	return (node);
 }
 
