@@ -215,7 +215,7 @@ int		input_user(t_data *data)
 		return (1);
 	if (data->cmd->cmd == NULL )
 		return (1);
-	print_cmds(data);
+	//print_cmds(data);
 	return (0);
 }
 
