@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:26:18 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/12 19:16:02 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/14 11:57:50 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ void	ft_execve(t_data *data, t_cmd *cmd); // E preciso verificar se tem buitins 
 /****************************/
 
 int		ft_fprintf(int fd, int r_value, const char *s, ...);
-void	ms_bomb(t_data *data);
+void	ms_bomb(t_data *data, int check);
 char	*str_join(char *s1, char *s2);
 
 /****************************/
@@ -138,6 +138,7 @@ char	*str_join(char *s1, char *s2);
 int		check_for_built(t_data *data, t_cmd	*cmd);
 int 	ft_echo(t_data *data, char **cmd, int x);
 int		ft_export(t_data *data);
+int		ft_cd(t_data *data);
 
 
 #endif
