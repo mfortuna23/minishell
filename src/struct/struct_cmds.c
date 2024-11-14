@@ -70,6 +70,8 @@ void	free_mem(t_cmd *del)
 			free(del->full_tokens);
 		if (del->path != NULL)
 			free(del->path);
+		if (del->path_to_cmd != NULL)
+			ft_freearr(del->path_to_cmd);
         free (del);
 }
 

@@ -37,12 +37,13 @@ void	ft_execve(t_data *data, t_cmd *cmd)
 {
 	pid_t	pid;
 
+	//set_path(data);
 	pid = fork();
 	//printf("PID 1: %d\n", pid);
 	if (pid < 0)
 		return (perror("fork"));
 	if (check_for_built(data, data->cmd) == 0)
-		exit(0);
+		return;
 	else if (pid == 0)
 	{
 		execve(cmd->path, cmd->cmd, NULL);
