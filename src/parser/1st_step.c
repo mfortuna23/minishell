@@ -70,8 +70,9 @@ int		get_cmd(t_data *data)
 		add_history(data->input);
  		if (input_user(data) == 0)
 		{
-			if (check_for_built(data, data->cmd) == 0)
-			 	data->return_v = ft_execute(data);
+			//if (check_for_built(data, data->cmd) == 0)
+			set_path(data);
+			data->return_v = ft_execute(data);
 		}
 		if (data->cmd)
 			delete_cmds(data);

@@ -52,6 +52,7 @@ typedef struct s_cmd
 	int				fd_out;			//parser will not handle this
 	char			*infile;		//null if notmentioned in cmd
 	char			*outfile;		//same
+	char			**path_to_cmd;	//path to cmd
 	bool			pipe;			//more than this cmd...
 	bool			here_doc;		//if << true
 	bool			appen;			//if >> true
@@ -104,10 +105,23 @@ t_env	*find_var(t_data *data, char *name);
 void	del_varenv(t_data *data, char *name);
 
 /****************************/
+/*			Path			*/
+/****************************/
+
+void	free_path(char **array);
+char	**get_paths(t_data *data);
+char	*ft_check_command_location(t_data *data, char *command, char *path_i);
+char	*relative_path(t_data *data, char *command);
+char	*find_path(t_data *data, char *command);
+void	set_path(t_data *data);
+
+/****************************/
 /*			EXEC			*/
 /****************************/
 
-int		ft_execute(t_data *data); // E preciso verificar se tem buitins quando chega nesta funcao mas serao ignorados
+void	clear_exit(t_data *data, int status);
+int		ft_execute(t_data *data);
+void	ft_execve(t_data *data, t_cmd *cmd); // E preciso verificar se tem buitins quando chega nesta funcao mas serao ignorados
 
 /****************************/
 /*			UTILS			*/
