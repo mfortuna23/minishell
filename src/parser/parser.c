@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:27:08 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/12 19:22:29 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/14 13:30:39 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,8 @@ int		ft_strtok(t_data *data, int i, int j, char c)
 	char 	arr[1024];
 
 	ft_memset(arr, 0, 1024);
+	if (!data->input)
+		return (-1);
 	while (data->input[i])
 	{
 		c = data->input[i];
@@ -123,9 +125,8 @@ int		ft_strtok(t_data *data, int i, int j, char c)
 				arr[j++] = data->input[i++];
 			arr[j++] = data->input[i++];
 			arr[j++] = ' ';
-			i++;
 		}
-		else
+		else if (data->input[i])
 			arr[j++] = data->input[i++];
 	}
 	arr[j++] = 0;

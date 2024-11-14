@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:38:58 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/14 11:58:02 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/14 13:34:04 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,9 +67,9 @@ int		get_cmd(t_data *data)
 	data->input = readline(get_prompt(data));
 	while (ft_strncmp(data->input, "exit", 4) != 0)
 	{
-		add_history(data->input);
  		if (input_user(data) == 0)
 		{
+			add_history(data->input);
 			if (ft_strnstr(data->cmd->cmd[0], "cd\0", 3))
 				ft_cd(data);
 			else
