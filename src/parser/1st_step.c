@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:38:58 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/11 22:45:17 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/12 11:53:27 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	create_env(t_data *data)
 
 	i = 0;
 	node = NULL;
+	// check for quotes !!!!!""
 	while (data->env[i])
 	{
 		add_last_env(&data->var);

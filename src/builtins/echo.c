@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 02:40:57 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/12 00:17:33 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/12 11:50:37 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,9 @@ int print_var(t_data *data, char *cmd, int i)
 	var = find_var(data, name);
 	if (!var)
 		return (++i);
-	printf("%s", var->value);
-	return(++i);
+	if (var->alive)
+		ft_printf("%s", var->value);
+	return (++i);
 }
 
 void print_echo(t_data *data, char *cmd, int i)
@@ -48,10 +49,10 @@ void print_echo(t_data *data, char *cmd, int i)
 		}
 		if (cmd[i] == 34)
 			i++;
-		else if (cmd[i] == '$')
+		if (cmd[i] == '$')
 			i = i + print_var(data, (cmd + i + 1), 0);
 		else
-			ft_putchar_fd(cmd[i++], 1);
+			ft_printf("%c", cmd[i++]);
 	}
 }
 
@@ -59,6 +60,7 @@ int ft_echo(t_data *data, char **cmd, int x)
 {
 	bool	new_line;
     char	var[1024];
+	char 	c;
 
 	ft_memset(var, 0, 1024);
 	new_line = true;
@@ -69,7 +71,10 @@ int ft_echo(t_data *data, char **cmd, int x)
 	}
 	while (cmd[x])
 	{
+		c = cmd[x][0];
 		print_echo(data, cmd[x], 0);
+			if (c != 34 && cmd[x][0] != 0)
+				ft_printf("%c", 32);
 		x++;
 	}
 	if (new_line)
