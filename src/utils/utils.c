@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 11:01:03 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/10/28 12:05:14 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/14 11:57:14 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,17 @@ char	*str_join(char *s1, char *s2)
 	return (p);
 }
 
-void	ms_bomb(t_data *data)
+void	ms_bomb(t_data *data, int check)
 {
+	if (data->cmd)
+		delete_cmds(data);
 	free(data->prompt);
 	free(data->path);
-	if (data->input)
-		free(data->input);
+	if (check == 1)
+	{
+		if (data->input)
+			free(data->input);
+	}
 	while (data->var)
 		del_lastenv(data);
 }

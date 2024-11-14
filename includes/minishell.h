@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:26:18 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/12 19:16:02 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/14 11:57:50 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ typedef struct s_cmd
 	int				fd_out;			//parser will not handle this
 	char			*infile;		//null if notmentioned in cmd
 	char			*outfile;		//same
+	char			**path_to_cmd;	//path to cmd
 	bool			pipe;			//more than this cmd...
 	bool			here_doc;		//if << true
 	bool			appen;			//if >> true
@@ -104,17 +105,30 @@ t_env	*find_var(t_data *data, char *name);
 void	del_varenv(t_data *data, char *name);
 
 /****************************/
+/*			Path			*/
+/****************************/
+
+void	free_path(char **array);
+char	**get_paths(t_data *data);
+char	*ft_check_command_location(t_data *data, char *command, char *path_i);
+char	*relative_path(t_data *data, char *command);
+char	*find_path(t_data *data, char *command);
+void	set_path(t_data *data);
+
+/****************************/
 /*			EXEC			*/
 /****************************/
 
-int		ft_execute(t_data *data); // E preciso verificar se tem buitins quando chega nesta funcao mas serao ignorados
+void	clear_exit(t_data *data, int status);
+int		ft_execute(t_data *data);
+void	ft_execve(t_data *data, t_cmd *cmd); // E preciso verificar se tem buitins quando chega nesta funcao mas serao ignorados
 
 /****************************/
 /*			UTILS			*/
 /****************************/
 
 int		ft_fprintf(int fd, int r_value, const char *s, ...);
-void	ms_bomb(t_data *data);
+void	ms_bomb(t_data *data, int check);
 char	*str_join(char *s1, char *s2);
 
 /****************************/
@@ -124,6 +138,7 @@ char	*str_join(char *s1, char *s2);
 int		check_for_built(t_data *data, t_cmd	*cmd);
 int 	ft_echo(t_data *data, char **cmd, int x);
 int		ft_export(t_data *data);
+int		ft_cd(t_data *data);
 
 
 #endif
