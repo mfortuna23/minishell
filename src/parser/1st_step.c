@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:38:58 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/15 15:13:47 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/15 16:04:46 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	data_init(t_data *data)
 	data->return_v = 0;
 	data->var = NULL;
 	data->i = 0;
+	data->n_cmd = 1;
 	create_env(data);
 }
 /* recives input from user */

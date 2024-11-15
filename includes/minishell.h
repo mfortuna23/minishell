@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:26:18 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/15 15:07:43 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/15 16:04:30 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct s_data
 	int				n_tokens;
 	int				return_v;
 	int				i;
+	int				n_cmd;
 	struct s_cmd	*cmd;
 	struct s_env	*var;
 }			t_data;
@@ -38,9 +39,9 @@ typedef struct s_data
 typedef struct s_env
 {
 	char			*full;
-	char 			*name;
-	char 			*value;
-	bool			alive; // verifica se foram apagadas. aka podemos ver as variaveis mas elas nao serao visiveis no env
+	char			*name;
+	char			*value;
+	bool			alive; // verifica se foram apagadas
 	struct s_env	*next;
 }		t_env;
 
@@ -72,16 +73,16 @@ void	data_init(t_data *data);
 char	*get_prompt(t_data *data);
 void	create_env(t_data *data);
 int		input_user(t_data *data);
-int 	parsing(t_data *data, int y, int x);
+int		parsing(t_data *data, int y, int x);
 int		ft_cmd_args(t_data *data, t_cmd *node, int y, int x);
 int		ft_redirect(t_data *data, t_cmd *current, int y, int x);
-int 	check_not_req(t_data *data);
+int		check_not_req(t_data *data);
 int		ft_strtok(t_data *data, int j, char c);
-int 	get_fullinput(t_data *data);
+int		get_fullinput(t_data *data);
 int		split_tokens(t_data *data, int x, int i, int j);
-int 	token_count(char *s, int i, int count, char c);
+int		token_count(char *s, int i, int count, char c);
 void 	less_space(t_data *data, char *arr, int i, int count);
-int 	check_chars(char c);
+int		check_chars(char c);
 
 /****************************/
 /*		STRUCT_CMDS.C		*/
@@ -123,7 +124,7 @@ void	set_path(t_data *data);
 
 void	clear_exit(t_data *data, int status);
 int		ft_execute(t_data *data);
-void	ft_execve(t_data *data, t_cmd *cmd); // E preciso verificar se tem buitins quando chega nesta funcao mas serao ignorados
+void	ft_execve(t_data *data, t_cmd *cmd);
 
 /****************************/
 /*			UTILS			*/
@@ -139,10 +140,9 @@ char	*str_join(char *s1, char *s2);
 
 int		check_for_built(t_data *data, t_cmd	*cmd);
 int		export_or_unset(t_data *data, t_cmd *cmd);
-int 	ft_echo(t_data *data, char **cmd, int x);
+int		ft_echo(t_data *data, char **cmd, int x);
 int		ft_export(t_data *data);
 int		ft_cd(t_data *data);
 void	here_doc(t_cmd *cmd);
-
 
 #endif

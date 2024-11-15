@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 13:24:59 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/15 13:45:45 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/15 16:00:49 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	here_doc(t_cmd *cmd)
 {
 	char	*input;
-	
+
 	input = NULL;
 	input = readline("heredoc> ");
 	while (ft_strncmp(input, cmd->infile, ft_strlen(cmd->infile) + 1))
