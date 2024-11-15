@@ -6,13 +6,13 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 11:10:11 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/10/28 11:02:31 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/15 16:09:42 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void ft_fprintnbr (long n, char *str, int base, int fd)
+void	ft_fprintnbr(long n, char *str, int base, int fd)
 {
 	if (n < 0)
 	{
@@ -28,18 +28,22 @@ void ft_fprintnbr (long n, char *str, int base, int fd)
 		ft_putchar_fd(str[n], fd);
 }
 
-void ft_fnbr(const char *s, va_list args, int fd)
+void	ft_fnbr(const char *s, va_list args, int fd)
 {
-	unsigned long n;
+	unsigned long	n;
 
 	if (*s == 'd' || *s == 'i')
-		return (ft_fprintnbr((long)va_arg(args, int), "0123456789", 10, fd));
+		return (ft_fprintnbr((long)va_arg(args, int), \
+		"0123456789", 10, fd));
 	if (*s == 'u')
-		return (ft_fprintnbr((long)va_arg(args, unsigned int), "0123456789", 10, fd));
+		return (ft_fprintnbr((long)va_arg(args, unsigned int), \
+		"0123456789", 10, fd));
 	if (*s == 'x')
-		return (ft_fprintnbr((long)va_arg(args, unsigned int), "0123456789abcdef", 16, fd));
+		return (ft_fprintnbr((long)va_arg(args, unsigned int), \
+		"0123456789abcdef", 16, fd));
 	if (*s == 'X')
-		return (ft_fprintnbr((long)va_arg(args, unsigned int), "0123456789ABCDEF", 16, fd));
+		return (ft_fprintnbr((long)va_arg(args, unsigned int), \
+		"0123456789ABCDEF", 16, fd));
 	if (*s == 'p')
 	{
 		n = va_arg (args, unsigned long);
@@ -47,12 +51,12 @@ void ft_fnbr(const char *s, va_list args, int fd)
 			return (ft_putstr_fd("(nil)", fd));
 		ft_putchar_fd('0', fd);
 		ft_putchar_fd('x', fd);
-		return (ft_fprintnbr((long)va_arg(args, unsigned int), "0123456789abcdef", 16, fd));	
+		return (ft_fprintnbr((long)va_arg(args, unsigned int), \
+		"0123456789abcdef", 16, fd));
 	}
-
 }
 
-void ft_fsign(const char *s, va_list args, int fd)
+void	ft_fsign(const char *s, va_list args, int fd)
 {
 	char	*str;
 
@@ -76,7 +80,7 @@ void ft_fsign(const char *s, va_list args, int fd)
 
 int	ft_fprintf(int fd, int r_value, const char *s, ...)
 {
-	va_list args;
+	va_list	args;
 
 	va_start(args, s);
 	while (*s)

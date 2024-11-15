@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:38:58 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/15 16:04:46 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/15 16:12:14 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ void	create_env(t_data *data)
 		add_last_env(&data->var);
 		node = find_last_env(&data->var);
 		node->full = ft_strdup(data->env[i]);
-		node->name = ft_substr(data->env[i], 0, ft_strchr(data->env[i], '=') - data->env[i]);
+		node->name = ft_substr(data->env[i], 0, \
+		ft_strchr(data->env[i], '=') - data->env[i]);
 		node->value = ft_strdup(ft_strchr(data->env[i], '=') + 1);
 		i++;
 	}
@@ -32,14 +33,15 @@ void	create_env(t_data *data)
 
 char	*get_prompt(t_data *data)
 {
-	char *user;
+	char	*user;
 
 	getcwd(data->path, 256);
 	data->prompt = ft_strdup("\001\033[7;96m\002 MS \001\033[0m\002");
 	user = getenv("USER");
 	data->prompt = str_join(data->prompt, ft_strdup("\001\033[7;99m\002 @"));
 	data->prompt = str_join(data->prompt, ft_strdup(user));
-	data->prompt = str_join(data->prompt, ft_strdup(" \001\033[0m\002\001\033[7;90m\002 ~"));
+	data->prompt = str_join(data->prompt, \
+	ft_strdup(" \001\033[0m\002\001\033[7;90m\002 ~"));
 	data->prompt = str_join(data->prompt, ft_substr(ft_strrchr(data->path, '/'),\
 	 0, ft_strlen(data->path)));
 	data->prompt = str_join(data->prompt, ft_strdup(" \001\033[0m\002\n> "));
