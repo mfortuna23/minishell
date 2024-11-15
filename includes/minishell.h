@@ -18,6 +18,7 @@
 # include <sys/types.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <dirent.h>
 
 typedef struct s_data
 {
