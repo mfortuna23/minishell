@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:38:58 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/15 13:55:10 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/15 15:13:47 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	data_init(t_data *data)
 	data->n_tokens = 0;
 	data->return_v = 0;
 	data->var = NULL;
+	data->i = 0;
 	create_env(data);
 }
 /* recives input from user */
@@ -68,7 +69,6 @@ int		get_cmd(t_data *data)
 	{
  		if (input_user(data) == 0)
 		{
-			add_history(data->input);
 			// if (data->cmd->here_doc)
 			// 	here_doc(data->cmd);
 			if (ft_strnstr(data->cmd->cmd[0], "cd\0", 3))
