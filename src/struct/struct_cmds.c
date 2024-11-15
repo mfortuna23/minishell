@@ -73,7 +73,7 @@ void	free_mem(t_cmd *del)
 			free(del->path);
 		if (del->path_to_cmd != NULL)
 			ft_freearr(del->path_to_cmd);
-        free (del);
+		free (del);
 }
 
 void delete_last (t_data *data)

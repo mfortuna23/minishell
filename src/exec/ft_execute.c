@@ -11,6 +11,9 @@
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
 
 void	clear_exit(t_data *data, int status)
 {
@@ -22,15 +25,59 @@ void	clear_exit(t_data *data, int status)
 	exit(status);
 }
 
-void print_env(t_env *env)
+void list_open_fds(void)
 {
-    t_env *current = env;
+    DIR *dir;
+    struct dirent *entry;
+    char path[256];
 
-    while (current)
+    snprintf(path, sizeof(path), "/proc/%d/fd", getpid());
+    dir = opendir(path);
+    if (dir == NULL)
     {
-        printf("Full: %s,\nName: %s,\nValue: %s\n", current->full, current->name, current->value);
-        current = current->next;
+        perror("opendir");
+        return;
     }
+
+    printf("Open file descriptors:\n");
+    while ((entry = readdir(dir)) != NULL)
+    {
+        if (entry->d_name[0] != '.')
+        {
+            printf("FD: %s\n", entry->d_name);
+        }
+    }
+    closedir(dir);
+}
+
+void close_open_fds(void)
+{
+    DIR *dir;
+    struct dirent *entry;
+    char path[256];
+    int fd;
+
+    sprintf(path, "/proc/%d/fd", getpid());
+    dir = opendir(path);
+    if (dir == NULL)
+    {
+        perror("opendir");
+        return;
+    }
+
+    while ((entry = readdir(dir)) != NULL)
+    {
+        if (entry->d_name[0] != '.')
+        {
+            fd = atoi(entry->d_name);
+            if (fd > 2) // Não fechar stdin (0), stdout (1) e stderr (2)
+            {
+                close(fd);
+                //printf("Closed FD: %d\n", fd);
+            }
+        }
+    }
+    closedir(dir);
 }
 
 void	ft_execve(t_data *data, t_cmd *cmd)
@@ -39,7 +86,6 @@ void	ft_execve(t_data *data, t_cmd *cmd)
 
 	//set_path(data);
 	pid = fork();
-	//printf("PID 1: %d\n", pid);
 	if (pid < 0)
 		return (perror("fork"));
 	else if (pid == 0)
@@ -49,11 +95,16 @@ void	ft_execve(t_data *data, t_cmd *cmd)
 			ms_bomb(data, 0);
 			exit(0);
 		}
-		execve(cmd->path, cmd->cmd, NULL);
+		if (cmd->path == NULL)
+			ft_printf("%s: command not found\n", cmd->cmd[0]);
+		else 
+			execve(cmd->path, cmd->cmd, NULL);
 		ms_bomb(data, 0);
+		close_open_fds();
 		exit(0);
 	}
 	waitpid(pid, 0, 0);
+	close_open_fds();
 }
 
 void	set_path(t_data *data)
@@ -63,11 +114,11 @@ void	set_path(t_data *data)
 	current = data->cmd;
 	if (!current)
 		exit(0);
+	current->path_to_cmd = get_paths(data);
 	while (current)
 	{
-		current->path_to_cmd = get_paths(data);
+		
 		current->path = find_path(data, current->cmd[0]);
-		printf("Path: %s\n", current->path);
 		current = current->next;
 	}
 }
@@ -76,25 +127,21 @@ void	run_pipe_child(t_data *data, t_cmd *cmd, int *fd, int i)
 {
 	if (i == 0)
 	{
-		dup2(fd[1], 1);
+		dup2(fd[1], STDOUT_FILENO);
 		close(fd[0]);
 		close(fd[1]);
-		printf("Pipe child 1\n");
-		printf("Data 1: %s\n", data->cmd->cmd[0]);
-		printf("Cmd 1:%s\n", cmd->cmd[0]);
 		ft_execve(data, cmd);
-		exit(0);
+		ms_bomb(data, 0);
+		_exit(1);
 	}
 	else if (i == 1)
 	{
-		dup2(fd[0], 0);
+		dup2(fd[0], STDIN_FILENO);
 		close(fd[0]);
 		close(fd[1]);
-		printf("Pipe child 2\n");
-		printf("Data 2: %s\n", data->cmd->cmd[0]);
-		printf("Cmd 2:%s\n", cmd->cmd[1]);
 		ft_execve(data, cmd);
-		exit(0);
+		ms_bomb	(data, 0);
+		_exit(1);
 	}
 }
 
@@ -106,28 +153,25 @@ void	run_pipe(t_data *data, t_cmd *cmd)// verificar quais são os cmd que estão
 	int		pid2;
 	t_cmd	*current;
 
+	(void)cmd;
 	current = data->cmd;
-	printf("data->cmd->cmd[0]: %s\n", data->cmd->cmd[0]);
-	printf("Cmd:%s\n", cmd->cmd[0]);
 	if (pipe(fd) < 0)
 		return (perror("pipe"));
 	pid1 = fork();
+	if (pid1 < 0)
+		return (perror("fork"));
 	if (pid1 == 0)
-	{
-		printf("Pipe 1\n");
 		run_pipe_child(data, current, fd, 0);
-	}
 	current = current->next;
 	pid2 = fork();
+	if (pid2 < 0)
+		return (perror("fork"));
 	if (pid2 == 0)
-	{
 		run_pipe_child(data, current, fd, 1);
-	}
 	close(fd[0]);
 	close(fd[1]);
 	waitpid(pid1, &status, 0);
 	waitpid(pid2, &status, 0);
-	//ms_bomb(data);
 }
 
 int		ft_execute(t_data *data)
