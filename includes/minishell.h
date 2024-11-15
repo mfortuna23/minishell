@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:26:18 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/14 11:57:50 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/15 13:54:25 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,9 +137,11 @@ char	*str_join(char *s1, char *s2);
 /****************************/
 
 int		check_for_built(t_data *data, t_cmd	*cmd);
+int		export_or_unset(t_data *data, t_cmd *cmd);
 int 	ft_echo(t_data *data, char **cmd, int x);
 int		ft_export(t_data *data);
 int		ft_cd(t_data *data);
+void	here_doc(t_cmd *cmd);
 
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:31:46 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/14 11:25:47 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/15 13:46:32 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ t_cmd	*create_node(void)
 	node->cmd = NULL;
 	node->path = NULL;
 	node->full_tokens = NULL;
-	node->fd_in = -1;
-	node->fd_out = -1;
+	node->fd_in = 0;
+	node->fd_out = 1;
 	node->infile = NULL;
 	node->outfile = NULL;
 	node->pipe = false;

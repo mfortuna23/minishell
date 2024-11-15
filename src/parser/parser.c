@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:27:08 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/14 13:30:39 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/15 13:47:52 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,9 +210,9 @@ int		input_user(t_data *data)
 	create_cmds(data);
 	if (parsing(data, 0, 0) == 1)
 		return (1);
-	if (data->cmd->cmd == NULL )
+	if (data->cmd->cmd == NULL && !data->cmd->here_doc )
 		return (1);
-	//print_cmds(data);
+	// print_cmds(data);
 	return (0);
 }
 
