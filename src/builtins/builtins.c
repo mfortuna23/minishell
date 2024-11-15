@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:22:58 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/14 11:50:05 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/15 13:54:08 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,15 @@ int		ft_env(t_data *data)
 	return (0);
 }
 
+int		export_or_unset(t_data *data, t_cmd *cmd)
+{
+	if (ft_strncmp(cmd->cmd[0], "unset\0", 6) == 0)
+		return (ft_unset(data));
+	else if (ft_strncmp(cmd->cmd[0], "export\0", 7) == 0)
+		return (ft_export(data));
+	return (2);
+}
+
 /* return value 0: was executed | 1: it is built in but it was not executed | 2: NOT builtin  */
 int		check_for_built(t_data *data, t_cmd	*cmd)
 {
@@ -69,14 +78,10 @@ int		check_for_built(t_data *data, t_cmd	*cmd)
 
 	node = data->var;
 	(void)node;
-	if (ft_strncmp(cmd->cmd[0], "unset\0", 6) == 0)
-		return (ft_unset(data));
-	else if (ft_strncmp(cmd->cmd[0], "env\0", 4) == 0)
+	if (ft_strncmp(cmd->cmd[0], "env\0", 4) == 0)
 		return (ft_env(data));
 	else if (ft_strncmp(cmd->cmd[0], "pwd\0", 4) == 0)
 		return (ft_fprintf(1, 0, "%s\n", data->path));
-	else if (ft_strncmp(cmd->cmd[0], "export\0", 7) == 0)
-		return (ft_export(data));
 	else if (ft_strncmp(cmd->cmd[0], "echo\0", 5) == 0)
 		return (ft_echo(data, cmd->cmd, 1));
 	return (2);

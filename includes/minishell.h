@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:26:18 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/14 11:57:50 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/15 15:07:43 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct s_data
 	char			*prompt;
 	int				n_tokens;
 	int				return_v;
+	int				i;
 	struct s_cmd	*cmd;
 	struct s_env	*var;
 }			t_data;
@@ -75,7 +76,7 @@ int 	parsing(t_data *data, int y, int x);
 int		ft_cmd_args(t_data *data, t_cmd *node, int y, int x);
 int		ft_redirect(t_data *data, t_cmd *current, int y, int x);
 int 	check_not_req(t_data *data);
-int		ft_strtok(t_data *data, int i, int j, char c);
+int		ft_strtok(t_data *data, int j, char c);
 int 	get_fullinput(t_data *data);
 int		split_tokens(t_data *data, int x, int i, int j);
 int 	token_count(char *s, int i, int count, char c);
@@ -137,9 +138,11 @@ char	*str_join(char *s1, char *s2);
 /****************************/
 
 int		check_for_built(t_data *data, t_cmd	*cmd);
+int		export_or_unset(t_data *data, t_cmd *cmd);
 int 	ft_echo(t_data *data, char **cmd, int x);
 int		ft_export(t_data *data);
 int		ft_cd(t_data *data);
+void	here_doc(t_cmd *cmd);
 
 
 #endif
