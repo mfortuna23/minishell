@@ -6,13 +6,13 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 10:14:09 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/15 15:15:47 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/15 16:03:44 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int check_chars(char c)
+int	check_chars(char c)
 {
 	if (c == '|' || c == '<' || c == '>' )
 		return (1);
@@ -21,7 +21,7 @@ int check_chars(char c)
 	return (0);
 }
 
-int token_count(char *s, int i, int count, char c)
+int	token_count(char *s, int i, int count, char c)
 {
 	while (s[i])
 	{
@@ -33,7 +33,8 @@ int token_count(char *s, int i, int count, char c)
 			count ++;
 			if (c == 34 || c == 39)
 			{
-				while (c != s[i] && (s[i++]));
+				while (c != s[i] && (s[i]))
+					i++;
 				if (s[i] == 0)
 					return (-1);
 			}
@@ -45,7 +46,7 @@ int token_count(char *s, int i, int count, char c)
 }
 /* fill data->parser */
 
-void less_space(t_data *data, char *arr, int i, int count)
+void	less_space(t_data *data, char *arr, int i, int count)
 {
 	char	c;
 

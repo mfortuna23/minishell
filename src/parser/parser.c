@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:27:08 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/15 15:25:42 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/15 16:05:30 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ int		parsing(t_data *data, int y, int x)
 			node->pipe = true;
 			node = node->next;
 			y++;
+			data->n_cmd++;
 		}
 		else
 			y = ft_cmd_args(data, node, y, 0);
