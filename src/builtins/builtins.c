@@ -6,13 +6,13 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:22:58 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/14 11:50:05 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/15 15:59:10 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int		ft_cd(t_data *data)
+int	ft_cd(t_data *data)
 {
 	data->return_v = 0;
 	if (data->cmd->pipe)
@@ -23,20 +23,20 @@ int		ft_cd(t_data *data)
 	{
 		if (access(data->tokens[1], X_OK) < 0)
 			data->return_v = ft_fprintf(2, 1,"bash: cd: %s"
-			": No such file or directory\n", data->tokens[1]);
+				": No such file or directory\n", data->tokens[1]);
 		else
-			data->return_v =ft_fprintf(2, 1,"bash: cd: %s"
+			data->return_v = ft_fprintf(2, 1,"bash: cd: %s"
 		": Not a directory\n", data->tokens[1]);
 	}
 	return (1);
 }
 
-int		ft_unset(t_data	*data)
+int	ft_unset(t_data	*data)
 {
 	t_env	*node;
 
 	node = NULL;
-	data->return_v = 0; // mesmo que nao seja executado, bash nao considera erro
+	data->return_v = 0;
 	if (data->cmd->pipe)
 		return (1);
 	if (!data->cmd->cmd[1])
@@ -47,7 +47,7 @@ int		ft_unset(t_data	*data)
 	return (0);
 }
 
-int		ft_env(t_data *data)
+int	ft_env(t_data *data)
 {
 	t_env	*node;
 
@@ -62,21 +62,26 @@ int		ft_env(t_data *data)
 	return (0);
 }
 
-/* return value 0: was executed | 1: it is built in but it was not executed | 2: NOT builtin  */
-int		check_for_built(t_data *data, t_cmd	*cmd)
+int	export_or_unset(t_data *data, t_cmd *cmd)
 {
-	t_env *node;
+	if (ft_strncmp(cmd->cmd[0], "unset\0", 6) == 0)
+		return (ft_unset(data));
+	else if (ft_strncmp(cmd->cmd[0], "export\0", 7) == 0)
+		return (ft_export(data));
+	return (2);
+}
+
+/* return value 0: was executed | 1: it is builtin but it was not executed | 2: NOT builtin  */
+int	check_for_built(t_data *data, t_cmd	*cmd)
+{
+	t_env	*node;
 
 	node = data->var;
 	(void)node;
-	if (ft_strncmp(cmd->cmd[0], "unset\0", 6) == 0)
-		return (ft_unset(data));
-	else if (ft_strncmp(cmd->cmd[0], "env\0", 4) == 0)
+	if (ft_strncmp(cmd->cmd[0], "env\0", 4) == 0)
 		return (ft_env(data));
 	else if (ft_strncmp(cmd->cmd[0], "pwd\0", 4) == 0)
 		return (ft_fprintf(1, 0, "%s\n", data->path));
-	else if (ft_strncmp(cmd->cmd[0], "export\0", 7) == 0)
-		return (ft_export(data));
 	else if (ft_strncmp(cmd->cmd[0], "echo\0", 5) == 0)
 		return (ft_echo(data, cmd->cmd, 1));
 	return (2);

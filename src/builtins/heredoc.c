@@ -1,24 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/03 11:36:53 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/15 15:54:51 by mfortuna         ###   ########.fr       */
+/*   Created: 2024/11/15 13:24:59 by mfortuna          #+#    #+#             */
+/*   Updated: 2024/11/15 16:00:49 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-int	main(int argc, char **argv, char **env)
+void	here_doc(t_cmd *cmd)
 {
-	t_data	data;
+	char	*input;
 
-	data.env = env;
-	get_cmd(&data);
-	(void)argc;
-	(void)argv;
-	return (0);
+	input = NULL;
+	input = readline("heredoc> ");
+	while (ft_strncmp(input, cmd->infile, ft_strlen(cmd->infile) + 1))
+	{
+		ft_fprintf(cmd->fd_out, 0, "%s", input);
+		free(input);
+		input = readline("heredoc> ");
+	}
+	free(input);
 }

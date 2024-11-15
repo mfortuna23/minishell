@@ -69,7 +69,7 @@ char	*relative_path(t_data *data, char *command)
 	path_command = NULL;
 	if (!data->env)
 		return (NULL);
-	if (!data->cmd->path_to_cmd || data->cmd->path_to_cmd[0] == 0)
+	if (!data->cmd->path_to_cmd || !data->cmd->path_to_cmd)
 		return	(NULL);
 	else
 	{
