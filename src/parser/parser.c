@@ -6,28 +6,36 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:27:08 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/15 13:47:52 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/15 15:25:42 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 void	print_cmds(t_data *data);
+
+int		ft_red_infile(t_data *data, t_cmd *current, int y, int x)
+{
+	if (current->infile)
+		free(current->infile);
+	while (data->tokens[y][x] == '<')
+		x++;
+	if (x > 3)
+		return(ft_fprintf(2, -1, "parser error near : '<'"));
+	else if (x > 1)
+		current->here_doc = true;
+	if (!data->tokens[++y])
+		return (-1132);
+	current->infile = ft_strdup(data->tokens[y]);
+	return (2);
+}
+
 int		ft_redirect(t_data *data, t_cmd *current, int y, int x)
 {
 	if (data->tokens[y][x] == '<')
-	{
-		while (data->tokens[y][x] == '<')
-			x++;
-		if (x > 3)
-			return(ft_fprintf(2, -1, "parser error near : '<'"));
-		else if (x > 1)
-			current->here_doc = true;
-		if (!data->tokens[++y])
-			return (-1);
-		current->infile = ft_strdup(data->tokens[y]);
-		return (2);
-	}
+		return (ft_red_infile(data, current, y, x));
+	if (current->outfile)
+		free(current->outfile);
 	while (data->tokens[y][x] == '>')
 		x++;
 	if (x > 2)
@@ -35,7 +43,7 @@ int		ft_redirect(t_data *data, t_cmd *current, int y, int x)
 	else if (x > 1)
 		current->appen = true;
 	if (!data->tokens[++y])
-		return (-1);
+		return (-1123);
 	current->outfile = ft_strdup(data->tokens[y]);
 	return (2);
 }
@@ -64,7 +72,7 @@ int		parsing(t_data *data, int y, int x)
 	while (data->tokens[y])
 	{
 		if (data->tokens[y][x] == '<' || data->tokens[y][x] == '>')
-			y = ft_redirect(data, node, y, 0);
+			y += ft_redirect(data, node, y, 0);
 		else if (data->tokens[y][x] == '|')
 		{
 			if (y == 0 || data->tokens[y][1] == '|')
@@ -92,6 +100,10 @@ int check_not_req(t_data *data)
 		if (check_chars(data->tokens[i][0]) == 2)
 			return (ft_fprintf(2, 1, "parser error near '%c'\n", data->tokens[i][0]));
 		i++;
+		if  (data->tokens[i] == 0)
+			return (0);
+		if ((data->tokens[i][0]) == '|' && (data->tokens[i - 1][0]) == '|')
+			return (ft_fprintf(2, 1, "parser error near '%c'\n", data->tokens[i][0]));
 	}
 	return (0);
 }
@@ -102,34 +114,48 @@ int token_error(t_data *data, char *arr)
 	less_space(data, arr, 0, 0);
 	split_tokens(data, 0, 0, 0);
 	if (check_not_req(data) == 1)
+	{
+		free(data->parser);
+		ft_freearr(data->tokens);
 		return (1);
+	}
 	return (0);
 }
 
+int sep_char(char *arr, t_data *data, int j)
+{
+	arr[j++] = ' ';
+	arr[j++] = data->input[data->i++];
+	arr[j++] = ' ';
+	return (j);
+}
+
 /* parser */
-int		ft_strtok(t_data *data, int i, int j, char c)
+int		ft_strtok(t_data *data, int j, char c)
 {
 	char 	arr[1024];
 
 	ft_memset(arr, 0, 1024);
 	if (!data->input)
 		return (-1);
-	while (data->input[i])
+	data->i = 0;
+	while (data->input[data->i])
 	{
-		c = data->input[i];
+		c = data->input[data->i];
 		if (c == 34 || c == 39)
 		{
 			arr[j++] = ' ';
-			arr[j++] = data->input[i++];
-			while ((data->input[i]) && (data->input[i] != c))
-				arr[j++] = data->input[i++];
-			arr[j++] = data->input[i++];
+			arr[j++] = data->input[data->i++];
+			while ((data->input[data->i]) && (data->input[data->i] != c))
+				arr[j++] = data->input[data->i++];
+			arr[j++] = data->input[data->i++];
 			arr[j++] = ' ';
 		}
-		else if (data->input[i])
-			arr[j++] = data->input[i++];
+		else if (check_chars(c) > 0)
+			j = sep_char(arr, data, j);
+		else if (data->input[data->i])
+			arr[j++] = data->input[data->i++];
 	}
-	arr[j++] = 0;
 	return (token_error(data, arr));
 }
 
@@ -205,14 +231,15 @@ int		input_user(t_data *data)
 {
 	if (get_fullinput(data) == 1)
 		return (1);
-	if (ft_strtok(data, 0, 0, 'a') == 1)
+	add_history(data->input);
+	if (ft_strtok(data, 0, 'a') == 1)
 		return (1);
 	create_cmds(data);
 	if (parsing(data, 0, 0) == 1)
 		return (1);
 	if (data->cmd->cmd == NULL && !data->cmd->here_doc )
 		return (1);
-	// print_cmds(data);
+	print_cmds(data);
 	return (0);
 }
 
