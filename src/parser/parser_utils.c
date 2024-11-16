@@ -3,14 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 10:14:09 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/15 16:03:44 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/16 15:28:31 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+/* check for special chars not required by the subject */
+int	check_not_req(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (data->tokens[i])
+	{
+		if (check_chars(data->tokens[i][0]) == 2)
+			return (ft_fprintf(2, 1, "parser error near '%c'\n", \
+			data->tokens[i][0]));
+		i++;
+		if (data->tokens[i] == 0)
+			return (0);
+		if ((data->tokens[i][0]) == '|' && (data->tokens[i - 1][0]) == '|')
+			return (ft_fprintf(2, 1, "parser error near '%c'\n", \
+			data->tokens[i][0]));
+	}
+	return (0);
+}
 
 int	check_chars(char c)
 {
@@ -78,8 +99,6 @@ void	less_space(t_data *data, char *arr, int i, int count)
 
 int	split_tokens(t_data *data, int x, int i, int j)
 {
-	data->n_tokens = token_count(data->parser, 0, 0, 0);
-	data->tokens = ft_calloc((data->n_tokens + 1), sizeof(char*));
 	while (data->parser[i] && (x < data->n_tokens))
 	{
 		while (data->parser[i] <= ' ')
@@ -91,13 +110,15 @@ int	split_tokens(t_data *data, int x, int i, int j)
 			{
 				if ((data->parser[i] == 34 || data->parser[i] == 39) && j == i)
 				{
-					while ((data->parser[++i] != data->parser[j]) && data->parser[i]);
+					while ((data->parser[++i] != data->parser[j]) \
+					&& data->parser[i]);
 					if (data->parser[i++] == 0)
 						return (1);
 					data->tokens[x++] = ft_substr(data->parser, j, (i - j));
 					break ;
 				}
-				if ((data->parser[++i] <= ' ' || data->parser[i] == 0) && (x < data->n_tokens))
+				if ((data->parser[++i] <= ' ' || \
+				data->parser[i] == 0) && (x < data->n_tokens))
 					data->tokens[x++] = ft_substr(data->parser, j, (i - j));
 			}
 		}
