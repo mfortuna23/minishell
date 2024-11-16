@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:22:58 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/15 15:59:10 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/16 11:49:44 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ int	ft_cd(t_data *data)
 	if (chdir(data->tokens[1]) < 0)
 	{
 		if (access(data->tokens[1], X_OK) < 0)
-			data->return_v = ft_fprintf(2, 1,"bash: cd: %s"
-				": No such file or directory\n", data->tokens[1]);
+			data->return_v = ft_fprintf(2, 1, "bash: cd: %s"
+					": No such file or directory\n", data->tokens[1]);
 		else
-			data->return_v = ft_fprintf(2, 1,"bash: cd: %s"
-		": Not a directory\n", data->tokens[1]);
+			data->return_v = ft_fprintf(2, 1, "bash: cd: %s"
+					": Not a directory\n", data->tokens[1]);
 	}
 	return (1);
 }
@@ -71,7 +71,7 @@ int	export_or_unset(t_data *data, t_cmd *cmd)
 	return (2);
 }
 
-/* return value 0: was executed | 1: it is builtin but it was not executed | 2: NOT builtin  */
+/* return value 0: was executed | 2: NOT builtin  */
 int	check_for_built(t_data *data, t_cmd	*cmd)
 {
 	t_env	*node;
