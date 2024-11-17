@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:26:18 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/16 19:06:25 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/17 10:59:22 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,12 @@ typedef struct s_cmd
 	pid_t			pid;			//parser will not handle this
 	struct s_cmd	*next;			//if there is pipe else null
 }			t_cmd;
+
+
+/****************************/
+/*			READLINE		*/
+/****************************/
+void	rl_replace_line(const char *text, int clear_undo);
 
 /****************************/
 /*			PARSER			*/
