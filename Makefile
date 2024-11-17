@@ -6,7 +6,7 @@
 #    By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/21 11:05:07 by mfortuna          #+#    #+#              #
-#    Updated: 2024/11/16 19:15:56 by mfortuna         ###   ########.fr        #
+#    Updated: 2024/11/17 11:15:04 by mfortuna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,8 @@ else ifeq ($(UNAME_S),Darwin)
 endif
 
 CC				= cc
-CFLAGS			= -Wall -Werror -Wextra 
+CFLAGS 			= -Wall -Werror -Wextra -g -I/usr/local/opt/readline/include
+LDFLAGS 		= -L/usr/local/opt/readline/lib -lreadline -lncurses
 RM				= rm -rf
 NAME			= minishell
 LIBFT_PATH		= $(INCLUDES)libft/
@@ -42,7 +43,7 @@ MAKE			= make -C
 all: $(NAME) 
 
 $(NAME) : $(OBJS) $(NAMELIB)
-	$(CC) -g $(CFLAGS) -o $(NAME) $(SRC) $(NAMELIB) -lreadline -lncurses
+	$(CC) -g $(CFLAGS) -o $(NAME) $(SRC) $(NAMELIB) $(LDFLAGS)
 
 $(NAMELIB) : $(LIBFT_PATH)
 	$(MAKE) $(LIBFT_PATH)

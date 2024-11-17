@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:38:58 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/16 18:38:42 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/17 11:18:56 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*get_prompt(t_data *data)
 	data->prompt = str_join(data->prompt, \
 	ft_substr(ft_strrchr(data->path, '/'), \
 	0, ft_strlen(data->path)));
-	data->prompt = str_join(data->prompt, ft_strdup(" \001\033[0m\002\n> "));
+	data->prompt = str_join(data->prompt, ft_strdup(" \001\033[0m\002 > "));
 	return (data->prompt);
 }
 
