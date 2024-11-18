@@ -15,16 +15,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-void	clear_exit(t_data *data, int status)
-{
-	delete_cmds(data);
-	del_lastenv(data);
-	free(data->env);
-	free(data->input);
-	free(data->parser);
-	exit(status);
-}
-
 void list_open_fds(void)
 {
     DIR *dir;
@@ -80,6 +70,22 @@ void close_open_fds(void)
     closedir(dir);
 }
 
+int		ft_test(t_data *data, t_cmd *cmd)
+{
+	(void)data;
+	if (cmd->pipe)
+		printf("Flag pipe\n"); //run_pipe(data, data->cmd); //
+	else if (cmd->here_doc)
+		printf("Flag Here_doc\n");
+	else if (cmd->appen)
+		printf("Flag Appen\n");
+	else if (!cmd->pipe && !cmd->here_doc)
+		printf("Flag cmd\n");
+	ms_bomb(data, 0);
+	close_open_fds();
+	return (0);
+}
+
 void	ft_execve(t_data *data, t_cmd *cmd)
 {
 	pid_t	pid;
@@ -107,31 +113,16 @@ void	ft_execve(t_data *data, t_cmd *cmd)
 	close_open_fds();
 }
 
-void	set_path(t_data *data)
-{
-	t_cmd	*current;
-
-	current = data->cmd;
-	if (!current)
-		exit(0);
-	current->path_to_cmd = get_paths(data);
-	while (current)
-	{
-		
-		current->path = find_path(data, current->cmd[0]);
-		current = current->next;
-	}
-}
-
 void	run_pipe_child(t_data *data, t_cmd *cmd, int *fd, int i)
 {
+	(void)cmd;
 	if (i == 0)
 	{
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[0]);
 		close(fd[1]);
-		ft_execve(data, cmd);
-		ms_bomb(data, 0);
+		ft_test(data, cmd);
+		//printf("Data: %d, Cmd: %s\n", data->n_tokens, cmd->cmd[0]); //ft_execve(data, cmd); //ft_execute(data);
 		_exit(1);
 	}
 	else if (i == 1)
@@ -139,10 +130,31 @@ void	run_pipe_child(t_data *data, t_cmd *cmd, int *fd, int i)
 		dup2(fd[0], STDIN_FILENO);
 		close(fd[0]);
 		close(fd[1]);
-		ft_execve(data, cmd);
-		ms_bomb	(data, 0);
+		ft_test(data, cmd);
+		//printf("Data: %d, Cmd: %s\n", data->n_tokens, cmd->cmd[0]); //ft_execve(data, cmd); //ft_execute(data);
 		_exit(1);
 	}
+	ms_bomb	(data, 0);
+}
+
+void	ft_pipes2(t_data *data, t_cmd *cmd, int i)
+{
+	int		fd[i];
+	//int		status;
+	t_cmd	*current;
+
+	(void)cmd;
+	(void)data;
+	current = data->cmd;
+	while (current)
+	{
+		printf("Cmd: %s\n", current->cmd[0]);
+		fd[i] = '4';
+		printf("Fd: %d\n", fd[i]);
+		i--;
+		current = current->next;
+	}
+
 }
 
 void	run_pipe(t_data *data, t_cmd *cmd)// verificar quais são os cmd que estão entrando nessa função
@@ -155,134 +167,47 @@ void	run_pipe(t_data *data, t_cmd *cmd)// verificar quais são os cmd que estão
 
 	(void)cmd;
 	current = data->cmd;
+	printf("Cmd: %s\n", current->cmd[0]);
+	//current->pipe = 0;
+	//printf("Pipe 1: %d\n", current->pipe);
 	if (pipe(fd) < 0)
 		return (perror("pipe"));
 	pid1 = fork();
 	if (pid1 < 0)
 		return (perror("fork"));
+	printf("Pipe 1: %d\n", current->pipe);
 	if (pid1 == 0)
+	{
 		run_pipe_child(data, current, fd, 0);
+	}
 	current = current->next;
 	pid2 = fork();
+	printf("Pipe 2: %d\n", current->pipe);
 	if (pid2 < 0)
 		return (perror("fork"));
-	if (pid2 == 0)
+	if (pid2 == 0 && current->pipe == 0)
 		run_pipe_child(data, current, fd, 1);
+	else if (pid2 == 0 && current->pipe == 1)
+	{
+		run_pipe_child(data, current, fd, 0);
+	}
 	close(fd[0]);
 	close(fd[1]);
 	waitpid(pid1, &status, 0);
 	waitpid(pid2, &status, 0);
 }
 
-int		ft_execute(t_data *data)
+int		ft_execute(t_data *data, t_cmd *cmd)
 {
 	//(void)data;
-	if (data->cmd->pipe)
-		run_pipe(data, data->cmd); //printf("Flag pipe\n");
-	else if (data->cmd->here_doc)
+	if (cmd->pipe)
+		ft_pipes2(data, data->cmd, 10); //printf("Flag pipe\n");
+	else if (cmd->here_doc)
 		printf("Flag Here_doc\n"); //ft_heredoc(current);
-	else if (data->cmd->appen)
+	else if (cmd->appen)
 		printf("Flag append\n"); //ft_append(current);
-	else if (!data->cmd->pipe && !data->cmd->here_doc)
+	else if (!cmd->pipe && !cmd->here_doc)
 		ft_execve(data, data->cmd); //printf("Flag cmd\n");
 
 	return (0);
 }
-
-/*void	ft_pipe(t_data *data)
-{
-	int		fd[2];
-	pid_t	pid;
-
-	pipe(fd);
-	pid = fork();
-	if (pid < 0)
-		return (perror("fork"));
-	if (pid == 0)
-	{
-		dup2(fd[1], 1);
-		close(fd[0]);
-		close(fd[1]);
-		execve(data->cmd->path, data->cmd->full_tokens, data->env);
-		exit(0);
-	}
-	else
-	{
-		dup2(fd[0], 0);
-		close(fd[0]);
-		close(fd[1]);
-		ft_execute(data);
-	}
-}
-
-void	ft_heredoc(t_data *data)
-{
-	int		fd[2];
-	pid_t	pid;
-
-	pipe(fd);
-	pid = fork();
-	if (pid < 0)
-		return (perror("fork"));
-	if (pid == 0)
-	{
-		dup2(fd[1], 1);
-		close(fd[0]);
-		close(fd[1]);
-		execve(data->cmd->path, data->cmd->full_tokens, data->env);
-		exit(0);
-	}
-	else
-	{
-		dup2(fd[0], 0);
-		close(fd[0]);
-		close(fd[1]);
-		ft_execute(data);
-	}
-}*/
-
-/* executes program */
-// void	ft_execute(t_data *data)
-// {
-// 	pid_t	pid;
-
-// 	pid = fork();
-// 	if (pid < 0)
-// 		return (perror("fork"));
-// 	if (pid == 0)
-// 	{
-// 		execve(data->path, data->tokens, data->env);
-// 		exit(0);
-// 	}
-// 	waitpid(pid, 0, 0);
-// 	free(data->path);
-// 	ft_freearr(data->tokens);
-// }
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_execute.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/28 11:34:48 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/10/28 12:06:45 by mfortuna         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-/* executes program */
-// void	ft_execute(t_data *data)
-// {
-// 	pid_t	pid;
-
-// 	pid = fork();
-// 	if (pid < 0)
-// 		return (perror("fork"));
-// 	if (pid == 0)
-// 	{
-// 		execve(data->path, data->tokens, data->env);
-// 		exit(0);
-// 	}
-// 	waitpid(pid, 0, 0);
-// 	free(data->path);
-// 	ft_freearr(data->tokens);
-// }

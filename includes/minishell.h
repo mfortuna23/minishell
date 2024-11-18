@@ -121,7 +121,7 @@ void	set_path(t_data *data);
 /****************************/
 
 void	clear_exit(t_data *data, int status);
-int		ft_execute(t_data *data);
+int		ft_execute(t_data *data, t_cmd *cmd);
 void	ft_execve(t_data *data, t_cmd *cmd); // E preciso verificar se tem buitins quando chega nesta funcao mas serao ignorados
 
 /****************************/

@@ -75,7 +75,7 @@ int		get_cmd(t_data *data)
 			else
 			{
 				set_path(data);
-				data->return_v = ft_execute(data);
+				data->return_v = ft_execute(data, data->cmd);
 			}
 		}
 		if (data->cmd)
