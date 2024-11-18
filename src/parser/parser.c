@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:27:08 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/16 11:46:26 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/18 13:36:54 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,9 @@ int	ft_strtok(t_data *data, int j, char c)
 /* recives and manages input from user */
 int	input_user(t_data *data)
 {
+	data->check = 0;
+	if (!data->input)
+		return (-1);
 	if (get_fullinput(data) == 1)
 		return (1);
 	add_history(data->input);
@@ -107,6 +110,10 @@ int	input_user(t_data *data)
 		return (1);
 	if (data->cmd->cmd == NULL && !data->cmd->here_doc)
 		return (1);
+	if (ft_exit(data, 0) == 0)
+		return (-1);
+	if (export_or_unset(data, data->cmd) == 0)
+		data->check = 1;
 	// print_cmds(data);
 	return (0);
 }
