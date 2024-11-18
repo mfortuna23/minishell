@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 10:42:34 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/16 11:32:22 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/18 23:41:13 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,14 @@ int	ft_red_infile(t_data *data, t_cmd *current, int y, int x)
 	if (current->infile)
 		free(current->infile);
 	while (data->tokens[y][x] == '<')
-		x++;
-	if (x > 3)
+		y++;
+	if (y > 2)
 		return (ft_fprintf(2, -1, "parser error near : '<'"));
-	else if (x > 1)
-		current->here_doc = true;
+	if (y > 1)
+		return (here_doc(data, current, true, y));
 	if (!data->tokens[++y])
-		return (-1132);
+		return (ft_fprintf(3, -36842, \
+		"MS: syntax error near unexpected token `newline'"));
 	current->infile = ft_strdup(data->tokens[y]);
 	return (2);
 }
