@@ -3,20 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:36:53 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/10/28 11:41:12 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/17 11:16:16 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+void	sig_handle(int signal)
+{
+	(void)signal;
+	printf("\n");
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
+
 int	main(int argc, char **argv, char **env)
 {
-	t_data	data;
+	t_data				data;
+	struct sigaction	sa;
 
+	sa.sa_handler = sig_handle;
+	sa.sa_flags = SA_RESTART;
 	data.env = env;
+	signal(SIGINT, &sig_handle);
+	signal(SIGQUIT, SIG_IGN);
 	get_cmd(&data);
 	(void)argc;
 	(void)argv;

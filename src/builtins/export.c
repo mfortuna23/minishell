@@ -6,13 +6,13 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 02:41:38 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/14 13:37:28 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/15 15:56:55 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int		new_var(t_data *data, char *name)
+int	new_var(t_data *data, char *name)
 {
 	t_env	*node;
 
@@ -29,18 +29,19 @@ int		new_var(t_data *data, char *name)
 	node->name = ft_strdup(name);
 	if ((ft_strchr(data->cmd->cmd[1], '=') + 1) == 0)
 		return (0);
-	node->value = ft_substr(node->full, ft_strlen(name) + 2, ft_strlen(node->full));
+	node->value = ft_substr(node->full, ft_strlen(name) + 2, \
+	ft_strlen(node->full));
 	node->value[ft_strlen(node->value) - 1] = 0;
 	return (0);
 }
 
-int exist_var(t_data *data, t_env *node, char *name)
+int	exist_var(t_data *data, t_env *node, char *name)
 {
-	t_env 	*new;
+	t_env	*new;
 	t_env	*tmp;
 
 	tmp = data->var;
-	while(tmp->next != node)
+	while (tmp->next != node)
 		tmp = tmp->next;
 	new = create_env_node();
 	new->next = node->next;
@@ -53,12 +54,13 @@ int exist_var(t_data *data, t_env *node, char *name)
 	new->name = ft_strdup(name);
 	if ((ft_strchr(data->cmd->cmd[1], '=') + 1) == 0)
 		return (0);
-	new->value = ft_substr(new->full, ft_strlen(name) + 2, ft_strlen(new->full));
+	new->value = ft_substr(new->full, ft_strlen(name) + 2,\
+	 ft_strlen(new->full));
 	new->value[ft_strlen(new->value) - 1] = 0;
 	return (0);
 }
 // not working with quotes
-int		ft_export(t_data *data)
+int	ft_export(t_data *data)
 {
 	t_env	*node;
 	char	name[1024];
@@ -78,6 +80,6 @@ int		ft_export(t_data *data)
 	}
 	node = find_var(data, name);
 	if (!node)
-		return(new_var(data, name));
+		return (new_var(data, name));
 	return(exist_var(data, node, name));
 }
