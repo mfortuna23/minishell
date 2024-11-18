@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:26:18 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/15 16:04:30 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/17 10:59:22 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ typedef struct s_env
 	struct s_env	*next;
 }		t_env;
 
-
 typedef struct s_cmd
 {
 	char			**cmd;			//final cmd
@@ -64,6 +63,12 @@ typedef struct s_cmd
 	struct s_cmd	*next;			//if there is pipe else null
 }			t_cmd;
 
+
+/****************************/
+/*			READLINE		*/
+/****************************/
+void	rl_replace_line(const char *text, int clear_undo);
+
 /****************************/
 /*			PARSER			*/
 /****************************/
@@ -81,8 +86,9 @@ int		ft_strtok(t_data *data, int j, char c);
 int		get_fullinput(t_data *data);
 int		split_tokens(t_data *data, int x, int i, int j);
 int		token_count(char *s, int i, int count, char c);
-void 	less_space(t_data *data, char *arr, int i, int count);
+void	less_space(t_data *data, char *arr, int i, int count);
 int		check_chars(char c);
+int		check_not_req(t_data *data);
 
 /****************************/
 /*		STRUCT_CMDS.C		*/
