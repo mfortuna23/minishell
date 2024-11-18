@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 02:40:57 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/14 22:15:22 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/15 16:00:35 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int print_var(t_data *data, char *cmd, int i)
+int	print_var(t_data *data, char *cmd, int i)
 {
 	t_env	*var;
 	char	name[1024];
@@ -20,7 +20,7 @@ int print_var(t_data *data, char *cmd, int i)
 	var = NULL;
 	ft_memset(name, 0, 1024);
 	if (cmd[i] == '?')
-		return (ft_fprintf(1, 1, "%i",data->return_v));
+		return (ft_fprintf(1, 1, "%i", data->return_v));
 	while ((cmd[i]) && cmd[i] != ' ' && cmd[i] != 34)
 	{
 		name[i] = cmd[i];
@@ -36,16 +36,16 @@ int print_var(t_data *data, char *cmd, int i)
 	return (++i);
 }
 
-void print_echo(t_data *data, char *cmd, int i)
+void	print_echo(t_data *data, char *cmd, int i)
 {
-	char c;
+	char	c;
 
 	c = cmd[i];
 	while (cmd[i])
 	{
 		if (c == 39)
 		{
-			while(cmd[++i] != c)
+			while (cmd[++i] != c)
 				ft_putchar_fd(cmd[i], 1);
 			return ;
 		}
@@ -58,11 +58,11 @@ void print_echo(t_data *data, char *cmd, int i)
 	}
 }
 
-int ft_echo(t_data *data, char **cmd, int x)
+int	ft_echo(t_data *data, char **cmd, int x)
 {
 	bool	new_line;
     char	var[1024];
-	char 	c;
+	char	c;
 
 	ft_memset(var, 0, 1024);
 	new_line = true;
@@ -75,8 +75,8 @@ int ft_echo(t_data *data, char **cmd, int x)
 	{
 		c = cmd[x][0];
 		print_echo(data, cmd[x], 0);
-			if (c != 34 && cmd[x][0] != 0)
-				ft_printf("%c", 32);
+		if (c != 34 && cmd[x][0] != 0)
+			ft_printf("%c", 32);
 		x++;
 	}
 	if (new_line)
