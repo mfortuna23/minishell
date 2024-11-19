@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:36:53 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/18 11:43:44 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/19 10:09:36 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,7 @@ void	sig_handle(int signal)
 int	main(int argc, char **argv, char **env)
 {
 	t_data				data;
-	struct sigaction	sa;
 
-	sa.sa_handler = sig_handle;
-	sa.sa_flags = SA_RESTART;
 	data.env = env;
 	signal(SIGINT, &sig_handle);
 	signal(SIGQUIT, SIG_IGN);

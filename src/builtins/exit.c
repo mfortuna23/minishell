@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 11:35:17 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/18 12:26:50 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/19 11:20:24 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void r_value(t_data *data)
 int ft_exit(t_data *data, int i)
 {
 	if (data->cmd->pipe)
+		return (1);
+	if (!data->cmd->cmd)
 		return (1);
 	if (ft_strncmp(data->cmd->cmd[0], "exit\0", 5) == 0)
 	{
