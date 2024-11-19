@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:22:58 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/18 13:29:30 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/19 11:21:32 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ int	ft_env(t_data *data)
 
 int	export_or_unset(t_data *data, t_cmd *cmd)
 {
+	if (!cmd->cmd)
+		return (2);
 	if (ft_strncmp(cmd->cmd[0], "unset\0", 6) == 0)
 		return (ft_unset(data));
 	else if (ft_strncmp(cmd->cmd[0], "export\0", 7) == 0)

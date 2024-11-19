@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:31:46 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/15 16:10:47 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/19 12:07:32 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ void	create_cmds(t_data *data)
 
 void	free_mem(t_cmd *del)
 {
+	if (del->here_doc)
+		unlink(del->infile);
 	if (del->cmd != NULL)
 		ft_freearr(del->cmd);
 	if (del->infile != NULL)

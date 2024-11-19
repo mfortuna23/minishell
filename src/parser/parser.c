@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:27:08 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/18 13:36:54 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/19 12:09:36 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	parsing(t_data *data, int y, int x)
 	t_cmd	*node;
 
 	node = data->cmd;
-	while (data->tokens[y])
+	while (data->tokens[y] != NULL)
 	{
 		if (data->tokens[y][x] == '<' || data->tokens[y][x] == '>')
 			y += ft_redirect(data, node, y, 0);
@@ -36,8 +36,13 @@ int	parsing(t_data *data, int y, int x)
 		else
 			y = ft_cmd_args(data, node, y, 0);
 		if (y < 0)
+		{
+			data->check = 1;
 			return (1);
+		}
 	}
+	if (!node->cmd)
+		data->check = 1;
 	return (0);
 }
 
@@ -59,8 +64,13 @@ int	token_error(t_data *data, char *arr)
 
 int	sep_char(char *arr, t_data *data, int j)
 {
+	char	c;
+
+	c = data->input[data->i];
 	arr[j++] = ' ';
 	arr[j++] = data->input[data->i++];
+	while (c == data->input[data->i])
+		arr[j++] = data->input[data->i++];
 	arr[j++] = ' ';
 	return (j);
 }
@@ -114,7 +124,7 @@ int	input_user(t_data *data)
 		return (-1);
 	if (export_or_unset(data, data->cmd) == 0)
 		data->check = 1;
-	// print_cmds(data);
+	//print_cmds(data);
 	return (0);
 }
 /* 
