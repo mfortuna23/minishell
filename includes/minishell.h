@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: tbezerra <tbezerra@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:26:18 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/17 10:59:22 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/19 10:25:23 by tbezerra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct s_data
 	char			*prompt;
 	int				n_tokens;
 	int				return_v;
+	int 			check;
 	int				i;
 	int				n_cmd;
 	struct s_cmd	*cmd;
@@ -139,6 +140,7 @@ void	ft_execve(t_data *data, t_cmd *cmd); // E preciso verificar se tem buitins 
 int		ft_fprintf(int fd, int r_value, const char *s, ...);
 void	ms_bomb(t_data *data, int check);
 char	*str_join(char *s1, char *s2);
+int		ft_atoi_base(const char *nptr);
 
 /****************************/
 /*			BUITINS			*/
@@ -149,6 +151,8 @@ int		export_or_unset(t_data *data, t_cmd *cmd);
 int		ft_echo(t_data *data, char **cmd, int x);
 int		ft_export(t_data *data);
 int		ft_cd(t_data *data);
-void	here_doc(t_cmd *cmd);
+int		here_doc(t_data *data, t_cmd *cmd, bool exp, int y);
+int		print_var(t_data *data, char *cmd, int i);
+int 	ft_exit(t_data *data, int i);
 
 #endif

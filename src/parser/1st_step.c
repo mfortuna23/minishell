@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   1st_step.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:38:58 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/17 11:18:56 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/18 11:59:50 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void	data_init(t_data *data)
 	data->return_v = 0;
 	data->var = NULL;
 	data->i = 0;
+	data->check = 0;
 	data->n_cmd = 1;
 	create_env(data);
 }
@@ -70,12 +71,10 @@ int	get_cmd(t_data *data)
 {
 	data_init(data);
 	data->input = readline(get_prompt(data));
-	while (data->input && ft_strncmp(data->input, "exit\0", 5) != 0)
+	while (input_user(data) >= 0)
 	{
-		if (input_user(data) == 0)
+		if (data->check == 0)
 		{
-			// if (data->cmd->here_doc)
-			// 	here_doc(data->cmd);
 			if (ft_strnstr(data->cmd->cmd[0], "cd\0", 3))
 				ft_cd(data);
 			else
@@ -89,7 +88,7 @@ int	get_cmd(t_data *data)
 		free(data->prompt);
 		data->input = readline(get_prompt(data));
 	}
-	ms_bomb(data, 1);
+	ms_bomb(data, 0);
 	clear_history();
 	return (0);
 }
