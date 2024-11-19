@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 02:41:38 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/15 15:56:55 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/18 13:42:25 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	new_var(t_data *data, char *name)
 {
 	t_env	*node;
 
+	node = NULL;
 	add_last_env(&data->var);
 	node = find_last_env(&data->var);
 	node->name = ft_strdup(name);
@@ -40,6 +41,8 @@ int	exist_var(t_data *data, t_env *node, char *name)
 	t_env	*new;
 	t_env	*tmp;
 
+	new = NULL;
+	tmp = NULL;
 	tmp = data->var;
 	while (tmp->next != node)
 		tmp = tmp->next;

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+         #
+#    By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/21 11:05:07 by mfortuna          #+#    #+#              #
-#    Updated: 2024/11/17 11:15:04 by mfortuna         ###   ########.fr        #
+#    Updated: 2024/11/18 11:43:16 by mfortuna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ EXEC			= $(addprefix $(SRC_M)exec/, cmd_path.c ft_execute.c)
 PARSER			= $(addprefix $(SRC_M)parser/, parser.c parser_utils.c 1st_step.c built_cmds.c full_input.c)
 STRUCT			= $(addprefix $(SRC_M)struct/, struct_cmds.c struct_env.c delete_env.c find_env.c)
 UTILS			= $(addprefix $(SRC_M)utils/, utils.c ft_fprintf.c)
-BUILT			= $(addprefix $(SRC_M)builtins/, builtins.c export.c echo.c heredoc.c)
+BUILT			= $(addprefix $(SRC_M)builtins/, builtins.c export.c echo.c heredoc.c exit.c)
 SRC				= $(SRC_M)main.c $(EXEC) $(PARSER) $(STRUCT) $(UTILS) $(BUILT)
 ODIR			= obj
 OBJS			= $(patsubst $(SRC_M)%.c,$(ODIR)/%.o,$(SRC)) 

@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:36:53 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/17 11:16:16 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/18 11:43:44 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
 
 void	sig_handle(int signal)
 {
@@ -34,5 +35,5 @@ int	main(int argc, char **argv, char **env)
 	get_cmd(&data);
 	(void)argc;
 	(void)argv;
-	return (0);
+	return (data.return_v);
 }
