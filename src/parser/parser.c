@@ -3,16 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:27:08 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/20 14:49:10 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/20 23:10:06 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 void	print_cmds(t_data *data);
+
+int	parasing_error(t_data *data, int pipe)
+{
+	if (pipe == 1)
+		ft_fprintf(2, 1, "parser error near '|' \n");
+	data->check = 1;
+	data->return_v = 258;
+	return (1);
+}
 
 int	parsing(t_data *data, int y, int x)
 {
@@ -26,7 +35,7 @@ int	parsing(t_data *data, int y, int x)
 		else if (data->tokens[y][x] == '|')
 		{
 			if (y == 0 || data->tokens[y][1] == '|')
-				return (ft_fprintf(2, 1, "parser error near '|' \n"));
+				return (parasing_error(data, 1));
 			add_last(&data->cmd);
 			node->pipe = true;
 			node = node->next;
@@ -36,10 +45,7 @@ int	parsing(t_data *data, int y, int x)
 		else
 			y = ft_cmd_args(data, node, y, 0);
 		if (y < 0)
-		{
-			data->check = 1;
-			return (1);
-		}
+			return (parasing_error(data, 0));
 	}
 	if (!node->cmd)
 		data->check = 1;

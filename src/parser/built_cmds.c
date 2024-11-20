@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_cmds.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 10:42:34 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/19 11:15:41 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/20 22:43:13 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ int	ft_red_infile(t_data *data, t_cmd *current, int y, int x)
 	if (x > 2)
 		return (ft_fprintf(2, -1, "parser error near : '<'"));
 	if (!data->tokens[y + 1])
-		return (ft_fprintf(3, -36842, \
-		"MS: syntax error near unexpected token `newline'"));
+		return (ft_fprintf(2, -36842, \
+		"MS: syntax error near unexpected token `newline'\n"));
 	current->infile = ft_strdup(data->tokens[++y]);
 	if (x > 1)
 		return (here_doc(data, current, true, y));
@@ -38,11 +38,12 @@ int	ft_redirect(t_data *data, t_cmd *current, int y, int x)
 	while (data->tokens[y][x] == '>')
 		x++;
 	if (x > 2)
-		return (ft_fprintf(2, -1654, "parser error near : '>'"));
+		return (ft_fprintf(2, -1654, "parser error near : '>'\n"));
 	else if (x > 1)
 		current->appen = true;
 	if (!data->tokens[++y])
-		return (-1123);
+		return (ft_fprintf(2, -36842, \
+		"MS: syntax error near unexpected token `newline'\n"));
 	current->outfile = ft_strdup(data->tokens[y]);
 	return (2);
 }
