@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   full_input.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 10:38:42 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/16 11:41:09 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/20 14:50:58 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,10 @@ int	get_fullinput(t_data *data)
 	q = -1;
 	p = -1;
 	if (data->input[0] == 0)
+	{
+		data->check = 1;
 		return (1);
+	}
 	while (p == -1 || q == -1)
 	{
 		q = get_quotes(data, 0);

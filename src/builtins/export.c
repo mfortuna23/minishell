@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 02:41:38 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/19 10:11:05 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/20 14:46:03 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ int	new_var(t_data *data, char *name)
 	node = NULL;
 	add_last_env(&data->var);
 	node = find_last_env(&data->var);
-	node->name = ft_strdup(name);
-	node->full = ft_strdup(data->cmd->cmd[1]);
 	if ((ft_strchr(data->cmd->cmd[1], '=') + 1) == NULL)
 		return (0);
 	if (data->cmd->cmd[2])
@@ -30,9 +28,9 @@ int	new_var(t_data *data, char *name)
 	node->name = ft_strdup(name);
 	if ((ft_strchr(data->cmd->cmd[1], '=') + 1) == NULL)
 		return (0);
-	node->value = ft_substr(node->full, ft_strlen(name) + 2, \
+	node->value = ft_substr(node->full, ft_strlen(name) + 1, \
 	ft_strlen(node->full));
-	node->value[ft_strlen(node->value) - 1] = 0;
+	node->alive = true;
 	return (0);
 }
 
