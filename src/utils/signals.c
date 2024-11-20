@@ -1,41 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   find_env.c                                         :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/29 11:34:51 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/20 11:46:41 by mfortuna         ###   ########.fr       */
+/*   Created: 2024/11/20 14:26:10 by mfortuna          #+#    #+#             */
+/*   Updated: 2024/11/20 14:29:58 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-t_env	*find_last_env(t_env **env)
+void sig_hd(int sig)
 {
-	t_env	*node;
-
-	node = (*env);
-	if (node == NULL)
-		return (NULL);
-	while (node->next != NULL)
-		node = node->next;
-	return (node);
+	if (sig == SIGINT)
+	{
+		
+	}
+	return ;
 }
 
-t_env	*find_var(t_data *data, char *name)
+void sig_reset(int sig)
 {
-	t_env	*node;
-
-	node = data->var;
-	if (!name || name[0] == 0)
-		return (NULL);
-	while (node)
-	{
-		if (ft_strncmp(node->name, name, ft_strlen(name)) == 0)
-			return (node);
-		node = node->next;
-	}
-	return (NULL);
+	signal(SIGINT, SIG_DFT);
+	signal(SIGQUIT, SIG_DFT);
 }

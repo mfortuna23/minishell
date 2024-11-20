@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:22:58 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/19 11:21:32 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/20 11:33:11 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	check_for_built(t_data *data, t_cmd	*cmd)
 	else if (ft_strncmp(cmd->cmd[0], "pwd\0", 4) == 0)
 		return (ft_fprintf(1, 0, "%s\n", data->path));
 	else if (ft_strncmp(cmd->cmd[0], "echo\0", 5) == 0)
-		return (ft_echo(data, cmd->cmd, 1));
+		return (ft_echo(data, cmd, 1));
 	else if (ft_strncmp(cmd->cmd[0], "unset\0", 6) == 0)
 		return (1);
 	else if (ft_strncmp(cmd->cmd[0], "export\0", 7) == 0)

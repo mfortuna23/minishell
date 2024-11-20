@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:26:18 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/18 23:25:39 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/20 11:54:43 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,11 +148,11 @@ int		ft_atoi_base(const char *nptr);
 
 int		check_for_built(t_data *data, t_cmd	*cmd);
 int		export_or_unset(t_data *data, t_cmd *cmd);
-int		ft_echo(t_data *data, char **cmd, int x);
+int		ft_echo(t_data *data, t_cmd *cmd, int x);
 int		ft_export(t_data *data);
 int		ft_cd(t_data *data);
 int		here_doc(t_data *data, t_cmd *cmd, bool exp, int y);
-int		print_var(t_data *data, char *cmd, int i);
+int		print_var(t_data *data, char *cmd, int i, int fd_out);
 int 	ft_exit(t_data *data, int i);
 
 #endif
