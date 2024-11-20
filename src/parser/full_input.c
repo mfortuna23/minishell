@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   full_input.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 10:38:42 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/20 14:50:58 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/20 23:08:15 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	get_pipes(t_data *data, int i)
 			check = -1;
 			if (ft_strnstr(data->input, "<|", 100) || ft_strnstr(data->input, \
 			">|", 100) || ft_strnstr(data->input, "|", 1))
-				return (ft_fprintf(2, 1, "parser error near '|' \n"));
+				return (parasing_error(data, 1));
 			data->input = str_join(data->input, readline("pipe> "));
 			i = ft_strlen(data->input) - 1;
 		}
