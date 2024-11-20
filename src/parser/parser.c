@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:27:08 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/19 12:09:36 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/20 14:49:10 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,10 @@ int	input_user(t_data *data)
 {
 	data->check = 0;
 	if (!data->input)
+	{
+		data->check = 1;
 		return (-1);
+	}
 	if (get_fullinput(data) == 1)
 		return (1);
 	add_history(data->input);

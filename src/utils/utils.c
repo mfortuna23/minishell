@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 11:01:03 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/18 12:07:25 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/20 12:10:02 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@ char	*str_join(char *s1, char *s2)
 	size_t	size;
 	char	*p;
 
-	size = ft_strlen(s1) + ft_strlen(s2) + 1;
+	if (s1 == NULL)
+		size = ft_strlen(s2) + 1;
+	else
+		size = ft_strlen(s1) + ft_strlen(s2) + 1;
 	p = (char *)ft_calloc(sizeof(char), size);
 	if (!p)
 		return (0);
