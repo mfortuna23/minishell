@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: tbezerra <tbezerra@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:26:18 by mfortuna          #+#    #+#             */
 /*   Updated: 2024/11/21 22:13:33 by mfortuna         ###   ########.fr       */
@@ -18,6 +18,7 @@
 # include <sys/types.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 # include <sys/ioctl.h>
 # include <dirent.h>
 # include <signal.h>
@@ -32,9 +33,12 @@ typedef struct s_data
 	char			*path;		//current directory path
 	char			*prompt;
 	int				n_tokens;
+	int				return_v;
+	int				check;
 	int 			check;
 	int				i;
 	int				n_cmd;
+	int				**pipe_n;
 	struct s_cmd	*cmd;
 	struct s_env	*var;
 }			t_data;
@@ -55,7 +59,9 @@ typedef struct s_cmd
 	char			*path;			//path_to cmd
 	char			**full_tokens;	//tokens from this cmd
 	int				fd_in;			//parser will not handle this
+	int				in_n;			//number of inputs
 	int				fd_out;			//parser will not handle this
+	int				out_n;			//number of outputs
 	char			*infile;		//null if notmentioned in cmd
 	char			*outfile;		//same
 	char			**path_to_cmd;	//path to cmd
@@ -66,7 +72,6 @@ typedef struct s_cmd
 	pid_t			pid;			//parser will not handle this
 	struct s_cmd	*next;			//if there is pipe else null
 }			t_cmd;
-
 
 /****************************/
 /*			READLINE		*/
@@ -134,8 +139,31 @@ void	set_path(t_data *data);
 /****************************/
 
 void	clear_exit(t_data *data, int status);
-int		ft_execute(t_data *data);
+void	ft_fork_exit(t_data *data);
+int		ft_execute(t_data *data, t_cmd *cmd);
 void	ft_execve(t_data *data, t_cmd *cmd);
+
+/****************************/
+/*			Pipes			*/
+/****************************/
+
+int		ft_exec_pipe(t_data *data);
+int		ft_init_pipe(t_data *data);
+void	wait_for_children(t_data *data);
+void	close_all_pipes(t_data *data);
+void	exec_last_command(t_data *data);
+void	exec_intermediate_commands(t_data *data);
+void	exec_first_command(t_data *data);
+
+/****************************/
+/*			Redic			*/
+/****************************/
+
+void	ft_redir_in(t_data *data, t_cmd *cmd);
+void	ft_out_redir(t_data *data, t_cmd *cmd);
+void	ft_close_redir(int *in_fd, int *out_fd);
+int		ft_type_redir(t_cmd *redir);
+void	ft_no_file_err(char *fname);
 
 /****************************/
 /*			UTILS			*/
