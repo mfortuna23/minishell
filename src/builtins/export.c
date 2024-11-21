@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 02:41:38 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/20 14:46:03 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/21 16:57:40 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,9 @@ int	new_var(t_data *data, char *name)
 	else
 		node->full = ft_strdup(data->cmd->cmd[1]);
 	node->name = ft_strdup(name);
-	if ((ft_strchr(data->cmd->cmd[1], '=') + 1) == NULL)
+	if ((ft_strchr(node->full, '=') + 1) == NULL)
 		return (0);
-	node->value = ft_substr(node->full, ft_strlen(name) + 1, \
-	ft_strlen(node->full));
+	node->value = ft_substr(node->full, ft_strlen(name) + 1, 1024);
 	node->alive = true;
 	return (0);
 }
@@ -53,14 +52,14 @@ int	exist_var(t_data *data, t_env *node, char *name)
 	else
 		new->full = ft_strdup(data->cmd->cmd[1]);
 	new->name = ft_strdup(name);
-	if ((ft_strchr(data->cmd->cmd[1], '=') + 1) == NULL)
+	if ((ft_strchr(new->full, '=') + 1) == NULL)
 		return (0);
-	new->value = ft_substr(new->full, ft_strlen(name) + 2,\
-	 ft_strlen(new->full));
-	new->value[ft_strlen(new->value) - 1] = 0;
+	if ((ft_strchr(new->full, '=') + 1)[0] == 34)
+		new->value = ft_substr(data->cmd->cmd[2], 1, ft_strlen(data->cmd->cmd[2]) - 2);
+	new->value = ft_substr(new->full, ft_strlen(name) + 1, 1024);
 	return (0);
 }
-// not working with quotes
+
 int	ft_export(t_data *data)
 {
 	t_env	*node;
@@ -71,9 +70,11 @@ int	ft_export(t_data *data)
 	node = NULL;
 	i = 0;
 	if (data->cmd->pipe || !data->cmd->cmd[1])
-		return (1);
+		return (3);
 	if (!ft_strchr(data->cmd->cmd[1], '='))
 		return (1);
+	if (data->cmd->cmd[1][0] == '$')
+		return (ft_fprintf(2, 1, "MS: export: `$': not a valid identifier\n"));
 	while (data->cmd->cmd[1][i] != '=')
 	{
 		name[i] = data->cmd->cmd[1][i];
@@ -83,4 +84,60 @@ int	ft_export(t_data *data)
 	if (!node)
 		return (new_var(data, name));
 	return(exist_var(data, node, name));
+}
+
+int count_vars(t_data *data)
+{
+	t_env	*var;
+	int		count;
+
+	count = 0;
+	var = data->var;
+	while (var)
+	{
+		count ++;
+		var = var->next;
+	}
+	return (count);
+}
+
+int	export_print(t_cmd *cmd, t_env *var, int count)
+{
+	if (var->alive)
+	{
+		ft_fprintf(cmd->fd_out, 0, "declare -x %s=", var->name);
+		if (var->value)
+			ft_fprintf(cmd->fd_out, 0, "\"%s\"\n", var->value);
+		else
+			ft_fprintf(cmd->fd_out, 0, "\"\"\n");
+	}
+	count ++;
+	var->w = true;
+	return (count);
+}
+
+int	export_no_args(t_data *data, t_cmd *cmd, int count, int n_vars)
+{
+	t_env	*var;
+	t_env	*cmp;
+
+	var = data->var;
+	cmp = data->var;
+	if (cmd->cmd[1])
+		return (1);
+	while (count < n_vars)
+	{
+		while (cmp)
+		{
+			if (ft_strncmp(var->name, cmp->name, 1024) > 0 && !cmp->w)
+				var = cmp;
+			cmp = cmp->next;
+		}
+		count = export_print(cmd, var, count);
+		var = data->var;
+		while (var && var->w)
+			var = var->next;
+		cmp = data->var;
+	}
+	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:26:18 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/20 23:08:35 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/21 15:31:17 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <sys/types.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <sys/ioctl.h>
 # include <dirent.h>
 # include <signal.h>
 # include <stdlib.h>
@@ -45,6 +46,7 @@ typedef struct s_env
 	char			*name;
 	char			*value;
 	bool			alive; // verifica se foram apagadas
+	bool			w;
 	struct s_env	*next;
 }		t_env;
 
@@ -155,11 +157,15 @@ int		ft_echo(t_data *data, t_cmd *cmd, int x);
 int		ft_export(t_data *data);
 int		ft_cd(t_data *data);
 int		here_doc(t_data *data, t_cmd *cmd, bool exp, int y);
-int		hd_errors(char *buffer_hd, int error);
+int		hd_errors(t_data *data, char *buffer_hd, int error);
 void	create_file(t_cmd *cmd, char *buffer);
 int		print_var(t_data *data, char *cmd, int i, int fd_out);
 int 	ft_exit(t_data *data, int i);
 void	set_heredoc_signals(void);
+int		ft_heredoc_sig(int sig);
 void	sigint_handler(int signal);
-
+void	set_up_sigaction(void);
+void	print_cmds(t_data *data);
+int 	count_vars(t_data *data);
+int		export_no_args(t_data *data, t_cmd *cmd, int count, int n_vars);
 #endif

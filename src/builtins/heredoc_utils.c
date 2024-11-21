@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 20:13:10 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/20 21:14:03 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/21 17:38:32 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	create_file(t_cmd *cmd, char *buffer)
 	close(cmd->fd_in);
 }
 
-int	hd_errors(char *buffer_hd, int error)
+int	hd_errors(t_data *data, char *buffer_hd, int error)
 {
 	if (buffer_hd)
 		free (buffer_hd);
@@ -44,7 +44,11 @@ int	hd_errors(char *buffer_hd, int error)
 		return (ft_fprintf(2, 1,"MS: warning: here-document"
 			" at line 1 delimited by end-of-file (wanted `here')\n"));
 	if (error == 2) // ^C
+	{
+		data->check = 1;
+		data->return_v = 130;
 		return (error);
+	}
 	return (3);
 }
 
@@ -57,6 +61,11 @@ int	ft_heredoc_sig(int sig)
 	{
 		rl_done = 1;
 		end = true;
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+		ioctl(0, TIOCSTI, "");
 	}
 	if (sig == -2)
 	{
