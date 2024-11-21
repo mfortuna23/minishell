@@ -27,6 +27,7 @@ int	main(int argc, char **argv, char **env)
 	t_data				data;
 	struct sigaction	sa;
 
+	(void)sa;
 	sa.sa_handler = sig_handle;
 	sa.sa_flags = SA_RESTART;
 	data.env = env;
