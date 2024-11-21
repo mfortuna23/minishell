@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:27:08 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/21 17:27:31 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/21 20:29:23 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	parasing_error(t_data *data, int pipe)
 	if (pipe == 1)
 		ft_fprintf(2, 1, "parser error near '|' \n");
 	data->check = 1;
-	data->return_v = 258;
+	r_value(158, 1);
 	return (1);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:26:18 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/21 15:31:17 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/21 22:13:33 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ typedef struct s_data
 	char			*path;		//current directory path
 	char			*prompt;
 	int				n_tokens;
-	int				return_v;
 	int 			check;
 	int				i;
 	int				n_cmd;
@@ -146,6 +145,8 @@ int		ft_fprintf(int fd, int r_value, const char *s, ...);
 void	ms_bomb(t_data *data, int check);
 char	*str_join(char *s1, char *s2);
 int		ft_atoi_base(const char *nptr);
+int		r_value(int value, int type);
+int		data_check(t_data *data,int check, int r_value);
 
 /****************************/
 /*			BUITINS			*/

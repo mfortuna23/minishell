@@ -6,7 +6,7 @@
 #    By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/21 11:05:07 by mfortuna          #+#    #+#              #
-#    Updated: 2024/11/20 21:58:54 by mfortuna         ###   ########.fr        #
+#    Updated: 2024/11/21 22:07:05 by mfortuna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,7 +49,6 @@ $(NAMELIB) : $(LIBFT_PATH)
 	$(MAKE) $(LIBFT_PATH)
 
 $(ODIR)/%.o: $(SRC_M)/%.c | $(ODIR)
-	@echo "Compiling $< with $(CC) $(CFLAGS)"
 	mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -g -I . -c $< -o $@
 
