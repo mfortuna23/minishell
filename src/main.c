@@ -29,6 +29,7 @@ void	set_up_sigaction(void)
 {
 	struct sigaction	sa;
 
+	(void)sa;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_handler = sigint_handler;
 	sa.sa_flags = SA_RESTART;

@@ -35,7 +35,6 @@ char	**get_paths(t_data *data)
 	path_aux = find_var(data, "PATH");
 	if (path_aux)
 		path = ft_split(path_aux->full, ':');
-	//free(path_aux);
 	return (path);
 }
 
@@ -70,13 +69,13 @@ char	*relative_path(t_data *data, char *command)
 	if (!data->env)
 		return (NULL);
 	if (!data->cmd->path_to_cmd || !data->cmd->path_to_cmd)
-		return	(NULL);
+		return (NULL);
 	else
 	{
 		while (data->cmd->path_to_cmd[i])
 		{
-			path_command = ft_check_command_location(data, command, data->cmd->path_to_cmd[i]);
-			//printf("Path[%d]: %s\n", i, data->cmd->path_to_cmd[i]);
+			path_command = ft_check_command_location(data, command,
+					data->cmd->path_to_cmd[i]);
 			if (path_command != NULL)
 				return (path_command);
 			i++;
