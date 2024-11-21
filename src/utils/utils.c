@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 11:01:03 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/20 12:10:02 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/21 20:36:18 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,15 @@ int	ft_atoi_base(const char *nptr)
 			return (nbr * sign);
 	}
 	return (nbr = 0);
+}
+
+//if type == 0 returns last return value
+int	r_value(int value, int type)
+{
+	static int	r_v;
+
+	if (type == 0)
+		return (r_v);
+	r_v = value;
+	return (r_v);
 }

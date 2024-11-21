@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_cmds.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 10:42:34 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/21 17:35:53 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/21 22:24:00 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	ft_cmd_args(t_data *data, t_cmd *node, int y, int x)
 	data->i = 0;
 	while ((data->tokens[y]) && check_chars(data->tokens[y][x]) == 0)
 	{
-		if (data->tokens[y][0] == '$')
+		if (data->tokens[y][0] == '$')// FIX THIS AAAAAAH
 		{
 			var = find_var(data, data->tokens[y] + 1);
 			if (var)

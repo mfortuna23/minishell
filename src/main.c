@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:36:53 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/21 12:24:09 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/21 20:31:56 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,5 @@ int	main(int argc, char **argv, char **env)
 	get_cmd(&data);
 	(void)argc;
 	(void)argv;
-	return (data.return_v);
+	return (r_value(0, 0));
 }

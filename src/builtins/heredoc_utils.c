@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 20:13:10 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/21 17:38:32 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/21 20:30:22 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	hd_errors(t_data *data, char *buffer_hd, int error)
 	if (error == 2) // ^C
 	{
 		data->check = 1;
-		data->return_v = 130;
+		r_value(130, 1);
 		return (error);
 	}
 	return (3);
@@ -66,6 +66,7 @@ int	ft_heredoc_sig(int sig)
 		rl_replace_line("", 0);
 		rl_redisplay();
 		ioctl(0, TIOCSTI, "");
+		r_value(130, 1);
 	}
 	if (sig == -2)
 	{

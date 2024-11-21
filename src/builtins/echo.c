@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 02:40:57 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/21 17:18:08 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/21 20:23:46 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	print_var(t_data *data, char *cmd, int i, int fd_out)
 	if (cmd[i] == '$')
 		return (ft_fprintf(fd_out, 2, "%i", 365166));
 	if (cmd[i] == '?')
-		return (ft_fprintf(fd_out, 2, "%i", data->return_v));
+		return (ft_fprintf(fd_out, 2, "%i", r_value(0, 0)));
 	while ((cmd[i]) && cmd[i] != ' ' && cmd[i] != 34)
 	{
 		name[i] = cmd[i];
@@ -36,7 +36,7 @@ int	print_var(t_data *data, char *cmd, int i, int fd_out)
 	if (!var)
 		return (++i);
 	if (var->alive)
-		ft_fprintf(fd_out, 0,"%s", var->value);
+		ft_fprintf(fd_out, 0, "%s", var->value);
 	return (++i);
 }
 
