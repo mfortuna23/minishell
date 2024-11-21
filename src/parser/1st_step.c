@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:38:58 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/19 11:24:02 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/21 12:31:50 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*get_prompt(t_data *data)
 	char	*user;
 
 	getcwd(data->path, 256);
-	data->prompt = ft_strdup("\001\033[7;96m\002 MS \001\033[0m\002");
+	data->prompt = ft_strdup("\001\033[7;96m\002 Minishell \001\033[0m\002");
 	user = getenv("USER");
 	data->prompt = str_join(data->prompt, ft_strdup("\001\033[7;99m\002 @"));
 	data->prompt = str_join(data->prompt, ft_strdup(user));
@@ -70,6 +70,7 @@ void	data_init(t_data *data)
 int	get_cmd(t_data *data)
 {
 	data_init(data);
+	signal(SIGQUIT, SIG_IGN);
 	data->input = readline(get_prompt(data));
 	while (input_user(data) >= 0)
 	{

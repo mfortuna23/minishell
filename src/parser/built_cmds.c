@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_cmds.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 10:42:34 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/20 22:43:13 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/21 17:35:53 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,17 +50,29 @@ int	ft_redirect(t_data *data, t_cmd *current, int y, int x)
 
 int	ft_cmd_args(t_data *data, t_cmd *node, int y, int x)
 {
-	int	count;
-	int	i;
+	int		count;
+	t_env	*var;
 
-	i = y;
-	while ((data->tokens[i]) && (check_chars(data->tokens[i][x]) == 0))
-		i++;
-	count = i - y;
+	var = NULL;
+	data->i = y;
+	while ((data->tokens[data->i]) && (check_chars(data->tokens[data->i][x]) == 0))
+		data->i++;
+	count = data->i - y;
 	node->cmd = malloc((count + 1) * sizeof(char *));
-	i = 0;
+	data->i = 0;
 	while ((data->tokens[y]) && check_chars(data->tokens[y][x]) == 0)
-		node->cmd[i++] = ft_strdup(data->tokens[y++]);
-	node->cmd[i] = 0;
+	{
+		if (data->tokens[y][0] == '$')
+		{
+			var = find_var(data, data->tokens[y] + 1);
+			if (var)
+			{
+				node->cmd[data->i++] = ft_strdup(var->value);
+				y++;
+			}
+		}
+		node->cmd[data->i++] = ft_strdup(data->tokens[y++]);
+	}
+	node->cmd[data->i] = 0;
 	return (y);
 }

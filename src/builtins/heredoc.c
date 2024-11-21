@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 13:24:59 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/20 22:27:28 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/21 17:27:02 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,13 @@ int	get_heredoc(t_data *data, t_cmd *cmd, char *name, bool exp)
 	buffer_hd = NULL;
 	buffer_hd = ft_calloc(1, sizeof(char));
 	set_heredoc_signals();
-	rl_done = 0;
 	while (1)
 	{
-		if (rl_done == 1)
-			break ;
+		if (ft_heredoc_sig(-1))
+			return (hd_errors(data, buffer_hd, 2));
 		input = readline("heredoc> ");
 		if (!input)
-			return (hd_errors(buffer_hd, 1));
+			return (hd_errors(data, buffer_hd, 1));
 		if (ft_strncmp(input, name, ft_strlen(name) + 1) == 0)
 			break ;
 		data->i = 0;
@@ -77,6 +76,7 @@ int	get_heredoc(t_data *data, t_cmd *cmd, char *name, bool exp)
 		free(input);
 	create_file(cmd, buffer_hd);
 	free(buffer_hd);
+	set_up_sigaction();
 	return (0);
 }
 
@@ -94,6 +94,7 @@ int	here_doc(t_data *data, t_cmd *cmd, bool exp, int y)
 	else
 		here_doc = ft_substr(cmd->infile, 0, ft_strlen(cmd->infile));
 	data->check = get_heredoc(data, cmd, here_doc, exp);
+	ft_heredoc_sig(-2);
 	free(here_doc);
 	return (2);
 }
