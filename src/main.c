@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:36:53 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/20 21:44:54 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/21 12:24:09 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,34 @@
 
 void	sigint_handler(int signal)
 {
-	(void)signal;
-	printf("\n");
-	rl_on_new_line();
-	rl_replace_line("", 0);
-	rl_redisplay();
+	if (signal == SIGINT)
+	{
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+	}
+}
+
+
+void	set_up_sigaction(void)
+{
+	struct sigaction	sa;
+
+	sigemptyset(&sa.sa_mask);
+	sa.sa_handler = sigint_handler;
+	sa.sa_flags = SA_RESTART;
+	sigaction(SIGINT, &sa, NULL);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGTERM, SIG_IGN);
 }
 
 int	main(int argc, char **argv, char **env)
 {
 	t_data				data;
-	struct sigaction 	sa;
 
-    sa.sa_handler = sigint_handler;
-    sa.sa_flags = SA_RESTART; // Restart system calls if interrupted
-    sigaction(SIGINT, &sa, NULL);
 	data.env = env;
-	signal(SIGINT, &sigint_handler);
-	signal(SIGQUIT, SIG_IGN);
+	set_up_sigaction();
 	get_cmd(&data);
 	(void)argc;
 	(void)argv;

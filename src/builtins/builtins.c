@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:22:58 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/20 11:33:11 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/21 18:21:38 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int	ft_unset(t_data	*data)
 		return (1);
 	if (!data->cmd->cmd[1])
 		return (1);
-	data->return_v = 0;
 	node = find_var(data, data->cmd->cmd[1]);
 	node->alive = false;
 	return (0);
@@ -64,12 +63,22 @@ int	ft_env(t_data *data)
 
 int	export_or_unset(t_data *data, t_cmd *cmd)
 {
+	int		exc;
+
+	exc = 0;
 	if (!cmd->cmd)
 		return (2);
 	if (ft_strncmp(cmd->cmd[0], "unset\0", 6) == 0)
 		return (ft_unset(data));
 	else if (ft_strncmp(cmd->cmd[0], "export\0", 7) == 0)
-		return (ft_export(data));
+	{
+		exc = ft_export(data);
+		if (exc == 3)
+			return (2);
+		if (exc == 1)
+			data->return_v = 1;
+		return (0);
+	}
 	return (2);
 }
 
@@ -89,8 +98,8 @@ int	check_for_built(t_data *data, t_cmd	*cmd)
 	else if (ft_strncmp(cmd->cmd[0], "unset\0", 6) == 0)
 		return (1);
 	else if (ft_strncmp(cmd->cmd[0], "export\0", 7) == 0)
-		return (0);
+		return (export_no_args(data, cmd, 0, count_vars(data)));
 	else if (ft_strncmp(cmd->cmd[0], "exit\0", 5) == 0)
-		return (0);
+		return (1);
 	return (2);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:27:08 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/20 23:10:06 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/21 17:27:31 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,11 @@ int	token_error(t_data *data, char *arr)
 	data->n_tokens = token_count(data->parser, 0, 0, 0);
 	data->tokens = ft_calloc((data->n_tokens + 1), sizeof(char*));
 	split_tokens(data, 0, 0, 0);
-	if (check_not_req(data) == 1)
+	if (check_not_req(data) == 1 || data->tokens[0][0] == '$')
 	{
 		free(data->parser);
 		ft_freearr(data->tokens);
+		data->check = 1;
 		return (1);
 	}
 	return (0);
@@ -114,6 +115,7 @@ int	ft_strtok(t_data *data, int j, char c)
 int	input_user(t_data *data)
 {
 	data->check = 0;
+	data->n_cmd = 0;
 	if (!data->input)
 	{
 		data->check = 1;
@@ -133,7 +135,6 @@ int	input_user(t_data *data)
 		return (-1);
 	if (export_or_unset(data, data->cmd) == 0)
 		data->check = 1;
-	//print_cmds(data);
 	return (0);
 }
 /* 
@@ -165,4 +166,5 @@ void print_cmds(t_data *data)
 		i = 0;
 		current = current->next;
 	}
-} */
+}
+ */

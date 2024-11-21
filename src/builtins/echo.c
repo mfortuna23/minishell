@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 02:40:57 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/20 22:51:57 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/21 17:18:08 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@ int	print_var(t_data *data, char *cmd, int i, int fd_out)
 
 	var = NULL;
 	ft_memset(name, 0, 1024);
+	if (cmd[i] == 0)
+		return (ft_fprintf(fd_out, 1, "%c",'$'));
+	if (cmd[i] == '$')
+		return (ft_fprintf(fd_out, 2, "%i", 365166));
 	if (cmd[i] == '?')
 		return (ft_fprintf(fd_out, 2, "%i", data->return_v));
 	while ((cmd[i]) && cmd[i] != ' ' && cmd[i] != 34)
@@ -66,6 +70,8 @@ int	ft_echo(t_data *data, t_cmd *cmd, int x)
 
 	ft_memset(var, 0, 1024);
 	new_line = true;
+	if (!cmd->cmd[x])
+		return (0);
 	if (ft_strncmp(cmd->cmd[x], "-n", 2) == 0)
 	{
 		new_line = false;
