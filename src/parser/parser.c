@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:27:08 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/18 13:36:54 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/21 20:29:23 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,28 @@
 
 void	print_cmds(t_data *data);
 
+int	parasing_error(t_data *data, int pipe)
+{
+	if (pipe == 1)
+		ft_fprintf(2, 1, "parser error near '|' \n");
+	data->check = 1;
+	r_value(158, 1);
+	return (1);
+}
+
 int	parsing(t_data *data, int y, int x)
 {
 	t_cmd	*node;
 
 	node = data->cmd;
-	while (data->tokens[y])
+	while (data->tokens[y] != NULL)
 	{
 		if (data->tokens[y][x] == '<' || data->tokens[y][x] == '>')
 			y += ft_redirect(data, node, y, 0);
 		else if (data->tokens[y][x] == '|')
 		{
 			if (y == 0 || data->tokens[y][1] == '|')
-				return (ft_fprintf(2, 1, "parser error near '|' \n"));
+				return (parasing_error(data, 1));
 			add_last(&data->cmd);
 			node->pipe = true;
 			node = node->next;
@@ -36,8 +45,10 @@ int	parsing(t_data *data, int y, int x)
 		else
 			y = ft_cmd_args(data, node, y, 0);
 		if (y < 0)
-			return (1);
+			return (parasing_error(data, 0));
 	}
+	if (!node->cmd)
+		data->check = 1;
 	return (0);
 }
 
@@ -48,10 +59,11 @@ int	token_error(t_data *data, char *arr)
 	data->n_tokens = token_count(data->parser, 0, 0, 0);
 	data->tokens = ft_calloc((data->n_tokens + 1), sizeof(char*));
 	split_tokens(data, 0, 0, 0);
-	if (check_not_req(data) == 1)
+	if (check_not_req(data) == 1 || data->tokens[0][0] == '$')
 	{
 		free(data->parser);
 		ft_freearr(data->tokens);
+		data->check = 1;
 		return (1);
 	}
 	return (0);
@@ -59,8 +71,13 @@ int	token_error(t_data *data, char *arr)
 
 int	sep_char(char *arr, t_data *data, int j)
 {
+	char	c;
+
+	c = data->input[data->i];
 	arr[j++] = ' ';
 	arr[j++] = data->input[data->i++];
+	while (c == data->input[data->i])
+		arr[j++] = data->input[data->i++];
 	arr[j++] = ' ';
 	return (j);
 }
@@ -98,8 +115,12 @@ int	ft_strtok(t_data *data, int j, char c)
 int	input_user(t_data *data)
 {
 	data->check = 0;
+	data->n_cmd = 0;
 	if (!data->input)
+	{
+		data->check = 1;
 		return (-1);
+	}
 	if (get_fullinput(data) == 1)
 		return (1);
 	add_history(data->input);
@@ -114,7 +135,6 @@ int	input_user(t_data *data)
 		return (-1);
 	if (export_or_unset(data, data->cmd) == 0)
 		data->check = 1;
-	// print_cmds(data);
 	return (0);
 }
 /* 
@@ -146,4 +166,5 @@ void print_cmds(t_data *data)
 		i = 0;
 		current = current->next;
 	}
-} */
+}
+ */

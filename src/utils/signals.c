@@ -1,43 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   struct_env.c                                       :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/25 09:19:49 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/21 15:15:00 by mfortuna         ###   ########.fr       */
+/*   Created: 2024/11/20 14:26:10 by mfortuna          #+#    #+#             */
+/*   Updated: 2024/11/20 14:29:58 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-t_env	*create_env_node(void)
+void sig_hd(int sig)
 {
-	t_env	*env;
-
-	env = NULL;
-	env = malloc(sizeof(t_env));
-	env->full = NULL;
-	env->name = NULL;
-	env->value = NULL;
-	env->alive = true;
-	env->next = NULL;
-	env->w = false;
-	return (env);
-}
-void	add_last_env(t_env **head)
-{
-	t_env	*last;
-
-	last = NULL;
-	if ((*head) == NULL)
+	if (sig == SIGINT)
 	{
-		(*head) = create_env_node();
-		return ;
+		
 	}
-	last = (*head);
-	while(last->next != NULL)
-		last = last->next;
-	last->next = create_env_node();
+	return ;
+}
+
+void sig_reset(int sig)
+{
+	signal(SIGINT, SIG_DFT);
+	signal(SIGQUIT, SIG_DFT);
 }

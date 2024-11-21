@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 11:34:51 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/10/29 12:15:39 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/21 14:36:19 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ t_env	*find_var(t_data *data, char *name)
 	t_env	*node;
 
 	node = data->var;
+	if (!name || name[0] == 0)
+		return (NULL);
 	while (node)
 	{
 		if (ft_strncmp(node->name, name, ft_strlen(name)) == 0)

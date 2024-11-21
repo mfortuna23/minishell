@@ -3,58 +3,81 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 13:24:59 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/18 23:49:54 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/21 17:27:02 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	create_file(t_cmd *cmd)
+char	*w_var_buffer(t_data *data, char *input, char *buffer_hd)
 {
-	int		i;
-	int		j;
+	t_env	*var;
 	char	name[256];
+	char	*tmp;
+	int		j;
 
-	i = 0;
-	j = 0;
 	ft_memset(name, 0, 256);
-	name[j++] = '.';
-	while (cmd->infile[i])
-	{
-		if (cmd->infile[i] == 34)
-			i++;
-		name[j++] = cmd->infile[i++];
-	}
-	free(cmd->infile);
-	cmd->infile = ft_strdup(name);
-	cmd->fd_in = open(cmd->infile, O_CREAT | O_RDWR | O_TRUNC, 0666);
+	data->i++;
+	tmp = NULL;
+	j = 0;
+	while ((input[data->i]) && input[data->i] != ' ')
+		name[j++] = input[data->i++];
+	var = find_var(data, name);
+	if (!var)
+		return (ft_strdup(""));
+	data->i = data->i + (ft_strlen(name) - 1);
+	tmp = str_join(buffer_hd, ft_strdup(var->value));
+	return (tmp);
 }
 
-void	here_doc_w(t_data *data, t_cmd *cmd, char *name, bool exp)
+char	*w_buffer_hd(t_data *data, char *input, char *buffer_hd, bool exp)
+{
+	char	*tmp;
+
+	tmp = NULL;
+	while (input[data->i])
+	{
+		if (exp && input[data->i] == '$')
+			buffer_hd = w_var_buffer(data, input, buffer_hd);
+		else
+			buffer_hd = str_join(buffer_hd, ft_substr(input, data->i, 1));
+		if (data->i > ft_strlen(input))
+			break ;
+		data->i++;
+	}
+	tmp = str_join(buffer_hd, ft_strdup("\n"));
+	return (tmp);
+}
+
+int	get_heredoc(t_data *data, t_cmd *cmd, char *name, bool exp)
 {
 	char	*input;
-	int		i;
+	char	*buffer_hd;
 
-	i = 0;
-	input = readline("heredoc> ");
-	while (ft_strncmp(input, name, ft_strlen(name) + 1))
+	buffer_hd = NULL;
+	buffer_hd = ft_calloc(1, sizeof(char));
+	set_heredoc_signals();
+	while (1)
 	{
-		while (input[i])
-		{
-			if (exp && input[i] == '$')
-				i = print_var(data, input, ++i);
-			else
-				ft_fprintf(cmd->fd_in, 0, "%c\n", input[i++]);
-		}
-		ft_fprintf(cmd->fd_in, 0, "\n");
-		free(input);
+		if (ft_heredoc_sig(-1))
+			return (hd_errors(data, buffer_hd, 2));
 		input = readline("heredoc> ");
-		i = 0;
+		if (!input)
+			return (hd_errors(data, buffer_hd, 1));
+		if (ft_strncmp(input, name, ft_strlen(name) + 1) == 0)
+			break ;
+		data->i = 0;
+		buffer_hd = w_buffer_hd(data, input, buffer_hd, exp);
 	}
-	free(input);
+	if (input)
+		free(input);
+	create_file(cmd, buffer_hd);
+	free(buffer_hd);
+	set_up_sigaction();
+	return (0);
 }
 
 int	here_doc(t_data *data, t_cmd *cmd, bool exp, int y)
@@ -62,8 +85,7 @@ int	here_doc(t_data *data, t_cmd *cmd, bool exp, int y)
 	char	*here_doc;
 
 	cmd->here_doc = true;
-	if (!data->tokens[++y])
-		return (-9857);
+	(void)y;
 	if (cmd->infile[0] == 34 || cmd->infile[0] == 39)
 	{
 		exp = false;
@@ -71,9 +93,8 @@ int	here_doc(t_data *data, t_cmd *cmd, bool exp, int y)
 	}
 	else
 		here_doc = ft_substr(cmd->infile, 0, ft_strlen(cmd->infile));
-	create_file(cmd);
-	here_doc_w(data, cmd, here_doc, exp);
+	data->check = get_heredoc(data, cmd, here_doc, exp);
+	ft_heredoc_sig(-2);
 	free(here_doc);
-	close(cmd->fd_out);
-	return (3);
+	return (2);
 }

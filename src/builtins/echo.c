@@ -3,24 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 02:40:57 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/15 16:00:35 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/21 20:23:46 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	print_var(t_data *data, char *cmd, int i)
+int	print_var(t_data *data, char *cmd, int i, int fd_out)
 {
 	t_env	*var;
 	char	name[1024];
 
 	var = NULL;
 	ft_memset(name, 0, 1024);
+	if (cmd[i] == 0)
+		return (ft_fprintf(fd_out, 1, "%c",'$'));
+	if (cmd[i] == '$')
+		return (ft_fprintf(fd_out, 2, "%i", 365166));
 	if (cmd[i] == '?')
-		return (ft_fprintf(1, 1, "%i", data->return_v));
+		return (ft_fprintf(fd_out, 2, "%i", r_value(0, 0)));
 	while ((cmd[i]) && cmd[i] != ' ' && cmd[i] != 34)
 	{
 		name[i] = cmd[i];
@@ -32,11 +36,11 @@ int	print_var(t_data *data, char *cmd, int i)
 	if (!var)
 		return (++i);
 	if (var->alive)
-		ft_printf("%s", var->value);
+		ft_fprintf(fd_out, 0, "%s", var->value);
 	return (++i);
 }
 
-void	print_echo(t_data *data, char *cmd, int i)
+void	print_echo(t_data *data, char *cmd, int i, int fd_out)
 {
 	char	c;
 
@@ -52,13 +56,13 @@ void	print_echo(t_data *data, char *cmd, int i)
 		if (cmd[i] == 34)
 			i++;
 		if (cmd[i] == '$')
-			i = i + print_var(data, (cmd + i + 1), 0);
+			i = i + print_var(data, (cmd + i + 1), 0, fd_out);
 		else
-			ft_printf("%c", cmd[i++]);
+			ft_fprintf(fd_out, 0,"%c", cmd[i++]);
 	}
 }
 
-int	ft_echo(t_data *data, char **cmd, int x)
+int	ft_echo(t_data *data, t_cmd *cmd, int x)
 {
 	bool	new_line;
     char	var[1024];
@@ -66,16 +70,18 @@ int	ft_echo(t_data *data, char **cmd, int x)
 
 	ft_memset(var, 0, 1024);
 	new_line = true;
-	if (ft_strncmp(cmd[x], "-n", 2) == 0)
+	if (!cmd->cmd[x])
+		return (0);
+	if (ft_strncmp(cmd->cmd[x], "-n", 2) == 0)
 	{
 		new_line = false;
 		x++;
 	}
-	while (cmd[x])
+	while (cmd->cmd[x])
 	{
-		c = cmd[x][0];
-		print_echo(data, cmd[x], 0);
-		if (c != 34 && cmd[x][0] != 0)
+		c = cmd->cmd[x][0];
+		print_echo(data, cmd->cmd[x], 0, cmd->fd_out);
+		if (c != 34 && cmd->cmd[x][0] != 0)
 			ft_printf("%c", 32);
 		x++;
 	}

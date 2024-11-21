@@ -6,7 +6,7 @@
 /*   By: tbezerra <tbezerra@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:26:18 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/21 22:02:21 by tbezerra         ###   ########.fr       */
+/*   Updated: 2024/11/21 22:13:33 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,10 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <sys/stat.h>
+# include <sys/ioctl.h>
 # include <dirent.h>
+# include <signal.h>
+# include <stdlib.h>
 
 typedef struct s_data
 {
@@ -32,6 +35,7 @@ typedef struct s_data
 	int				n_tokens;
 	int				return_v;
 	int				check;
+	int 			check;
 	int				i;
 	int				n_cmd;
 	int				**pipe_n;
@@ -45,6 +49,7 @@ typedef struct s_env
 	char			*name;
 	char			*value;
 	bool			alive; // verifica se foram apagadas
+	bool			w;
 	struct s_env	*next;
 }		t_env;
 
@@ -93,6 +98,7 @@ int		token_count(char *s, int i, int count, char c);
 void	less_space(t_data *data, char *arr, int i, int count);
 int		check_chars(char c);
 int		check_not_req(t_data *data);
+int		parasing_error(t_data *data, int pipe);
 
 /****************************/
 /*		STRUCT_CMDS.C		*/
@@ -167,6 +173,8 @@ int		ft_fprintf(int fd, int r_value, const char *s, ...);
 void	ms_bomb(t_data *data, int check);
 char	*str_join(char *s1, char *s2);
 int		ft_atoi_base(const char *nptr);
+int		r_value(int value, int type);
+int		data_check(t_data *data,int check, int r_value);
 
 /****************************/
 /*			BUITINS			*/
@@ -174,11 +182,19 @@ int		ft_atoi_base(const char *nptr);
 
 int		check_for_built(t_data *data, t_cmd	*cmd);
 int		export_or_unset(t_data *data, t_cmd *cmd);
-int		ft_echo(t_data *data, char **cmd, int x);
+int		ft_echo(t_data *data, t_cmd *cmd, int x);
 int		ft_export(t_data *data);
 int		ft_cd(t_data *data);
 int		here_doc(t_data *data, t_cmd *cmd, bool exp, int y);
-int		print_var(t_data *data, char *cmd, int i);
+int		hd_errors(t_data *data, char *buffer_hd, int error);
+void	create_file(t_cmd *cmd, char *buffer);
+int		print_var(t_data *data, char *cmd, int i, int fd_out);
 int 	ft_exit(t_data *data, int i);
-
+void	set_heredoc_signals(void);
+int		ft_heredoc_sig(int sig);
+void	sigint_handler(int signal);
+void	set_up_sigaction(void);
+void	print_cmds(t_data *data);
+int 	count_vars(t_data *data);
+int		export_no_args(t_data *data, t_cmd *cmd, int count, int n_vars);
 #endif
