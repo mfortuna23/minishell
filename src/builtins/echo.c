@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 02:40:57 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/20 11:35:13 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/20 22:51:57 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	print_var(t_data *data, char *cmd, int i, int fd_out)
 	var = NULL;
 	ft_memset(name, 0, 1024);
 	if (cmd[i] == '?')
-		return (ft_fprintf(fd_out, 1, "%i", data->return_v));
+		return (ft_fprintf(fd_out, 2, "%i", data->return_v));
 	while ((cmd[i]) && cmd[i] != ' ' && cmd[i] != 34)
 	{
 		name[i] = cmd[i];

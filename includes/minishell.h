@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:26:18 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/20 11:54:43 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/20 23:08:35 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <dirent.h>
+# include <signal.h>
+# include <stdlib.h>
 
 typedef struct s_data
 {
@@ -90,6 +92,7 @@ int		token_count(char *s, int i, int count, char c);
 void	less_space(t_data *data, char *arr, int i, int count);
 int		check_chars(char c);
 int		check_not_req(t_data *data);
+int		parasing_error(t_data *data, int pipe);
 
 /****************************/
 /*		STRUCT_CMDS.C		*/
@@ -152,7 +155,11 @@ int		ft_echo(t_data *data, t_cmd *cmd, int x);
 int		ft_export(t_data *data);
 int		ft_cd(t_data *data);
 int		here_doc(t_data *data, t_cmd *cmd, bool exp, int y);
+int		hd_errors(char *buffer_hd, int error);
+void	create_file(t_cmd *cmd, char *buffer);
 int		print_var(t_data *data, char *cmd, int i, int fd_out);
 int 	ft_exit(t_data *data, int i);
+void	set_heredoc_signals(void);
+void	sigint_handler(int signal);
 
 #endif
