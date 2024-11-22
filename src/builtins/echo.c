@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 02:40:57 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/21 20:23:46 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/22 11:25:24 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,6 @@ int	print_var(t_data *data, char *cmd, int i, int fd_out)
 	ft_memset(name, 0, 1024);
 	if (cmd[i] == 0)
 		return (ft_fprintf(fd_out, 1, "%c",'$'));
-	if (cmd[i] == '$')
-		return (ft_fprintf(fd_out, 2, "%i", 365166));
 	if (cmd[i] == '?')
 		return (ft_fprintf(fd_out, 2, "%i", r_value(0, 0)));
 	while ((cmd[i]) && cmd[i] != ' ' && cmd[i] != 34)
@@ -34,7 +32,7 @@ int	print_var(t_data *data, char *cmd, int i, int fd_out)
 		i++;
 	var = find_var(data, name);
 	if (!var)
-		return (++i);
+		return (i);
 	if (var->alive)
 		ft_fprintf(fd_out, 0, "%s", var->value);
 	return (++i);
@@ -56,7 +54,7 @@ void	print_echo(t_data *data, char *cmd, int i, int fd_out)
 		if (cmd[i] == 34)
 			i++;
 		if (cmd[i] == '$')
-			i = i + print_var(data, (cmd + i + 1), 0, fd_out);
+			i = print_var(data, cmd, i + 1, fd_out);
 		else
 			ft_fprintf(fd_out, 0,"%c", cmd[i++]);
 	}

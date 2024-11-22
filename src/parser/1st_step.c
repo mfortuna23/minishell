@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:38:58 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/21 20:29:35 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/22 09:31:40 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	get_cmd(t_data *data)
 			else
 			{
 				set_path(data);
-				r_value(ft_execute(data), 1);
+				r_value(ft_execute(data, data->cmd), 1);
 			}
 		}
 		if (data->cmd)

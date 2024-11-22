@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 11:35:17 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/21 21:59:59 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/22 10:56:02 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void r_exit(t_data *data)
 {
 	int	value;
 
-	value = ft_atoi_base(data->cmd->cmd[1]);
+	value = ft_atoi(data->cmd->cmd[1]);
 	while (value < 0)
 		value += 256;
 	while (value >= 256)
