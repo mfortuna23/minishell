@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbezerra <tbezerra@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 11:14:25 by tbezerra          #+#    #+#             */
-/*   Updated: 2024/11/21 23:17:47 by tbezerra         ###   ########.fr       */
+/*   Updated: 2024/11/22 14:06:05 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	close_all_pipes(t_data *data)
 	i = 0;
 	while (i < data->n_cmd - 1)
 	{
+		//printf("Pipe[%d][0]: %d\n", i, data->pipe_n[i][0]);
 		close(data->pipe_n[i][0]);
 		close(data->pipe_n[i][1]);
 		i++;
@@ -58,8 +59,7 @@ void	exec_last_command(t_data *data)
 			perror("dup2");
 			exit(EXIT_FAILURE);
 		}
-		close(data->pipe_n[data->n_cmd - 2][0]);
-		close(data->pipe_n[data->n_cmd - 2][1]);
+		close_all_pipes(data);
 		ft_execve(data, current);
 		exit(EXIT_FAILURE); // Se ft_execve falhar
 	}

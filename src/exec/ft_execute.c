@@ -6,18 +6,20 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:34:48 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/20 10:53:33 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/22 15:25:43 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include <dirent.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 
 int	ft_exec_pipe(t_data *data);
 
-/*void list_open_fds(void)
+void list_open_fds(void)
 {
     DIR *dir;
     struct dirent *entry;
@@ -44,31 +46,24 @@ int	ft_exec_pipe(t_data *data);
 
 void close_open_fds(void)
 {
-	DIR *dir;
-	struct dirent *entry;
-	char path[256];
-	int fd;
-	const char *pid_str;
+    DIR *dir;
+    struct dirent *entry;
+    char path[256];
+    int fd;
+    pid_t pid;
 
-	// Obtém o PID do processo atual a partir da variável de ambiente "_PID"
-	pid_str = getenv("_PID");
-	if (pid_str == NULL)
-	{
-		perror("getenv");
-		return;
-	}
+    // Obtém o PID do processo atual
+    pid = getpid();
 
     // Constrói o caminho para o diretório de descritores de arquivo do processo atual
-	strcpy(path, "/proc/");
-	strcat(path, pid_str);
-	strcat(path, "/fd");
+    snprintf(path, sizeof(path), "/proc/%d/fd", pid);
 
-	dir = opendir(path);
-	if (dir == NULL)
-	{
-		perror("opendir");
-		return;
-	}
+    dir = opendir(path);
+    if (dir == NULL)
+    {
+        perror("opendir");
+        return;
+    }
 
 	while ((entry = readdir(dir)) != NULL)
 	{
@@ -91,6 +86,8 @@ void	ft_execve(t_data *data, t_cmd *cmd)
 
 	//set_path(data);
 	pid = fork();
+	printf("Path: %s\n", cmd->path);
+	printf("Cmd: %s\n", cmd->cmd[0]);
 	if (pid < 0)
 		return (perror("fork"));
 	else if (pid == 0)
@@ -106,7 +103,15 @@ void	ft_execve(t_data *data, t_cmd *cmd)
 			exit (127);
 		}
 		else
-			execve(cmd->path, cmd->cmd, NULL);
+		{
+			if (strstr(cmd->path, ".sh") != NULL)
+            {
+                //char *args[] = {"/bin/bash", cmd->path, NULL};
+                execve("/bin/bash", cmd->cmd, NULL);
+            }
+			else
+				execve(cmd->path, cmd->cmd, NULL);
+		}
 		ms_bomb(data, 0);
 		exit(0);
 	}
@@ -177,6 +182,23 @@ int	ft_exec_pipe(t_data *data)
 	free_pipe_n(data);
 }*/
 
+void	free_pipe_n(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	if (data->pipe_n)
+	{
+		while (i < data->n_cmd - 1)
+		{
+			if (data->pipe_n[i])
+				free(data->pipe_n[i]);
+			i++;
+		}
+		free(data->pipe_n);
+	}
+}
+
 int	ft_execute(t_data *data)
 {
 	//int	cmd_idx;
@@ -192,7 +214,11 @@ int	ft_execute(t_data *data)
 		return (0);
 	if (ft_exec_pipe(data) == 0 )
 		return (0);
-	//print_pipe_n(data);
+	//list_open_fds();
+	//close_open_fds();
+	close_all_pipes(data);
+	//list_open_fds();
+	free_pipe_n(data);
 	data->n_cmd = 1;
 	//ms_bomb(data, 1);
 	/*if (ft_exec_first(data) == 0)
