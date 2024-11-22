@@ -392,11 +392,10 @@ int	ft_exec_pipe(t_data *data)
 	return (1);
 }*/
 
-int	ft_execute(t_data *data, t_cmd *cmd)
+int	ft_execute(t_data *data)
 {
 	//int	cmd_idx;
 
-	(void)cmd;
 	//ft_fork_sigset();
 	init_redic(data);
 	if (data->n_cmd == 1)

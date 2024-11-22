@@ -115,7 +115,7 @@ int	ft_strtok(t_data *data, int j, char c)
 int	input_user(t_data *data)
 {
 	data->check = 0;
-	data->n_cmd = 0;
+	data->n_cmd = 1;
 	if (!data->input)
 	{
 		data->check = 1;

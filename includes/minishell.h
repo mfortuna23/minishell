@@ -35,7 +35,6 @@ typedef struct s_data
 	int				n_tokens;
 	int				return_v;
 	int				check;
-	int 			check;
 	int				i;
 	int				n_cmd;
 	int				**pipe_n;
@@ -140,7 +139,7 @@ void	set_path(t_data *data);
 
 void	clear_exit(t_data *data, int status);
 void	ft_fork_exit(t_data *data);
-int		ft_execute(t_data *data, t_cmd *cmd);
+int		ft_execute(t_data *data);
 void	ft_execve(t_data *data, t_cmd *cmd);
 
 /****************************/

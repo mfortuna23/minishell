@@ -6,7 +6,7 @@
 /*   By: tbezerra <tbezerra@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 11:14:25 by tbezerra          #+#    #+#             */
-/*   Updated: 2024/11/21 22:02:12 by tbezerra         ###   ########.fr       */
+/*   Updated: 2024/11/21 23:17:47 by tbezerra         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,12 @@ void	exec_intermediate_commands(t_data *data)
 			close(data->pipe_n[i][1]);
 			ft_execve(data, current);
 			exit(EXIT_FAILURE); // Se ft_execve falhar
-	}
+		}
+		else
+		{
+			close(data->pipe_n[i - 1][0]);
+			close(data->pipe_n[i - 1][1]);
+		}
 		current = current->next;
 		i++;
 	}
