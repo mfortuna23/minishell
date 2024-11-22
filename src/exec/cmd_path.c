@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 15:20:51 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/14 11:39:26 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/22 15:24:07 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,11 +91,16 @@ char	*find_path(t_data *data, char *command)
 	path_command = NULL;
 	if (!command || !*command)
 		return (NULL);
-	if (command[0] == '/' || (ft_strncmp(command, "./", 2) == 0))
+	/*if (command[0] == '/' || (ft_strncmp(command, "./", 2) == 0))
 		path_command = ft_strdup(command);
 	else if (ft_strnstr(command, ".sh", ft_strlen(command))
 		&& ft_strchr(command, '/'))
-		path_command = ft_strdup(command);
+		path_command = ft_strdup(command);*/
+	if (command[0] == '/' || (ft_strncmp(command, "./", 2) == 0))
+		path_command = "/bin/bash";
+	else if (ft_strnstr(command, ".sh", ft_strlen(command))
+		&& ft_strchr(command, '/'))
+		path_command = "/bin/bash";
 	else
 		path_command = relative_path(data, command);
 	return (path_command);

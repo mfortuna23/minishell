@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 11:01:03 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/21 20:36:18 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/22 11:47:35 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void	ms_bomb(t_data *data, int check)
 {
 	if (data->cmd)
 		delete_cmds(data);
+	if(data->pipe_n) 
+		free_pipe_n(data);
 	free(data->prompt);
 	free(data->path);
 	if (check == 1)

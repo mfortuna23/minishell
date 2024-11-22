@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   1st_step.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:38:58 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/21 20:29:35 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/22 11:40:10 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	data_init(t_data *data)
 	data->cmd = NULL;
 	data->n_tokens = 0;
 	data->var = NULL;
+	data->pipe_n = NULL;
 	data->i = 0;
 	data->check = 0;
 	data->n_cmd = 1;

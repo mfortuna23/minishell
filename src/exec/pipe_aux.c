@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe_aux.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbezerra <tbezerra@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 11:14:25 by tbezerra          #+#    #+#             */
-/*   Updated: 2024/11/21 22:05:29 by tbezerra         ###   ########.fr       */
+/*   Updated: 2024/11/22 12:00:13 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,14 @@ int	ft_init_pipe(t_data *data)
 
 	n_pipes = data->n_cmd - 1;
 	i = 0;
-	data->pipe_n = ft_calloc(n_pipes, sizeof(int *));
+	data->pipe_n = malloc(n_pipes * sizeof(int *));
+	if (!data->pipe_n)
+		return (0);
 	while (i < n_pipes)
 	{
-		data->pipe_n[i] = ft_calloc(2, sizeof(int));
+		data->pipe_n[i] = malloc(2 * sizeof(int));
+		if (!data->pipe_n[i])
+			return (0);
 		if (pipe(data->pipe_n[i]) == -1)
 			return (0);
 		i++;

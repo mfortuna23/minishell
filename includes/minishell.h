@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbezerra <tbezerra@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:26:18 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/21 22:13:33 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/22 11:45:05 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,7 @@ void	close_all_pipes(t_data *data);
 void	exec_last_command(t_data *data);
 void	exec_intermediate_commands(t_data *data);
 void	exec_first_command(t_data *data);
+void	free_pipe_n(t_data *data);
 
 /****************************/
 /*			Redic			*/
