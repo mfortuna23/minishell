@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 20:13:10 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/21 20:30:22 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/22 16:52:07 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ void	create_file(t_cmd *cmd, char *buffer)
 	free(cmd->infile);
 	cmd->infile = ft_strdup(name);
 	cmd->fd_in = open(cmd->infile, O_CREAT | O_RDWR | O_TRUNC, 0666);
-	ft_fprintf(cmd->fd_in, 0, "%s", buffer);
 	printf("%s", buffer);
 	close(cmd->fd_in);
 }

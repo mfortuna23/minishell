@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:22:58 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/22 14:13:10 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/22 16:56:44 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,13 @@ int	ft_unset(t_data	*data)
 	if (node == data->var)
 	{
 		data->var = node->next;
-		free(node);
+		free_env(node);
 		return (0);
 	}
 	while (tmp->next != node)
 		tmp = tmp->next;
 	tmp->next = node->next;
-	free(node);
+	free_env(node);
 	return (0);
 }
 
