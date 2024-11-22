@@ -98,7 +98,12 @@ void	exec_intermediate_commands(t_data *data)
 			close(data->pipe_n[i][1]);
 			ft_execve(data, current);
 			exit(EXIT_FAILURE); // Se ft_execve falhar
-	}
+		}
+		else
+		{
+			close(data->pipe_n[i - 1][0]);
+			close(data->pipe_n[i - 1][1]);
+		}
 		current = current->next;
 		i++;
 	}
