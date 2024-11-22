@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   1st_step.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:38:58 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/21 12:31:50 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/22 14:48:56 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ void	data_init(t_data *data)
 	data->path = ft_calloc(256, sizeof(char));
 	data->cmd = NULL;
 	data->n_tokens = 0;
-	data->return_v = 0;
 	data->var = NULL;
 	data->i = 0;
 	data->check = 0;
@@ -70,6 +69,7 @@ void	data_init(t_data *data)
 int	get_cmd(t_data *data)
 {
 	data_init(data);
+	r_value(0, 1);
 	signal(SIGQUIT, SIG_IGN);
 	data->input = readline(get_prompt(data));
 	while (input_user(data) >= 0)
@@ -81,7 +81,7 @@ int	get_cmd(t_data *data)
 			else
 			{
 				set_path(data);
-				data->return_v = ft_execute(data);
+				r_value(ft_execute(data, data->cmd), 1);
 			}
 		}
 		if (data->cmd)

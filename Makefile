@@ -6,7 +6,7 @@
 #    By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/21 11:05:07 by mfortuna          #+#    #+#              #
-#    Updated: 2024/11/20 21:58:54 by mfortuna         ###   ########.fr        #
+#    Updated: 2024/11/21 22:07:05 by mfortuna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ LIBFT_PATH		= $(INCLUDES)libft/
 NAMELIB			= $(INCLUDES)libft/libft.a
 INCLUDES		= includes/
 SRC_M			= src/
-EXEC			= $(addprefix $(SRC_M)exec/, cmd_path.c ft_execute.c)
+EXEC			= $(addprefix $(SRC_M)exec/, cmd_path.c ft_execute.c free_aux.c redir.c pipe.c path_aux.c pipe_aux.c)
 PARSER			= $(addprefix $(SRC_M)parser/, parser.c parser_utils.c 1st_step.c built_cmds.c full_input.c)
 STRUCT			= $(addprefix $(SRC_M)struct/, struct_cmds.c struct_env.c delete_env.c find_env.c)
 UTILS			= $(addprefix $(SRC_M)utils/, utils.c ft_fprintf.c)
@@ -49,7 +49,6 @@ $(NAMELIB) : $(LIBFT_PATH)
 	$(MAKE) $(LIBFT_PATH)
 
 $(ODIR)/%.o: $(SRC_M)/%.c | $(ODIR)
-	@echo "Compiling $< with $(CC) $(CFLAGS)"
 	mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -g -I . -c $< -o $@
 

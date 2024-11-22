@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 11:01:03 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/20 12:10:02 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/22 15:01:53 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,28 +46,45 @@ void	ms_bomb(t_data *data, int check)
 		del_lastenv(data);
 }
 
-int	ft_atoi_base(const char *nptr)
+//if type == 0 returns last return value
+int	r_value(int value, int type)
 {
-	int		i;
-	int		nbr;
-	int		sign;
+	static int	r_v;
 
-	i = 0;
-	nbr = 0;
-	sign = 1;
-	if (nptr[i] == '-' || nptr[i] == '+')
+	if (type == 0)
+		return (r_v);
+	r_v = value;
+	return (r_v);
+}
+
+void	change_var(t_env *var, char *name, char *value)
+{
+	free(var->full);
+	free(var->name);
+	free(var->value);
+	var->name = ft_strdup(name);
+	var->value = ft_strdup(value);
+	var->full = ft_strjoin(name, "=");
+	var->full = str_join(var->full, ft_strdup(var->value));
+}
+
+void	update_var(t_data *data)
+{
+	t_env	*pwd;
+	t_env	*old_pwd;
+
+	old_pwd = find_var(data, "OLDPWD");
+	pwd = find_var(data, "PWD");
+	if (!old_pwd && !pwd)
+		return ;
+	else if (!old_pwd)
 	{
-		if (nptr[i ++] == '-')
-			sign = sign * -1;
+		getcwd(data->path, 256);
+		return (change_var(pwd, "PWD", data->path));
 	}
-	while (nptr[i] != '\0')
-	{
-		while (nptr[i] == '0')
-			i++;
-		while (nptr[i] >= '0' && nptr[i] <= '9')
-			nbr = nbr * 10 + nptr[i ++] - '0';
-		if (nptr[i] < '0' || nptr[i] > '9')
-			return (nbr * sign);
-	}
-	return (nbr = 0);
+	else if (!pwd)
+		return (change_var(old_pwd, "PWD", data->path));
+	change_var(old_pwd, "OLDPWD", data->path);
+	getcwd(data->path, 256);
+	change_var(pwd, "PWD", data->path);
 }

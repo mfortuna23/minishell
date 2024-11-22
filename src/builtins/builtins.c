@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:22:58 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/21 18:21:38 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/22 14:13:10 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_cd(t_data *data)
 {
-	data->return_v = 0;
+	r_value(0, 1);
 	if (data->cmd->pipe)
 		return (0);
 	if (!data->tokens[1])
@@ -22,27 +22,42 @@ int	ft_cd(t_data *data)
 	if (chdir(data->tokens[1]) < 0)
 	{
 		if (access(data->tokens[1], X_OK) < 0)
-			data->return_v = ft_fprintf(2, 1, "bash: cd: %s"
-					": No such file or directory\n", data->tokens[1]);
+			r_value(ft_fprintf(2, 1, "bash: cd: %s: No such file"
+					" or directory\n", data->tokens[1]), 1);
 		else
-			data->return_v = ft_fprintf(2, 1, "bash: cd: %s"
-					": Not a directory\n", data->tokens[1]);
+			r_value(ft_fprintf(2, 1, "bash: cd: %s"
+					": Not a directory\n", data->tokens[1]), 1);
 	}
+	else
+		update_var(data);
 	return (1);
 }
 
 int	ft_unset(t_data	*data)
 {
 	t_env	*node;
+	t_env	*tmp;
 
 	node = NULL;
-	data->return_v = 0;
+	tmp = data->var;
+	r_value(0, 1);
 	if (data->cmd->pipe)
 		return (1);
 	if (!data->cmd->cmd[1])
 		return (1);
 	node = find_var(data, data->cmd->cmd[1]);
-	node->alive = false;
+	if (!node)
+		return (0);
+	if (node == data->var)
+	{
+		data->var = node->next;
+		free(node);
+		return (0);
+	}
+	while (tmp->next != node)
+		tmp = tmp->next;
+	tmp->next = node->next;
+	free(node);
 	return (0);
 }
 
@@ -51,7 +66,7 @@ int	ft_env(t_data *data)
 	t_env	*node;
 
 	node = data->var;
-	data->return_v = 0;
+	r_value(0, 1);
 	while (node)
 	{
 		if (node->alive)
@@ -76,7 +91,7 @@ int	export_or_unset(t_data *data, t_cmd *cmd)
 		if (exc == 3)
 			return (2);
 		if (exc == 1)
-			data->return_v = 1;
+			r_value(1, 1);
 		return (0);
 	}
 	return (2);

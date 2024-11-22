@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:27:08 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/21 17:27:31 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/22 11:12:37 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	parasing_error(t_data *data, int pipe)
 	if (pipe == 1)
 		ft_fprintf(2, 1, "parser error near '|' \n");
 	data->check = 1;
-	data->return_v = 258;
+	r_value(158, 1);
 	return (1);
 }
 
@@ -115,7 +115,7 @@ int	ft_strtok(t_data *data, int j, char c)
 int	input_user(t_data *data)
 {
 	data->check = 0;
-	data->n_cmd = 0;
+	data->n_cmd = 1;
 	if (!data->input)
 	{
 		data->check = 1;
@@ -129,6 +129,7 @@ int	input_user(t_data *data)
 	create_cmds(data);
 	if (parsing(data, 0, 0) == 1)
 		return (1);
+	// print_cmds(data);
 	if (data->cmd->cmd == NULL && !data->cmd->here_doc)
 		return (1);
 	if (ft_exit(data, 0) == 0)
@@ -137,7 +138,8 @@ int	input_user(t_data *data)
 		data->check = 1;
 	return (0);
 }
-/* 
+
+
 void print_cmds(t_data *data)
 {
 	t_cmd	*current;
@@ -167,4 +169,3 @@ void print_cmds(t_data *data)
 		current = current->next;
 	}
 }
- */
