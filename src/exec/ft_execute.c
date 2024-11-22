@@ -44,146 +44,46 @@ int	ft_exec_pipe(t_data *data);
 
 void close_open_fds(void)
 {
-    DIR *dir;
-    struct dirent *entry;
-    char path[256];
-    int fd;
+	DIR *dir;
+	struct dirent *entry;
+	char path[256];
+	int fd;
+	const char *pid_str;
 
-    sprintf(path, "/proc/%d/fd", getpid());
-    dir = opendir(path);
-    if (dir == NULL)
-    {
-        perror("opendir");
-        return;
-    }
-
-    while ((entry = readdir(dir)) != NULL)
-    {
-        if (entry->d_name[0] != '.')
-        {
-            fd = atoi(entry->d_name);
-            if (fd > 2) // Não fechar stdin (0), stdout (1) e stderr (2)
-            {
-                close(fd);
-                //printf("Closed FD: %d\n", fd);
-            }
-        }
-    }
-    closedir(dir);
-}
-
-int		ft_test(t_data *data, t_cmd *cmd)
-{
-	(void)data;
-	if (cmd->pipe)
-		printf("Flag pipe\n"); //run_pipe(data, data->cmd); //
-	else if (cmd->here_doc)
-		printf("Flag Here_doc\n");
-	else if (cmd->appen)
-		printf("Flag Appen\n");
-	else if (!cmd->pipe && !cmd->here_doc)
-		printf("Flag cmd\n");
-	ms_bomb(data, 0);
-	close_open_fds();
-	return (0);
-}
-
-void	run_pipe_child(t_data *data, t_cmd *cmd, int *fd, int i)
-{
-	(void)cmd;
-	if (i == 0)
+	// Obtém o PID do processo atual a partir da variável de ambiente "_PID"
+	pid_str = getenv("_PID");
+	if (pid_str == NULL)
 	{
-		dup2(fd[1], STDOUT_FILENO);
-		close(fd[0]);
-		close(fd[1]);
-		ft_test(data, cmd);
-		//printf("Data: %d, Cmd: %s\n", data->n_tokens, cmd->cmd[0]); //ft_execve(data, cmd); //ft_execute(data);
-		_exit(1);
-	}
-	else if (i == 1)
-	{
-		dup2(fd[0], STDIN_FILENO);
-		close(fd[0]);
-		close(fd[1]);
-		ft_test(data, cmd);
-		//printf("Data: %d, Cmd: %s\n", data->n_tokens, cmd->cmd[0]); //ft_execve(data, cmd); //ft_execute(data);
-		_exit(1);
-	}
-	ms_bomb	(data, 0);
-}
-
-void	ft_pipes2(t_data *data, t_cmd *cmd, int i)
-{
-	int		fd[i];
-	//int		status;
-	t_cmd	*current;
-
-	(void)cmd;
-	(void)data;
-	current = data->cmd;
-	while (current)
-	{
-		printf("Cmd: %s\n", current->cmd[0]);
-		fd[i] = '4';
-		printf("Fd: %d\n", fd[i]);
-		i--;
-		current = current->next;
+		perror("getenv");
+		return;
 	}
 
-}
+    // Constrói o caminho para o diretório de descritores de arquivo do processo atual
+	strcpy(path, "/proc/");
+	strcat(path, pid_str);
+	strcat(path, "/fd");
 
-void	run_pipe(t_data *data, t_cmd *cmd)// verificar quais são os cmd que estão entrando nessa função
-{
-	int		fd[2];
-	int		status;
-	int		pid1;
-	int		pid2;
-	t_cmd	*current;
-
-	(void)cmd;
-	current = data->cmd;
-	printf("Cmd: %s\n", current->cmd[0]);
-	//current->pipe = 0;
-	//printf("Pipe 1: %d\n", current->pipe);
-	if (pipe(fd) < 0)
-		return (perror("pipe"));
-	pid1 = fork();
-	if (pid1 < 0)
-		return (perror("fork"));
-	printf("Pipe 1: %d\n", current->pipe);
-	if (pid1 == 0)
+	dir = opendir(path);
+	if (dir == NULL)
 	{
-		run_pipe_child(data, current, fd, 0);
+		perror("opendir");
+		return;
 	}
-	current = current->next;
-	pid2 = fork();
-	printf("Pipe 2: %d\n", current->pipe);
-	if (pid2 < 0)
-		return (perror("fork"));
-	if (pid2 == 0 && current->pipe == 0)
-		run_pipe_child(data, current, fd, 1);
-	else if (pid2 == 0 && current->pipe == 1)
+
+	while ((entry = readdir(dir)) != NULL)
 	{
-		run_pipe_child(data, current, fd, 0);
+		if (entry->d_name[0] != '.')
+		{
+			fd = ft_atoi(entry->d_name);
+			if (fd > 2) // Não fechar stdin (0), stdout (1) e stderr (2)
+			{
+				close(fd);
+				//printf("Closed FD: %d\n", fd);
+			}
+		}
 	}
-	close(fd[0]);
-	close(fd[1]);
-	waitpid(pid1, &status, 0);
-	waitpid(pid2, &status, 0);
+	closedir(dir);
 }
-	//(void)data;
-	if (cmd->pipe)
-		ft_pipes2(data, data->cmd, 10); //printf("Flag pipe\n");
-	else if (cmd->here_doc)
-		printf("Flag Here_doc\n"); //ft_heredoc(current);
-	else if (cmd->appen)
-		printf("Flag append\n"); //ft_append(current);
-	else if (!cmd->pipe && !cmd->here_doc)
-		ft_execve(data, data->cmd); //printf("Flag cmd\n");
-
-	return (0);
-
-*/
 
 void	ft_execve(t_data *data, t_cmd *cmd)
 {
@@ -275,121 +175,6 @@ int	ft_exec_pipe(t_data *data)
 		i++;
 	}
 	free_pipe_n(data);
-}*/
-
-/*int	ft_exec_pipe(t_data *data)
-{
-    if (!data || !data->cmd)
-        return 0;
-
-    // Inicializa os pipes
-    if (ft_init_pipe(data) == 0)
-        return 0;
-
-	t_cmd *current = data->cmd;
-	int i = 0;
-
-	// Primeiro comando
-	current->pid = fork();
-	if (current->pid < 0)
-	{
-		perror("fork");
-		return (0);
-	}
-	if (current->pid == 0)
-	{
-		// Redireciona a saída padrão para o pipe
-		if (dup2(data->pipe_n[0][1], STDOUT_FILENO) == -1)
-		{
-			perror("dup2");
-			exit(EXIT_FAILURE);
-		}
-		printf("Pid first: %d\n", current->pid);
-		close(data->pipe_n[0][0]);
-		close(data->pipe_n[0][1]);
-		ft_execve(data, current);
-		exit(EXIT_FAILURE); // Se ft_execve falhar
-	}
-
-	// Comandos intermediários
-	current = current->next;
-	i = 1;
-	while (i < data->n_cmd - 1)
-	{
-		current->pid = fork();
-		if (current->pid < 0)
-		{
-			perror("fork");
-			return (0);
-		}
-		if (current->pid == 0)
-		{
-			printf("Cmd[%d]: %s\n", i, current->cmd[0]);
-			// Redireciona a entrada padrão para o pipe anterior
-			if (dup2(data->pipe_n[i - 1][0], STDIN_FILENO) == -1)
-			{
-				perror("dup2");
-				exit(EXIT_FAILURE);
-			}
-			// Redireciona a saída padrão para o próximo pipe
-			if (dup2(data->pipe_n[i][1], STDOUT_FILENO) == -1)
-			{
-				perror("dup2");
-				exit(EXIT_FAILURE);
-			}
-			printf("Pid middle: %d\n", current->pid);
-			close(data->pipe_n[i - 1][0]);
-			close(data->pipe_n[i - 1][1]);
-			close(data->pipe_n[i][0]);
-			close(data->pipe_n[i][1]);
-			ft_execve(data, current);
-			exit(EXIT_FAILURE); // Se ft_execve falhar
-		}
-		current = current->next;
-		i++;
-	}
-
-	// Último comando
-	current->pid = fork();
-	if (current->pid < 0)
-	{
-		perror("fork");
-		return (0);
-	}
-	if (current->pid == 0)
-	{
-		
-		// Redireciona a entrada padrão para o pipe anterior
-		if (dup2(data->pipe_n[data->n_cmd - 2][0], STDIN_FILENO) == -1)
-		{
-			perror("dup2");
-			exit(EXIT_FAILURE);
-		}
-		printf("Pid Last: %d\n", current->pid);
-		close(data->pipe_n[data->n_cmd - 2][0]);
-		close(data->pipe_n[data->n_cmd - 2][1]);
-		printf("Cmd[%d]: %s\n", i, current->cmd[0]);
-		ft_execve(data, current);
-		exit(EXIT_FAILURE); // Se ft_execve falhar
-	}
-	// Fecha todos os pipes no processo pai
-	i = 0;
-	while (i < data->n_cmd - 1)
-	{
-		close(data->pipe_n[i][0]);
-		close(data->pipe_n[i][1]);
-		i++;
-	}
-
-	// Espera todos os processos filhos terminarem
-	i = 0;
-	while (i < data->n_cmd)
-	{
-		wait(NULL);
-		i++;
-	}
-
-	return (1);
 }*/
 
 int	ft_execute(t_data *data)
