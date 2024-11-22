@@ -19,7 +19,7 @@
 
 int	ft_exec_pipe(t_data *data);
 
-void list_open_fds(void)
+/*void list_open_fds(void)
 {
     DIR *dir;
     struct dirent *entry;
