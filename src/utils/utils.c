@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 11:01:03 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/21 20:36:18 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/22 10:55:39 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,32 +44,6 @@ void	ms_bomb(t_data *data, int check)
 	}
 	while (data->var)
 		del_lastenv(data);
-}
-
-int	ft_atoi_base(const char *nptr)
-{
-	int		i;
-	int		nbr;
-	int		sign;
-
-	i = 0;
-	nbr = 0;
-	sign = 1;
-	if (nptr[i] == '-' || nptr[i] == '+')
-	{
-		if (nptr[i ++] == '-')
-			sign = sign * -1;
-	}
-	while (nptr[i] != '\0')
-	{
-		while (nptr[i] == '0')
-			i++;
-		while (nptr[i] >= '0' && nptr[i] <= '9')
-			nbr = nbr * 10 + nptr[i ++] - '0';
-		if (nptr[i] < '0' || nptr[i] > '9')
-			return (nbr * sign);
-	}
-	return (nbr = 0);
 }
 
 //if type == 0 returns last return value

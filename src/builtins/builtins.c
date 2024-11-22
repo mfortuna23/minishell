@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:22:58 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/21 20:35:12 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/22 12:12:16 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,28 @@ int	ft_cd(t_data *data)
 int	ft_unset(t_data	*data)
 {
 	t_env	*node;
+	t_env	*tmp;
 
 	node = NULL;
+	tmp = data->var;
 	r_value(0, 1);
 	if (data->cmd->pipe)
 		return (1);
 	if (!data->cmd->cmd[1])
 		return (1);
 	node = find_var(data, data->cmd->cmd[1]);
-	node->alive = false;
+	if (!node)
+		return (0);
+	if (node == data->var)
+	{
+		data->var = node->next;
+		free(node);
+		return (0);
+	}
+	while (tmp->next != node)
+		tmp = tmp->next;
+	tmp->next = node->next;
+	free(node);
 	return (0);
 }
 

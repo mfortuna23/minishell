@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbezerra <tbezerra@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:26:18 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/21 22:13:33 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/22 10:56:13 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ typedef struct s_data
 	int				n_tokens;
 	int				return_v;
 	int				check;
-	int 			check;
 	int				i;
 	int				n_cmd;
 	int				**pipe_n;
@@ -172,7 +171,6 @@ void	ft_no_file_err(char *fname);
 int		ft_fprintf(int fd, int r_value, const char *s, ...);
 void	ms_bomb(t_data *data, int check);
 char	*str_join(char *s1, char *s2);
-int		ft_atoi_base(const char *nptr);
 int		r_value(int value, int type);
 int		data_check(t_data *data,int check, int r_value);
 
