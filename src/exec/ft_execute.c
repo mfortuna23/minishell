@@ -83,7 +83,7 @@ void close_open_fds(void)
 		}
 	}
 	closedir(dir);
-}
+}*/
 
 void	ft_execve(t_data *data, t_cmd *cmd)
 {
