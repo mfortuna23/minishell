@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:22:58 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/22 12:12:16 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/22 14:13:10 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int	ft_cd(t_data *data)
 			r_value(ft_fprintf(2, 1, "bash: cd: %s"
 					": Not a directory\n", data->tokens[1]), 1);
 	}
+	else
+		update_var(data);
 	return (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:26:18 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/22 10:56:13 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/22 14:03:27 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,6 +173,7 @@ void	ms_bomb(t_data *data, int check);
 char	*str_join(char *s1, char *s2);
 int		r_value(int value, int type);
 int		data_check(t_data *data,int check, int r_value);
+void	update_var(t_data *data);
 
 /****************************/
 /*			BUITINS			*/
