@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:27:08 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/22 11:12:37 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/22 18:15:34 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	token_error(t_data *data, char *arr)
 	data->n_tokens = token_count(data->parser, 0, 0, 0);
 	data->tokens = ft_calloc((data->n_tokens + 1), sizeof(char*));
 	split_tokens(data, 0, 0, 0);
-	if (check_not_req(data) == 1 || data->tokens[0][0] == '$')
+	if (check_not_req(data) == 1)
 	{
 		free(data->parser);
 		ft_freearr(data->tokens);
