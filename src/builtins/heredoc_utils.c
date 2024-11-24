@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 20:13:10 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/23 10:59:16 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/23 13:21:36 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ int	hd_errors(t_data *data, char *buffer_hd, int error)
 {
 	if (buffer_hd)
 		free (buffer_hd);
-	if (error == 1) // ^D
+	if (error == 1)
 		return (ft_fprintf(2, 1,"MS: warning: here-document"
 			" at line 1 delimited by end-of-file (wanted `here')\n"));
-	if (error == 2) // ^C
+	if (error == 2)
 	{
 		data->check = 1;
 		r_value(130, 1);

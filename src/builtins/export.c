@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 02:41:38 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/21 16:57:40 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/24 19:44:00 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,11 +55,13 @@ int	exist_var(t_data *data, t_env *node, char *name)
 	if ((ft_strchr(new->full, '=') + 1) == NULL)
 		return (0);
 	if ((ft_strchr(new->full, '=') + 1)[0] == 34)
-		new->value = ft_substr(data->cmd->cmd[2], 1, ft_strlen(data->cmd->cmd[2]) - 2);
+		new->value = ft_substr(data->cmd->cmd[2], 1, \
+		ft_strlen(data->cmd->cmd[2]) - 2);
 	new->value = ft_substr(new->full, ft_strlen(name) + 1, 1024);
 	return (0);
 }
 
+// add in vars withou equal sign, it shows when export is called not env
 int	ft_export(t_data *data)
 {
 	t_env	*node;
@@ -83,7 +85,7 @@ int	ft_export(t_data *data)
 	node = find_var(data, name);
 	if (!node)
 		return (new_var(data, name));
-	return(exist_var(data, node, name));
+	return (exist_var(data, node, name));
 }
 
 int count_vars(t_data *data)
