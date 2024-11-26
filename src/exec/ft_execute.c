@@ -206,7 +206,7 @@ void	ft_execve(t_data *data, t_cmd *cmd)
 			exit (127);
 		}
 		else
-			execve(cmd->path, cmd->cmd, NULL);
+			execve(cmd->path, cmd->cmd, data->env);
 		ms_bomb(data, 0);
 		exit(0);
 	}
@@ -277,120 +277,6 @@ int	ft_exec_pipe(t_data *data)
 	free_pipe_n(data);
 }*/
 
-/*int	ft_exec_pipe(t_data *data)
-{
-    if (!data || !data->cmd)
-        return 0;
-
-    // Inicializa os pipes
-    if (ft_init_pipe(data) == 0)
-        return 0;
-
-	t_cmd *current = data->cmd;
-	int i = 0;
-
-	// Primeiro comando
-	current->pid = fork();
-	if (current->pid < 0)
-	{
-		perror("fork");
-		return (0);
-	}
-	if (current->pid == 0)
-	{
-		// Redireciona a saída padrão para o pipe
-		if (dup2(data->pipe_n[0][1], STDOUT_FILENO) == -1)
-		{
-			perror("dup2");
-			exit(EXIT_FAILURE);
-		}
-		printf("Pid first: %d\n", current->pid);
-		close(data->pipe_n[0][0]);
-		close(data->pipe_n[0][1]);
-		ft_execve(data, current);
-		exit(EXIT_FAILURE); // Se ft_execve falhar
-	}
-
-	// Comandos intermediários
-	current = current->next;
-	i = 1;
-	while (i < data->n_cmd - 1)
-	{
-		current->pid = fork();
-		if (current->pid < 0)
-		{
-			perror("fork");
-			return (0);
-		}
-		if (current->pid == 0)
-		{
-			printf("Cmd[%d]: %s\n", i, current->cmd[0]);
-			// Redireciona a entrada padrão para o pipe anterior
-			if (dup2(data->pipe_n[i - 1][0], STDIN_FILENO) == -1)
-			{
-				perror("dup2");
-				exit(EXIT_FAILURE);
-			}
-			// Redireciona a saída padrão para o próximo pipe
-			if (dup2(data->pipe_n[i][1], STDOUT_FILENO) == -1)
-			{
-				perror("dup2");
-				exit(EXIT_FAILURE);
-			}
-			printf("Pid middle: %d\n", current->pid);
-			close(data->pipe_n[i - 1][0]);
-			close(data->pipe_n[i - 1][1]);
-			close(data->pipe_n[i][0]);
-			close(data->pipe_n[i][1]);
-			ft_execve(data, current);
-			exit(EXIT_FAILURE); // Se ft_execve falhar
-		}
-		current = current->next;
-		i++;
-	}
-
-	// Último comando
-	current->pid = fork();
-	if (current->pid < 0)
-	{
-		perror("fork");
-		return (0);
-	}
-	if (current->pid == 0)
-	{
-		
-		// Redireciona a entrada padrão para o pipe anterior
-		if (dup2(data->pipe_n[data->n_cmd - 2][0], STDIN_FILENO) == -1)
-		{
-			perror("dup2");
-			exit(EXIT_FAILURE);
-		}
-		printf("Pid Last: %d\n", current->pid);
-		close(data->pipe_n[data->n_cmd - 2][0]);
-		close(data->pipe_n[data->n_cmd - 2][1]);
-		printf("Cmd[%d]: %s\n", i, current->cmd[0]);
-		ft_execve(data, current);
-		exit(EXIT_FAILURE); // Se ft_execve falhar
-	}
-	// Fecha todos os pipes no processo pai
-	i = 0;
-	while (i < data->n_cmd - 1)
-	{
-		close(data->pipe_n[i][0]);
-		close(data->pipe_n[i][1]);
-		i++;
-	}
-
-	// Espera todos os processos filhos terminarem
-	i = 0;
-	while (i < data->n_cmd)
-	{
-		wait(NULL);
-		i++;
-	}
-
-	return (1);
-}*/
 
 int	ft_execute(t_data *data, t_cmd *cmd)
 {
