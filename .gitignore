@@ -1,1 +1,4 @@
 *.o
+test.sh
+*:Zone.Identifier
+./minishell

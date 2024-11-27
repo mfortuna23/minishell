@@ -32,7 +32,6 @@ void	set_path(t_data *data)
 	current->path_to_cmd = get_paths(data);
 	while (current)
 	{
-		
 		current->path = find_path(data, current->cmd[0]);
 		current = current->next;
 	}

@@ -164,6 +164,8 @@ void print_cmds(t_data *data)
 		current->here_doc ? "true" : "false");
 		printf("\001\033[1;93m\002appen?\001\033[0m\002\t\t%s\n", \
 		current->appen ? "true" : "false");
+		printf("\001\033[1;93m\002Outfile is:\001\033[0m\002\t%s\n", current->outfile);
+		printf("\001\033[1;93m\002Infile is:\001\033[0m\002\t%s\n", current->infile);
 		count++;
 		i = 0;
 		current = current->next;
