@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:26:18 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/22 14:03:27 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/28 12:27:33 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,22 @@ typedef struct s_cmd
 	int				return_value;	// return value of this cmd
 	pid_t			pid;			//parser will not handle this
 	struct s_cmd	*next;			//if there is pipe else null
+	struct s_files	*files;			//multiplos infiles e outfiles podem ser chamados
 }			t_cmd;
+
+typedef struct s_files
+{
+	char			*name;
+	bool			infile;
+	struct s_files	*next;
+}			t_files;
+
+typedef struct s_iter
+{
+	int		i;
+	int		j;
+	char 	c;
+}			t_iter;
 
 /****************************/
 /*			READLINE		*/
@@ -90,7 +105,7 @@ int		parsing(t_data *data, int y, int x);
 int		ft_cmd_args(t_data *data, t_cmd *node, int y, int x);
 int		ft_redirect(t_data *data, t_cmd *current, int y, int x);
 int		check_not_req(t_data *data);
-int		ft_strtok(t_data *data, int j, char c);
+int		ft_strtok(t_data *data, int i, int j, char c);
 int		get_fullinput(t_data *data);
 int		split_tokens(t_data *data, int x, int i, int j);
 int		token_count(char *s, int i, int count, char c);
