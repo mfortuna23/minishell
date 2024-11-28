@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:38:58 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/22 18:10:50 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/26 13:38:48 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,16 @@ void	create_env(t_data *data)
 char	*get_prompt(t_data *data)
 {
 	char	*user;
+	t_env	*var;
 
+	var = NULL;
 	getcwd(data->path, 256);
 	data->prompt = ft_strdup("\001\033[7;96m\002 Minishell \001\033[0m\002");
-	user = getenv("USER");
+	var = find_var(data, "USER");
+	if (!var)
+		user = "undifined";
+	else
+		user = var->value;
 	data->prompt = str_join(data->prompt, ft_strdup("\001\033[7;99m\002 @"));
 	data->prompt = str_join(data->prompt, ft_strdup(user));
 	data->prompt = str_join(data->prompt, \

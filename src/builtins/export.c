@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 02:41:38 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/24 19:44:00 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/11/28 16:22:44 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ int	new_var(t_data *data, char *name)
 	node = NULL;
 	add_last_env(&data->var);
 	node = find_last_env(&data->var);
-	if ((ft_strchr(data->cmd->cmd[1], '=') + 1) == NULL)
+	if ((ft_strchr(data->cmd->cmd[1], '=')[1]) == 0)
 		return (0);
 	if (data->cmd->cmd[2])
 		node->full = ft_strjoin(data->cmd->cmd[1], data->cmd->cmd[2]);
 	else
 		node->full = ft_strdup(data->cmd->cmd[1]);
 	node->name = ft_strdup(name);
-	if ((ft_strchr(node->full, '=') + 1) == NULL)
+	if ((ft_strchr(node->full, '=')[1]) == 0)
 		return (0);
 	node->value = ft_substr(node->full, ft_strlen(name) + 1, 1024);
 	node->alive = true;
@@ -52,7 +52,7 @@ int	exist_var(t_data *data, t_env *node, char *name)
 	else
 		new->full = ft_strdup(data->cmd->cmd[1]);
 	new->name = ft_strdup(name);
-	if ((ft_strchr(new->full, '=') + 1) == NULL)
+	if ((ft_strchr(new->full, '=')[1]) == 0)
 		return (0);
 	if ((ft_strchr(new->full, '=') + 1)[0] == 34)
 		new->value = ft_substr(data->cmd->cmd[2], 1, \
@@ -62,7 +62,7 @@ int	exist_var(t_data *data, t_env *node, char *name)
 }
 
 // add in vars withou equal sign, it shows when export is called not env
-int	ft_export(t_data *data)
+int	ft_export(t_data *data) // TODO accept multiple vars
 {
 	t_env	*node;
 	char	name[1024];

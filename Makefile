@@ -6,7 +6,7 @@
 #    By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/21 11:05:07 by mfortuna          #+#    #+#              #
-#    Updated: 2024/11/21 22:07:05 by mfortuna         ###   ########.fr        #
+#    Updated: 2024/11/27 14:37:34 by mfortuna         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ EXEC			= $(addprefix $(SRC_M)exec/, cmd_path.c ft_execute.c free_aux.c redir.c p
 PARSER			= $(addprefix $(SRC_M)parser/, parser.c parser_utils.c 1st_step.c built_cmds.c full_input.c)
 STRUCT			= $(addprefix $(SRC_M)struct/, struct_cmds.c struct_env.c delete_env.c find_env.c)
 UTILS			= $(addprefix $(SRC_M)utils/, utils.c ft_fprintf.c)
-BUILT			= $(addprefix $(SRC_M)builtins/, builtins.c export.c echo.c heredoc.c exit.c heredoc_utils.c)
+BUILT			= $(addprefix $(SRC_M)builtins/, builtins.c export.c echo.c exit.c heredoc.c heredoc_utils.c)
 SRC				= $(SRC_M)main.c $(EXEC) $(PARSER) $(STRUCT) $(UTILS) $(BUILT)
 ODIR			= obj
 OBJS			= $(patsubst $(SRC_M)%.c,$(ODIR)/%.o,$(SRC)) 
