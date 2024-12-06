@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:27:08 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/28 16:37:06 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/12/04 18:57:57 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	parsing(t_data *data, int y, int x)
 	while (data->tokens[y] != NULL)
 	{
 		if (data->tokens[y][x] == '<' || data->tokens[y][x] == '>')
-			y += ft_redirect(data, node, y, 0);// problema da maria 29/11
+			y += ft_redirect(data, node, y, 0);// pro
 		else if (data->tokens[y][x] == '|')
 		{
 			add_last(&data->cmd);
@@ -43,6 +43,7 @@ int	parsing(t_data *data, int y, int x)
 			node = node->next;
 			y++;
 			data->n_cmd++;
+			data->i = 0;
 		}
 		else
 			y = ft_cmd_args(data, node, y, 0);
@@ -58,7 +59,7 @@ int	token_error(t_data *data)
 {
 	data->n_tokens = token_count(data->parser, 0, 0, 0);
 	data->tokens = ft_calloc((data->n_tokens + 1), sizeof(char *));
-	split_tokens(data, 0, 0, 0);
+	split_tokens(data, init_iter());
 	if (check_not_req(data) == 1)
 	{
 		free(data->parser);

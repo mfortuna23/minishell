@@ -6,26 +6,23 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 02:41:38 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/28 16:22:44 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/12/05 09:42:42 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	new_var(t_data *data, char *name)
+int	new_var(t_data *data, char *str, char *name)
 {
 	t_env	*node;
 
 	node = NULL;
 	add_last_env(&data->var);
 	node = find_last_env(&data->var);
-	if ((ft_strchr(data->cmd->cmd[1], '=')[1]) == 0)
-		return (0);
-	if (data->cmd->cmd[2])
-		node->full = ft_strjoin(data->cmd->cmd[1], data->cmd->cmd[2]);
-	else
-		node->full = ft_strdup(data->cmd->cmd[1]);
 	node->name = ft_strdup(name);
+	if ((ft_strchr(str, '=')[1]) == 0)
+		return (0);
+	node->full = ft_strdup(str);
 	if ((ft_strchr(node->full, '=')[1]) == 0)
 		return (0);
 	node->value = ft_substr(node->full, ft_strlen(name) + 1, 1024);
@@ -33,7 +30,7 @@ int	new_var(t_data *data, char *name)
 	return (0);
 }
 
-int	exist_var(t_data *data, t_env *node, char *name)
+int	exist_var(t_data *data, t_env *node, char *str, char *name)
 {
 	t_env	*new;
 	t_env	*tmp;
@@ -47,45 +44,74 @@ int	exist_var(t_data *data, t_env *node, char *name)
 	new->next = node->next;
 	tmp->next = new;
 	free_env(node);
-	if (data->cmd->cmd[2])
-		new->full = ft_strjoin(data->cmd->cmd[1], data->cmd->cmd[2]);
-	else
-		new->full = ft_strdup(data->cmd->cmd[1]);
+	new->full = ft_strdup(str);
 	new->name = ft_strdup(name);
 	if ((ft_strchr(new->full, '=')[1]) == 0)
 		return (0);
-	if ((ft_strchr(new->full, '=') + 1)[0] == 34)
-		new->value = ft_substr(data->cmd->cmd[2], 1, \
-		ft_strlen(data->cmd->cmd[2]) - 2);
 	new->value = ft_substr(new->full, ft_strlen(name) + 1, 1024);
 	return (0);
 }
 
-// add in vars withou equal sign, it shows when export is called not env
-int	ft_export(t_data *data) // TODO accept multiple vars
+char	*export_name(char *str, char *name)
 {
-	t_env	*node;
-	char	name[1024];
 	int		i;
 
-	ft_memset(name, 0, 1024);
-	node = NULL;
 	i = 0;
-	if (data->cmd->pipe || !data->cmd->cmd[1])
-		return (3);
-	if (!ft_strchr(data->cmd->cmd[1], '='))
-		return (1);
-	if (data->cmd->cmd[1][0] == '$')
-		return (ft_fprintf(2, 1, "MS: export: `$': not a valid identifier\n"));
-	while (data->cmd->cmd[1][i] != '=')
+	ft_memset(name, 0, 256);
+	while (str[i] && str[i] != '=')
 	{
-		name[i] = data->cmd->cmd[1][i];
-		i++;
+		name[i] = str[i];
+		i ++;
 	}
-	node = find_var(data, name);
-	if (!node)
-		return (new_var(data, name));
-	return (exist_var(data, node, name));
+	return (name);
+}
+
+void	export_var(t_data *data, char *str, bool alive)
+{
+	t_env	*var;
+	char	name[256];
+
+	r_value(0, 1);
+	var = find_var(data, export_name(str, name));
+	if (!alive)
+	{
+		if (var)
+			return ;
+		add_last_env(&data->var);
+		var = find_last_env(&data->var);
+		var->name = ft_strdup(export_name(str, name));
+		var->full = ft_strdup(export_name(str, name));
+		var->alive = alive;
+	}
+	else if (var)
+		exist_var(data, var, str, export_name(str, name));
+	else
+		new_var(data, str, export_name(str, name));
+}
+
+// vars cannot start numbers!!!!!!!!
+int	ft_export(t_data *data, t_cmd *cmd)
+{
+	int	i;
+
+	i = 1;
+	if (cmd->pipe || !cmd->cmd[1])
+		return (3);
+	while (cmd->cmd[i])
+	{
+		if (ft_strncmp(cmd->cmd[i], "$\0", 2) == 0 || \
+		ft_isdigit(cmd->cmd[i][0]) == 1)
+		{
+			r_value(1, 1);
+			return (ft_fprintf(2, 1, "MS: export: `%s': not a valid"
+					" identifier\n", cmd->cmd[i]));
+		}
+		if (!ft_strchr(cmd->cmd[i], '='))
+			export_var(data, cmd->cmd[i++], false);
+		else
+			export_var(data, cmd->cmd[i++], true);
+	}
+	return (0);
 }
 
 int count_vars(t_data *data)
@@ -105,14 +131,13 @@ int count_vars(t_data *data)
 
 int	export_print(t_cmd *cmd, t_env *var, int count)
 {
-	if (var->alive)
-	{
-		ft_fprintf(cmd->fd_out, 0, "declare -x %s=", var->name);
-		if (var->value)
-			ft_fprintf(cmd->fd_out, 0, "\"%s\"\n", var->value);
-		else
-			ft_fprintf(cmd->fd_out, 0, "\"\"\n");
-	}
+	ft_fprintf(cmd->fd_out, 0, "declare -x %s", var->name);
+	if (var->value)
+		ft_fprintf(cmd->fd_out, 0, "=\"%s\"\n", var->value);
+	else if (ft_strchr(var->full, '=') != NULL)
+		ft_fprintf(cmd->fd_out, 0, "=\"\"\n");
+	else
+		ft_fprintf(cmd->fd_out, 0, "\n");
 	count ++;
 	var->w = true;
 	return (count);

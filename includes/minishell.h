@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:26:18 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/28 12:27:33 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/12/04 18:58:17 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ typedef struct s_files
 {
 	char			*name;
 	bool			infile;
+	bool			appen;
 	struct s_files	*next;
 }			t_files;
 
@@ -84,7 +85,9 @@ typedef struct s_iter
 {
 	int		i;
 	int		j;
-	char 	c;
+	int		x;
+	int		y;
+	char	c;
 }			t_iter;
 
 /****************************/
@@ -107,12 +110,13 @@ int		ft_redirect(t_data *data, t_cmd *current, int y, int x);
 int		check_not_req(t_data *data);
 int		ft_strtok(t_data *data, int i, int j, char c);
 int		get_fullinput(t_data *data);
-int		split_tokens(t_data *data, int x, int i, int j);
+int		split_tokens(t_data *data, t_iter *x);
 int		token_count(char *s, int i, int count, char c);
 void	less_space(t_data *data, char *arr, int i, int count);
 int		check_chars(char c);
 int		check_not_req(t_data *data);
 int		parasing_error(t_data *data, int pipe);
+t_iter	*init_iter(void);
 
 /****************************/
 /*		STRUCT_CMDS.C		*/
@@ -197,7 +201,7 @@ void	update_var(t_data *data);
 int		check_for_built(t_data *data, t_cmd	*cmd);
 int		export_or_unset(t_data *data, t_cmd *cmd);
 int		ft_echo(t_data *data, t_cmd *cmd, int x);
-int		ft_export(t_data *data);
+int		ft_export(t_data *data, t_cmd *cmd);
 int		ft_cd(t_data *data);
 int		here_doc(t_data *data, t_cmd *cmd, bool exp, int y);
 int		hd_errors(t_data *data, char *buffer_hd, int error);
