@@ -2,3 +2,4 @@
 test.sh
 *:Zone.Identifier
 ./minishell
+launch.json
