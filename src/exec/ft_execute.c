@@ -91,10 +91,8 @@ int		ft_test(t_data *data, t_cmd *cmd)
 void	ft_execve(t_data *data, t_cmd *cmd)
 {
 	pid_t	pid;
-	int		fd_in;
 
 	//set_path(data);
-
 	pid = fork();
 	if (pid < 0)
 		return (perror("fork"));
@@ -107,7 +105,7 @@ void	ft_execve(t_data *data, t_cmd *cmd)
 			ms_bomb(data, 0);
 			exit(0);
 		}
-		if (cmd->path == NULL)//Verificar se o comando existe
+		if (cmd->path == NULL)//TODO Verificar se o comando existe
 		{
 			ft_printf("%s: command not found\n", cmd->cmd[0]);
 			exit (127);
@@ -181,21 +179,5 @@ int	ft_execute(t_data *data, t_cmd *cmd)
 	//print_pipe_n(data);
 	data->n_cmd = 1;
 	//ms_bomb(data, 1);
-	/*if (ft_exec_first(data) == 0)
-		return (0);
-	cmd_idx = ft_exec_loop(data);
-	if (cmd_idx == -1 )
-		return (0);
-	if (ft_exec_last(data) == 0)
-		return (0);
-	ft_close_pipe(data, NULL, NULL);
-	wait(&g_exit);
-	while (cmd_idx--)
-		wait(&g_exit);
-	wait(&g_exit);
-	if (WIFSIGNALED(g_exit))
-		g_exit = (128 + WTERMSIG(g_exit));
-	else if (WIFEXITED(g_exit))
-		g_exit = WEXITSTATUS(g_exit);*/
 	return (1);
 }
