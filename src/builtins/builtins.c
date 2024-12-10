@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:22:58 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/22 16:56:44 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/12/05 09:35:30 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ int	ft_cd(t_data *data)
 	if (chdir(data->tokens[1]) < 0)
 	{
 		if (access(data->tokens[1], X_OK) < 0)
-			r_value(ft_fprintf(2, 1, "bash: cd: %s: No such file"
+			r_value(ft_fprintf(2, 1, "MS: cd: %s: No such file"
 					" or directory\n", data->tokens[1]), 1);
 		else
-			r_value(ft_fprintf(2, 1, "bash: cd: %s"
+			r_value(ft_fprintf(2, 1, "MS: cd: %s"
 					": Not a directory\n", data->tokens[1]), 1);
 	}
 	else
@@ -33,31 +33,41 @@ int	ft_cd(t_data *data)
 	return (1);
 }
 
-int	ft_unset(t_data	*data)
+void	unset_var(t_data *data, char *str)
 {
 	t_env	*node;
 	t_env	*tmp;
 
 	node = NULL;
 	tmp = data->var;
-	r_value(0, 1);
-	if (data->cmd->pipe)
-		return (1);
-	if (!data->cmd->cmd[1])
-		return (1);
-	node = find_var(data, data->cmd->cmd[1]);
+	node = find_var(data, str);
 	if (!node)
-		return (0);
+		return ;
 	if (node == data->var)
 	{
 		data->var = node->next;
 		free_env(node);
-		return (0);
+		return ;
 	}
 	while (tmp->next != node)
 		tmp = tmp->next;
 	tmp->next = node->next;
 	free_env(node);
+}
+
+int	ft_unset(t_data	*data, t_cmd *cmd)
+{
+	int	i;
+
+	i = 1;
+	r_value(0, 1);
+	if (data->cmd->pipe || !cmd->cmd[i])
+		return (1);
+	while (cmd->cmd[i])
+	{
+		unset_var(data, cmd->cmd[i]);
+		i++;
+	}
 	return (0);
 }
 
@@ -84,10 +94,10 @@ int	export_or_unset(t_data *data, t_cmd *cmd)
 	if (!cmd->cmd)
 		return (2);
 	if (ft_strncmp(cmd->cmd[0], "unset\0", 6) == 0)
-		return (ft_unset(data));
+		return (ft_unset(data, cmd));
 	else if (ft_strncmp(cmd->cmd[0], "export\0", 7) == 0)
 	{
-		exc = ft_export(data);
+		exc = ft_export(data, cmd);
 		if (exc == 3)
 			return (2);
 		if (exc == 1)

@@ -1,36 +1,22 @@
 {
-    "version": "0.2.0",
-    "configurations": [
-
-        {
-            "name": "(gdb) Launch",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "${workspaceFolder}/minishell",
-            "args": [],
-            "stopAtEntry": false,
-            "cwd": "${workspaceFolder}",
-            "environment": [],
-            "externalConsole": false, // Set this to false to use the integrated terminal
-            "MIMode": "gdb",
-            "preLaunchTask": "build", // This runs the "make" task before debugging
-            "setupCommands": [
-                {
-                    "description": "Enable pretty-printing for gdb",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                },
-                {
-                    "description": "Set Disassembly Flavor to Intel",
-                    "text": "-gdb-set disassembly-flavor intel",
-                    "ignoreFailures": true
-                },
-                {
-                    "description": "Habilitar depuração de processos filhos",
-                    "text": "set follow-fork-mode child",
-                    "ignoreFailures": true
-                }
-            ]
-        }
-    ]
-}
+	"version": "0.2.0",
+	"configurations": [
+	  {
+		"name": "Debug with LLDB",
+		"type": "cppdbg",
+		"request": "launch",
+		"program": "${workspaceFolder}/minishell", // Update this to your binary path
+		"args": [],
+		"stopAtEntry": false,
+		"cwd": "${workspaceFolder}",
+		"environment": [],
+		"externalConsole": true,
+		"MIMode": "lldb",
+		"logging": {
+		  "engineLogging": true,
+		  "trace": true,
+		  "traceResponse": true
+		}
+	  }
+	]
+  }
