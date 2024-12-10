@@ -86,104 +86,7 @@ int		ft_test(t_data *data, t_cmd *cmd)
 	ms_bomb(data, 0);
 	close_open_fds();
 	return (0);
-}
-
-void	run_pipe_child(t_data *data, t_cmd *cmd, int *fd, int i)
-{
-	(void)cmd;
-	if (i == 0)
-	{
-		dup2(fd[1], STDOUT_FILENO);
-		close(fd[0]);
-		close(fd[1]);
-		ft_test(data, cmd);
-		//printf("Data: %d, Cmd: %s\n", data->n_tokens, cmd->cmd[0]); //ft_execve(data, cmd); //ft_execute(data);
-		_exit(1);
-	}
-	else if (i == 1)
-	{
-		dup2(fd[0], STDIN_FILENO);
-		close(fd[0]);
-		close(fd[1]);
-		ft_test(data, cmd);
-		//printf("Data: %d, Cmd: %s\n", data->n_tokens, cmd->cmd[0]); //ft_execve(data, cmd); //ft_execute(data);
-		_exit(1);
-	}
-	ms_bomb	(data, 0);
-}
-
-void	ft_pipes2(t_data *data, t_cmd *cmd, int i)
-{
-	int		fd[i];
-	//int		status;
-	t_cmd	*current;
-
-	(void)cmd;
-	(void)data;
-	current = data->cmd;
-	while (current)
-	{
-		printf("Cmd: %s\n", current->cmd[0]);
-		fd[i] = '4';
-		printf("Fd: %d\n", fd[i]);
-		i--;
-		current = current->next;
-	}
-
-}
-
-void	run_pipe(t_data *data, t_cmd *cmd)// verificar quais são os cmd que estão entrando nessa função
-{
-	int		fd[2];
-	int		status;
-	int		pid1;
-	int		pid2;
-	t_cmd	*current;
-
-	(void)cmd;
-	current = data->cmd;
-	printf("Cmd: %s\n", current->cmd[0]);
-	//current->pipe = 0;
-	//printf("Pipe 1: %d\n", current->pipe);
-	if (pipe(fd) < 0)
-		return (perror("pipe"));
-	pid1 = fork();
-	if (pid1 < 0)
-		return (perror("fork"));
-	printf("Pipe 1: %d\n", current->pipe);
-	if (pid1 == 0)
-	{
-		run_pipe_child(data, current, fd, 0);
-	}
-	current = current->next;
-	pid2 = fork();
-	printf("Pipe 2: %d\n", current->pipe);
-	if (pid2 < 0)
-		return (perror("fork"));
-	if (pid2 == 0 && current->pipe == 0)
-		run_pipe_child(data, current, fd, 1);
-	else if (pid2 == 0 && current->pipe == 1)
-	{
-		run_pipe_child(data, current, fd, 0);
-	}
-	close(fd[0]);
-	close(fd[1]);
-	waitpid(pid1, &status, 0);
-	waitpid(pid2, &status, 0);
-}
-	//(void)data;
-	if (cmd->pipe)
-		ft_pipes2(data, data->cmd, 10); //printf("Flag pipe\n");
-	else if (cmd->here_doc)
-		printf("Flag Here_doc\n"); //ft_heredoc(current);
-	else if (cmd->appen)
-		printf("Flag append\n"); //ft_append(current);
-	else if (!cmd->pipe && !cmd->here_doc)
-		ft_execve(data, data->cmd); //printf("Flag cmd\n");
-
-	return (0);
-
-*/
+}*/
 
 void	ft_execve(t_data *data, t_cmd *cmd)
 {
@@ -195,18 +98,20 @@ void	ft_execve(t_data *data, t_cmd *cmd)
 		return (perror("fork"));
 	else if (pid == 0)
 	{
+		ft_redir_in(cmd);
+		ft_redir_out(cmd);
 		if (check_for_built(data, data->cmd) <= 1)
 		{
 			ms_bomb(data, 0);
 			exit(0);
 		}
-		if (cmd->path == NULL)
+		if (cmd->path == NULL)//TODO Verificar se o comando existe
 		{
 			ft_printf("%s: command not found\n", cmd->cmd[0]);
 			exit (127);
 		}
 		else
-			execve(cmd->path, cmd->cmd, NULL);
+			execve(cmd->path, cmd->cmd, data->env);
 		ms_bomb(data, 0);
 		exit(0);
 	}
@@ -244,153 +149,17 @@ int	ft_exec_pipe(t_data *data)
 	wait_for_children(data);
 	return (1);
 }
-
-/*void	print_pipe_n(t_data *data)
+void	ft_flags(t_data *data, t_cmd *cmd)
 {
-	int	i;
-
-	i = 0;
-	printf("I: %d\n", i);
-	if (!data->pipe_n)
+	if (cmd->here_doc)
 	{
-		printf("pipe_n is NULL\n");
-		return;
+		printf("Flag Here_doc\n");
+		//run_here_doc(data, data->cmd);
 	}
-	while (i < data->n_cmd)
-	{
-		printf("Cmd[%d]: %s\n", i, data->cmd->cmd[0]);
-		printf("N_cmd: %d\n", data->n_cmd);
-		if (data->pipe_n[i] == NULL)
-		{
-			printf("Pipe[%d] is NULL\n", i);
-			free_pipe_n(data);
-			return;
-		}
-		else
-		{
-			printf("Pipe[%d][0]: %d\n", i, data->pipe_n[i][0]);
-			printf("Pipe[%d][1]: %d\n", i, data->pipe_n[i][1]);
-		}
-		data->cmd = data->cmd->next;
-		i++;
-	}
-	free_pipe_n(data);
-}*/
+	else
+		ft_execve(data, cmd);
+}
 
-/*int	ft_exec_pipe(t_data *data)
-{
-    if (!data || !data->cmd)
-        return 0;
-
-    // Inicializa os pipes
-    if (ft_init_pipe(data) == 0)
-        return 0;
-
-	t_cmd *current = data->cmd;
-	int i = 0;
-
-	// Primeiro comando
-	current->pid = fork();
-	if (current->pid < 0)
-	{
-		perror("fork");
-		return (0);
-	}
-	if (current->pid == 0)
-	{
-		// Redireciona a saída padrão para o pipe
-		if (dup2(data->pipe_n[0][1], STDOUT_FILENO) == -1)
-		{
-			perror("dup2");
-			exit(EXIT_FAILURE);
-		}
-		printf("Pid first: %d\n", current->pid);
-		close(data->pipe_n[0][0]);
-		close(data->pipe_n[0][1]);
-		ft_execve(data, current);
-		exit(EXIT_FAILURE); // Se ft_execve falhar
-	}
-
-	// Comandos intermediários
-	current = current->next;
-	i = 1;
-	while (i < data->n_cmd - 1)
-	{
-		current->pid = fork();
-		if (current->pid < 0)
-		{
-			perror("fork");
-			return (0);
-		}
-		if (current->pid == 0)
-		{
-			printf("Cmd[%d]: %s\n", i, current->cmd[0]);
-			// Redireciona a entrada padrão para o pipe anterior
-			if (dup2(data->pipe_n[i - 1][0], STDIN_FILENO) == -1)
-			{
-				perror("dup2");
-				exit(EXIT_FAILURE);
-			}
-			// Redireciona a saída padrão para o próximo pipe
-			if (dup2(data->pipe_n[i][1], STDOUT_FILENO) == -1)
-			{
-				perror("dup2");
-				exit(EXIT_FAILURE);
-			}
-			printf("Pid middle: %d\n", current->pid);
-			close(data->pipe_n[i - 1][0]);
-			close(data->pipe_n[i - 1][1]);
-			close(data->pipe_n[i][0]);
-			close(data->pipe_n[i][1]);
-			ft_execve(data, current);
-			exit(EXIT_FAILURE); // Se ft_execve falhar
-		}
-		current = current->next;
-		i++;
-	}
-
-	// Último comando
-	current->pid = fork();
-	if (current->pid < 0)
-	{
-		perror("fork");
-		return (0);
-	}
-	if (current->pid == 0)
-	{
-		
-		// Redireciona a entrada padrão para o pipe anterior
-		if (dup2(data->pipe_n[data->n_cmd - 2][0], STDIN_FILENO) == -1)
-		{
-			perror("dup2");
-			exit(EXIT_FAILURE);
-		}
-		printf("Pid Last: %d\n", current->pid);
-		close(data->pipe_n[data->n_cmd - 2][0]);
-		close(data->pipe_n[data->n_cmd - 2][1]);
-		printf("Cmd[%d]: %s\n", i, current->cmd[0]);
-		ft_execve(data, current);
-		exit(EXIT_FAILURE); // Se ft_execve falhar
-	}
-	// Fecha todos os pipes no processo pai
-	i = 0;
-	while (i < data->n_cmd - 1)
-	{
-		close(data->pipe_n[i][0]);
-		close(data->pipe_n[i][1]);
-		i++;
-	}
-
-	// Espera todos os processos filhos terminarem
-	i = 0;
-	while (i < data->n_cmd)
-	{
-		wait(NULL);
-		i++;
-	}
-
-	return (1);
-}*/
 
 int	ft_execute(t_data *data, t_cmd *cmd)
 {
@@ -398,34 +167,17 @@ int	ft_execute(t_data *data, t_cmd *cmd)
 
 	(void)cmd;
 	//ft_fork_sigset();
+	//print_cmds(data);
 	init_redic(data);
 	if (data->n_cmd == 1)
 	{
-		ft_execve(data, data->cmd);
+		ft_flags(data, data->cmd);
 		return (1);
 	}
-	if (ft_init_pipe(data) == 0)
-		return (0);
 	if (ft_exec_pipe(data) == 0 )
 		return (0);
 	//print_pipe_n(data);
 	data->n_cmd = 1;
 	//ms_bomb(data, 1);
-	/*if (ft_exec_first(data) == 0)
-		return (0);
-	cmd_idx = ft_exec_loop(data);
-	if (cmd_idx == -1 )
-		return (0);
-	if (ft_exec_last(data) == 0)
-		return (0);
-	ft_close_pipe(data, NULL, NULL);
-	wait(&g_exit);
-	while (cmd_idx--)
-		wait(&g_exit);
-	wait(&g_exit);
-	if (WIFSIGNALED(g_exit))
-		g_exit = (128 + WTERMSIG(g_exit));
-	else if (WIFEXITED(g_exit))
-		g_exit = WEXITSTATUS(g_exit);*/
 	return (1);
 }

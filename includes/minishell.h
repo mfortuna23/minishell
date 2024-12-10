@@ -177,11 +177,8 @@ void	exec_first_command(t_data *data);
 /*			Redic			*/
 /****************************/
 
-void	ft_redir_in(t_data *data, t_cmd *cmd);
-void	ft_out_redir(t_data *data, t_cmd *cmd);
-void	ft_close_redir(int *in_fd, int *out_fd);
-int		ft_type_redir(t_cmd *redir);
-void	ft_no_file_err(char *fname);
+void	ft_redir_out(t_cmd *cmd);
+void	ft_redir_in(t_cmd *cmd);
 
 /****************************/
 /*			UTILS			*/
