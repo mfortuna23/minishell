@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:27:08 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/12/04 18:57:57 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/12/11 11:48:44 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,6 @@ int	parasing_error(t_data *data, int pipe)
 	return (1);
 }
 
-/* TODO nova logica
-parsing entra num loop passando por todos os tokens, addiciona redirects
-cmd_args tem que ter salvo SEMPRE onde ficou, adiciona argumentos as vezes 
-necess]arias */
 int	parsing(t_data *data, int y, int x)
 {
 	t_cmd	*node;
@@ -35,7 +31,7 @@ int	parsing(t_data *data, int y, int x)
 	while (data->tokens[y] != NULL)
 	{
 		if (data->tokens[y][x] == '<' || data->tokens[y][x] == '>')
-			y += ft_redirect(data, node, y, 0);// pro
+			y += ft_redirect(data, node, y, 0);
 		else if (data->tokens[y][x] == '|')
 		{
 			add_last(&data->cmd);
@@ -125,9 +121,12 @@ int	input_user(t_data *data)
 
 void print_cmds(t_data *data)
 {
-	t_cmd	*current;
-	int		i;
-	int		count;
+	t_cmd		*current;
+	t_infile	*inf;
+	t_outfile	*outf;
+	int			i;
+	int			f;
+	int			count;
 
 	i = 0;
 	count = 1;
@@ -140,16 +139,30 @@ void print_cmds(t_data *data)
 		if (current->cmd){
 		while (current->cmd[i])
 			printf("%s\n", current->cmd[i++]);}
-		printf("\001\033[1;93m\002infile is:\001\033[0m\002\t%s\n", current->infile);
-		printf("\001\033[1;93m\002outfile is:\001\033[0m\002\t%s\n", current->outfile);
+		inf = current->in_file;
+		f = 0;
+		while (inf)
+		{
+			printf("infile n %i\n", f++);
+			printf("\001\033[1;93m\002infile is:\001\033[0m\002\t%s\n", inf->name);
+			printf("\001\033[1;93m\002here_doc?\001\033[0m\002\t%s\n", \
+				inf->here_doc ? "true" : "false");
+			if (inf->hd_buffer)
+				printf("\001\033[1;93m\002hd_buffer is:\001\033[0m\002\t%s\n", inf->hd_buffer);
+			inf = inf->next;
+		}
+		outf = current->out_file;
+		f = 0;
+		while (outf)
+		{
+			printf("outfile n %i\n", f++);
+			printf("\001\033[1;93m\002outfile is:\001\033[0m\002\t%s\n", outf->name);
+			printf("\001\033[1;93m\002appen?\001\033[0m\002\t%s\n", \
+				outf->appen ? "true" : "false");
+			outf = outf->next;
+		}
 		printf("\001\033[1;93m\002pipe?\001\033[0m\002\t\t%s\n", \
 		current->pipe ? "true" : "false");
-		printf("\001\033[1;93m\002here_doc?\001\033[0m\002\t%s\n", \
-		current->here_doc ? "true" : "false");
-		printf("\001\033[1;93m\002appen?\001\033[0m\002\t\t%s\n", \
-		current->appen ? "true" : "false");
-		printf("\001\033[1;93m\002Outfile is:\001\033[0m\002\t%s\n", current->outfile);
-		printf("\001\033[1;93m\002Infile is:\001\033[0m\002\t%s\n", current->infile);
 		count++;
 		i = 0;
 		current = current->next;

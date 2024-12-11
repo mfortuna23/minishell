@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 10:42:34 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/12/05 10:05:50 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/12/11 11:44:24 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@ char	*ft_strdup_noquotes(t_data *data, char *old, char *new, bool exp);
 
 int	ft_red_infile(t_data *data, t_cmd *current, int y, int x)
 {
-	if (current->infile)
-		free(current->infile);
 	while (data->tokens[y][x] == '<')
 		x++;
 	if (x > 2)
@@ -25,9 +23,9 @@ int	ft_red_infile(t_data *data, t_cmd *current, int y, int x)
 	if (!data->tokens[y + 1])
 		return (ft_fprintf(2, -36842, \
 		"MS: syntax error near unexpected token `newline'\n"));
-	current->infile = ft_strdup(data->tokens[++y]);
+	add_last_infile(data, &current->in_file, false, data->tokens[++y]);
 	if (x > 1)
-		return (here_doc(data, current, true, y));
+		return (here_doc(data, current->in_file, true, y));
 	return (2);
 }
 
@@ -36,19 +34,18 @@ int	ft_redirect(t_data *data, t_cmd *current, int y, int x)
 {
 	if (data->tokens[y][x] == '<')
 		return (ft_red_infile(data, current, y, x));
-	if (current->outfile)
-		free(current->outfile);
 	while (data->tokens[y][x] == '>')
 		x++;
 	if (x > 2)
 		return (ft_fprintf(2, -1654, \
 		"MS: syntax error near unexpected token '>'\n"));
-	else if (x > 1)
-		current->appen = true;
 	if (!data->tokens[++y])
 		return (ft_fprintf(2, -36842, \
 		"MS: syntax error near unexpected token `newline'\n"));
-	current->outfile = ft_strdup(data->tokens[y]);
+	if (x > 1)
+		add_last_outfile(data, &current->out_file, true, data->tokens[y]);
+	else
+		add_last_outfile(data, &current->out_file, false, data->tokens[y]);
 	return (2);
 }
 
