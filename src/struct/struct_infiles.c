@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 10:52:43 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/12/11 11:41:39 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/12/11 13:30:58 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_infile	*create_infile(void)
 }
 
 
-void	add_last_infile(t_data * d, t_infile **head, bool hd, char *n)
+void	add_last_infile(t_data *d, t_infile **head, bool hd, char *n)
 {
 	t_infile	*file;
 
@@ -35,8 +35,11 @@ void	add_last_infile(t_data * d, t_infile **head, bool hd, char *n)
 		*head = create_infile();
 		file = *head;
 		file->here_doc = hd;
-		hd = true_false(hd);
-		file->name = ft_strdup_noquotes(d, n, ft_calloc(256, sizeof(char)), hd);
+		if (hd == true)
+			file->name = ft_strdup(n);
+		else
+			file->name = ft_strdup_noquotes(d, n, ft_calloc(256, sizeof(char)), \
+			true);
 		return ;
 	}
 	file = *head;
