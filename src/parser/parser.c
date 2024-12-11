@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:27:08 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/22 18:15:34 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/12/04 18:57:57 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,10 @@ int	parasing_error(t_data *data, int pipe)
 	return (1);
 }
 
+/* TODO nova logica
+parsing entra num loop passando por todos os tokens, addiciona redirects
+cmd_args tem que ter salvo SEMPRE onde ficou, adiciona argumentos as vezes 
+necess]arias */
 int	parsing(t_data *data, int y, int x)
 {
 	t_cmd	*node;
@@ -31,16 +35,15 @@ int	parsing(t_data *data, int y, int x)
 	while (data->tokens[y] != NULL)
 	{
 		if (data->tokens[y][x] == '<' || data->tokens[y][x] == '>')
-			y += ft_redirect(data, node, y, 0);
+			y += ft_redirect(data, node, y, 0);// pro
 		else if (data->tokens[y][x] == '|')
 		{
-			if (y == 0 || data->tokens[y][1] == '|')
-				return (parasing_error(data, 1));
 			add_last(&data->cmd);
 			node->pipe = true;
 			node = node->next;
 			y++;
 			data->n_cmd++;
+			data->i = 0;
 		}
 		else
 			y = ft_cmd_args(data, node, y, 0);
@@ -52,13 +55,11 @@ int	parsing(t_data *data, int y, int x)
 	return (0);
 }
 
-int	token_error(t_data *data, char *arr)
+int	token_error(t_data *data)
 {
-	data->parser = ft_calloc(1024, sizeof(char));
-	less_space(data, arr, 0, 0);
 	data->n_tokens = token_count(data->parser, 0, 0, 0);
-	data->tokens = ft_calloc((data->n_tokens + 1), sizeof(char*));
-	split_tokens(data, 0, 0, 0);
+	data->tokens = ft_calloc((data->n_tokens + 1), sizeof(char *));
+	split_tokens(data, init_iter());
 	if (check_not_req(data) == 1)
 	{
 		free(data->parser);
@@ -69,46 +70,25 @@ int	token_error(t_data *data, char *arr)
 	return (0);
 }
 
-int	sep_char(char *arr, t_data *data, int j)
-{
-	char	c;
-
-	c = data->input[data->i];
-	arr[j++] = ' ';
-	arr[j++] = data->input[data->i++];
-	while (c == data->input[data->i])
-		arr[j++] = data->input[data->i++];
-	arr[j++] = ' ';
-	return (j);
-}
-
 /* parser */
-int	ft_strtok(t_data *data, int j, char c)
+int	ft_strtok(t_data *data, int i, int j, char c)
 {
-	char	arr[1024];
-
-	ft_memset(arr, 0, 1024);
-	if (!data->input)
-		return (-1);
-	data->i = 0;
-	while (data->input[data->i])
+	data->parser = ft_calloc(1024, sizeof(char));
+	while (data->input[i])
 	{
-		c = data->input[data->i];
-		if (c == 34 || c == 39)
+		if (check_chars(data->input[i]) > 0)
 		{
-			arr[j++] = ' ';
-			arr[j++] = data->input[data->i++];
-			while ((data->input[data->i]) && (data->input[data->i] != c))
-				arr[j++] = data->input[data->i++];
-			arr[j++] = data->input[data->i++];
-			arr[j++] = ' ';
+			c = data->input[i];
+			data->parser[j++] = ' ';
+			data->parser[j++] = data->input[i++];
+			while ((data->input[data->i] != 0) && c == data->input[i])
+				data->parser[j++] = data->input[i++];
+			data->parser[j++] = ' ';
 		}
-		else if (check_chars(c) > 0)
-			j = sep_char(arr, data, j);
-		else if (data->input[data->i])
-			arr[j++] = data->input[data->i++];
+		else
+			data->parser[j++] = data->input[i++];
 	}
-	return (token_error(data, arr));
+	return (token_error(data));
 }
 
 /* recives and manages input from user */
@@ -124,13 +104,16 @@ int	input_user(t_data *data)
 	if (get_fullinput(data) == 1)
 		return (1);
 	add_history(data->input);
-	if (ft_strtok(data, 0, 'a') == 1)
+	if (ft_strtok(data, 0, 0,'a') == 1)
 		return (1);
 	create_cmds(data);
+	data->i = 0;
 	if (parsing(data, 0, 0) == 1)
 		return (1);
-	// print_cmds(data);
-	if (data->cmd->cmd == NULL && !data->cmd->here_doc)
+	// data->check = 1;	// TODO remove after 
+	// print_cmds(data);	// remove
+	// return (0);			// remove
+	if (data->cmd->cmd == NULL)
 		return (1);
 	if (ft_exit(data, 0) == 0)
 		return (-1);
@@ -154,8 +137,9 @@ void print_cmds(t_data *data)
 	while (current)
 	{
 		printf("\n\001\033[1;93m\002command n \001\033[0m\002%d\n", count);
+		if (current->cmd){
 		while (current->cmd[i])
-			printf("%s\n", current->cmd[i++]);
+			printf("%s\n", current->cmd[i++]);}
 		printf("\001\033[1;93m\002infile is:\001\033[0m\002\t%s\n", current->infile);
 		printf("\001\033[1;93m\002outfile is:\001\033[0m\002\t%s\n", current->outfile);
 		printf("\001\033[1;93m\002pipe?\001\033[0m\002\t\t%s\n", \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct_cmds.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:31:46 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/19 12:07:32 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/12/03 11:11:54 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_cmd	*create_node(void)
 
 	node = NULL;
 	node = malloc(sizeof(t_cmd));
-	node->cmd = NULL;
+	node->cmd = ft_calloc(256, sizeof(char *));
 	node->path = NULL;
 	node->full_tokens = NULL;
 	node->fd_in = 0;
