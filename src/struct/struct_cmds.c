@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:31:46 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/12/03 11:11:54 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/12/11 10:42:55 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,19 @@ t_cmd	*create_node(void)
 	node = malloc(sizeof(t_cmd));
 	node->cmd = ft_calloc(256, sizeof(char *));
 	node->path = NULL;
-	node->full_tokens = NULL;
 	node->fd_in = 0;
 	node->fd_out = 1;
-	node->infile = NULL;
-	node->outfile = NULL;
+	node->in_file = NULL;
+	node->out_file = NULL;
 	node->pipe = false;
-	node->here_doc = false;
-	node->appen = false;
 	node->return_value = 0;
 	node->next = NULL;
 	node->pid = -1;
 	node->path_to_cmd = NULL;
+	node->here_doc = false;
+	node->infile = false;
+	node->outfile = false;
+	node->appen	= false;
 	return (node);
 }
 
@@ -62,16 +63,12 @@ void	create_cmds(t_data *data)
 
 void	free_mem(t_cmd *del)
 {
-	if (del->here_doc)
-		unlink(del->infile);
 	if (del->cmd != NULL)
 		ft_freearr(del->cmd);
-	if (del->infile != NULL)
-		free (del->infile);
-	if (del->outfile != NULL)
-		free(del->outfile);
-	if (del->full_tokens != NULL)
-		free(del->full_tokens);
+	if (del->in_file)
+		infile_bomb(del->in_file);
+	if (del->out_file)
+		outfile_bomb(del->out_file);
 	if (del->path != NULL)
 		free(del->path);
 	if (del->path_to_cmd != NULL)
