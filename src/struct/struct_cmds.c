@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:31:46 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/12/11 10:42:55 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/12/18 09:59:38 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,5 +106,6 @@ void	delete_cmds(t_data *data)
 		ft_freearr(data->tokens);
 	while (data->cmd)
 		delete_last(data);
+	ft_freearr(data->env);
 	return ;
 }

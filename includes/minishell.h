@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:26:18 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/12/11 11:43:09 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/12/23 11:39:40 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,10 +106,10 @@ void	rl_replace_line(const char *text, int clear_undo);
 /*			PARSER			*/
 /****************************/
 
-int		get_cmd(t_data *data);
-void	data_init(t_data *data);
+int		get_cmd(t_data *data, char **env);
+void	data_init(t_data *data, char **env);
 char	*get_prompt(t_data *data);
-void	create_env(t_data *data);
+void	create_env(t_data *data, char **env);
 int		input_user(t_data *data);
 int		parsing(t_data *data, int y, int x);
 int		ft_cmd_args(t_data *data, t_cmd *node, int y, int x);
@@ -153,6 +153,7 @@ void	del_lastenv(t_data *data);
 t_env	*find_last_env(t_env **env);
 t_env	*find_var(t_data *data, char *name);
 void	del_varenv(t_data *data, char *name);
+int		exist_var(t_data *data, t_env *node, char *str, char *name);
 
 /****************************/
 /*			Path			*/
@@ -218,7 +219,7 @@ int		here_doc(t_data *data, t_infile *node, bool exp, int y);
 int		hd_errors(t_data *data, char *buffer_hd, int error);
 void	create_file(t_cmd *cmd, char *buffer);
 int		print_var(t_data *data, char *cmd, int i, int fd_out);
-int 	ft_exit(t_data *data, int i);
+int		ft_exit(t_data *data, t_cmd *cmd, int i, int check);
 void	set_heredoc_signals(void);
 int		ft_heredoc_sig(int sig);
 void	sigint_handler(int signal);
@@ -226,4 +227,5 @@ void	set_up_sigaction(void);
 void	print_cmds(t_data *data);
 int 	count_vars(t_data *data);
 int		export_no_args(t_data *data, t_cmd *cmd, int count, int n_vars);
+int		execute_built(t_data *data, t_cmd *cmd);
 #endif
