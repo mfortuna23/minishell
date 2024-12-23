@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 10:14:09 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/12/04 18:56:04 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/12/16 19:30:07 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,12 @@ int	check_not_req(t_data *data)
 			return (ft_fprintf(2, 1, "MS: syntax error near unexpected"
 					" token '%c'\n", data->tokens[i][0]));
 		if (check_chars(data->tokens[i][0]) == 1 && (data->tokens[i + 1]) \
-		&& check_chars(data->tokens[i + 1][0]) == 1)
+		&& (data->tokens[i + 1][0] == data->tokens[i][0] || \
+		data->tokens[i + 1][0] == '|'))
 			return (ft_fprintf(2, 1, "MS: syntax error near unexpected"
 					" token '%c'\n", data->tokens[i + 1][0]));
 		if ((data->tokens[i][0]) == '|' && (data->tokens[i][1]) == '|')
-			return (ft_fprintf(2, 1, "bash: syntax error near unexpected "
+			return (ft_fprintf(2, 1, "MS: syntax error near unexpected "
 					"token '%c'\n", data->tokens[i][0]));
 		i++;
 	}
@@ -112,8 +113,8 @@ int	split_tokens(t_data *d, t_iter *x)
 				if ((d->parser[x->i] == 34 || d->parser[x->i] == 39))
 				{
 					x->c = d->parser[x->i++];
-					while (d->parser[x->i] && (d->parser[x->i] != x->c))
-						x->i++;
+					while (d->parser[x->i] && (d->parser[x->i++] != x->c))
+						;
 					d->tokens[x->x++] = ft_substr(d->parser, x->j, x->i - x->j);
 					break ;
 				}

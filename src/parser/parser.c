@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:27:08 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/12/11 13:33:07 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/12/23 11:11:44 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	print_cmds(t_data *data);
 int	parasing_error(t_data *data, int pipe)
 {
 	if (pipe == 1)
-		ft_fprintf(2, 1, "parser error near '|' \n");
+		ft_fprintf(2, 1, "MS: syntax error near unexpected token '|' \n");
 	data->check = 1;
 	r_value(158, 1);
 	return (1);
@@ -59,6 +59,7 @@ int	token_error(t_data *data)
 	if (check_not_req(data) == 1)
 	{
 		free(data->parser);
+		free(data->input);
 		ft_freearr(data->tokens);
 		data->check = 1;
 		return (1);
@@ -98,7 +99,7 @@ int	input_user(t_data *data)
 		return (-1);
 	}
 	if (get_fullinput(data) == 1)
-		return (1);
+		return (1);	
 	add_history(data->input);
 	if (ft_strtok(data, 0, 0,'a') == 1)
 		return (1);
@@ -108,10 +109,10 @@ int	input_user(t_data *data)
 		return (1);
 	// data->check = 1;	// TODO remove after 
 	// print_cmds(data);	// remove
-	// return (0);			// remove
+	//return (0);			// remove
 	if (data->cmd->cmd == NULL)
 		return (1);
-	if (ft_exit(data, 0) == 0)
+	if (ft_exit(data, data->cmd, 0, 1) == 0)
 		return (-1);
 	if (export_or_unset(data, data->cmd) == 0)
 		data->check = 1;

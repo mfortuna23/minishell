@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 02:41:38 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/12/05 09:42:42 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/12/23 11:39:09 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ int	export_no_args(t_data *data, t_cmd *cmd, int count, int n_vars)
 	var = data->var;
 	cmp = data->var;
 	if (cmd->cmd[1])
-		return (1);
+		return (0);
 	while (count < n_vars)
 	{
 		while (cmp)
