@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 11:35:17 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/12/23 11:11:25 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/12/30 19:36:43 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	exit_error(t_data *data, int args)
 
 int	ft_exit(t_data *data, t_cmd *cmd, int i, int check)
 {
-	if (!cmd->cmd || !cmd->cmd[0])
+	if (!cmd->cmd || !cmd->cmd[0] || (data->cmd->pipe && check == 1))
 		return (1);
 	if (ft_strncmp(cmd->cmd[0], "exit\0", 5) != 0)
 		return (1);
@@ -60,6 +60,7 @@ int	ft_exit(t_data *data, t_cmd *cmd, int i, int check)
 	{
 		data->check = -1;
 		ft_fprintf(2, 0, "exit\n");
+		return (0);
 	}
-	return (0);
+	return (r_value(0, 0));
 }

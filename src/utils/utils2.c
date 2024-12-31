@@ -1,43 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   struct_env.c                                       :+:      :+:    :+:   */
+/*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/25 09:19:49 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/12/30 20:17:21 by mfortuna         ###   ########.fr       */
+/*   Created: 2024/12/30 20:20:07 by mfortuna          #+#    #+#             */
+/*   Updated: 2024/12/30 20:20:46 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-t_env	*create_env_node(void)
+int arr_count(char **arr)
 {
-	t_env	*env;
+	int i;
 
-	env = NULL;
-	env = malloc(sizeof(t_env));
-	env->full = NULL;
-	env->name = NULL;
-	env->value = NULL;
-	env->alive = true;
-	env->next = NULL;
-	env->w = false;
-	return (env);
+	i = 0;
+	while (arr[i])
+		i++;
+	return (i);
 }
-void	add_last_env(t_env **head)
-{
-	t_env	*last;
 
-	last = NULL;
-	if ((*head) == NULL)
+char	**ft_arrdup(char **old)
+{
+	char	**new;
+	int		i;
+
+	i = 0;
+	new = ft_calloc(arr_count(old) + 1, sizeof (char *));
+	while (old[i])
 	{
-		(*head) = create_env_node();
-		return ;
+		new[i] = ft_strdup(old[i]);
+		i++;
 	}
-	last = (*head);
-	while (last->next != NULL)
-		last = last->next;
-	last->next = create_env_node();
+	i = 0;
+	return (new);
+}
+
+void sig_reset()
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 }

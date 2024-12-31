@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:38:58 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/12/18 10:00:27 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/12/26 11:03:11 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ char	*get_prompt(t_data *data)
 	ft_substr(ft_strrchr(data->path, '/'), \
 	0, ft_strlen(data->path)));
 	data->prompt = str_join(data->prompt, ft_strdup(" \001\033[0m\002 > "));
+	ft_freearr(data->env);
 	update_env(data);
 	return (data->prompt);
 }
@@ -105,14 +106,16 @@ void	data_init(t_data *data, char **env)
 	data->i = 0;
 	data->check = 0;
 	data->n_cmd = 1;
+	data->return_v = 0;
+	r_value(0, 1);
 	create_env(data, env);
+	update_env(data);
 }
 
 /* recives input from user */
 int	get_cmd(t_data *data, char **env)
 {
 	data_init(data, env);
-	r_value(0, 1);
 	signal(SIGQUIT, SIG_IGN);
 	data->input = readline(get_prompt(data));
 	while (input_user(data) >= 0)
@@ -127,6 +130,7 @@ int	get_cmd(t_data *data, char **env)
 				r_value(ft_execute(data, data->cmd), 1);
 			}
 		}
+		data->return_v = r_value(0, 0);
 		if (data->cmd)
 			delete_cmds(data);
 		free(data->prompt);

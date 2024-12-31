@@ -6,13 +6,13 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 13:24:59 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/12/16 17:05:13 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/12/30 23:43:10 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char	*w_var_buffer(t_data *data, char *input, char *buffer_hd)
+char	*w_var_buffer(t_data *data, char *input, char *buffer_hd, t_iter *x)
 {
 	t_env	*var;
 	char	name[256];
@@ -20,15 +20,15 @@ char	*w_var_buffer(t_data *data, char *input, char *buffer_hd)
 	int		j;
 
 	ft_memset(name, 0, 256);
-	data->i++;
+	x->i++;
 	tmp = NULL;
 	j = 0;
-	while ((input[data->i]) && input[data->i] != ' ')
-		name[j++] = input[data->i++];
+	while ((input[x->i]) && input[x->i] != ' ')
+		name[j++] = input[x->i++];
 	var = find_var(data, name);
 	if (!var)
 		return (ft_strdup(""));
-	data->i = data->i + (ft_strlen(name) - 1);
+	x->i = x->i + (ft_strlen(name) - 1);
 	tmp = str_join(buffer_hd, ft_strdup(var->value));
 	return (tmp);
 }
@@ -36,23 +36,26 @@ char	*w_var_buffer(t_data *data, char *input, char *buffer_hd)
 char	*w_buffer_hd(t_data *data, char *input, char *buffer_hd, bool exp)
 {
 	char	*tmp;
+	t_iter	*x;
 
 	tmp = NULL;
-	while (input[data->i])
+	x = init_iter();
+	while (input[x->i])
 	{
-		if (exp && input[data->i] == '$')
-			buffer_hd = w_var_buffer(data, input, buffer_hd);
+		if (exp && input[x->i] == '$')
+			buffer_hd = w_var_buffer(data, input, buffer_hd, x);
 		else
-			buffer_hd = str_join(buffer_hd, ft_substr(input, data->i, 1));
-		if (data->i > ft_strlen(input))
+			buffer_hd = str_join(buffer_hd, ft_substr(input, x->i, 1));
+		if (x->i > ft_strlen(input))
 			break ;
-		data->i++;
+		x->i++;
 	}
 	tmp = str_join(buffer_hd, ft_strdup("\n"));
+	free(x);
 	return (tmp);
 }
 
-int	get_heredoc(t_data *data,t_infile *infile, char *name, bool exp)
+int	get_heredoc(t_data *data, t_infile *infile, char *name, bool exp)
 {
 	char	*input;
 	char	*buffer_hd;
@@ -69,7 +72,6 @@ int	get_heredoc(t_data *data,t_infile *infile, char *name, bool exp)
 			return (hd_errors(data, buffer_hd, 1));
 		if (ft_strncmp(input, name, ft_strlen(name) + 1) == 0)
 			break ;
-		data->i = 0;
 		buffer_hd = w_buffer_hd(data, input, buffer_hd, exp);
 	}
 	if (input)
