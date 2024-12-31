@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_aux.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbezerra <tbezerra@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 16:56:07 by tbezerra          #+#    #+#             */
-/*   Updated: 2024/11/18 11:03:48 by tbezerra         ###   ########.fr       */
+/*   Updated: 2024/12/23 12:06:13 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	set_path(t_data *data)
 	current->path_to_cmd = get_paths(data);
 	while (current)
 	{
-		current->path = find_path(data, current->cmd[0]);
+		current->path = find_path(data, current);
 		current = current->next;
 	}
 }

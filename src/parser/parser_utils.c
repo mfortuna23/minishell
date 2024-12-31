@@ -6,13 +6,14 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 10:14:09 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/12/16 19:30:07 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/12/30 20:16:37 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-/* check for special chars not required by the subject also duplicated special chars*/
+/* check for special chars not required by the subject 
+also duplicated special chars*/
 int	check_not_req(t_data *data)
 {
 	int	i;
@@ -68,6 +69,7 @@ int	token_count(char *s, int i, int count, char c)
 	}
 	return (count);
 }
+
 /* fill data->parser */
 void	less_space(t_data *data, char *arr, int i, int count)
 {
@@ -97,7 +99,6 @@ void	less_space(t_data *data, char *arr, int i, int count)
 	}
 	data->parser[count] = 0;
 }
-
 
 int	split_tokens(t_data *d, t_iter *x)
 {

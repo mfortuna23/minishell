@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 11:01:03 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/12/10 13:25:49 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/12/30 20:20:47 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	ms_bomb(t_data *data, int check)
 		delete_cmds(data);
 	free(data->prompt);
 	free(data->path);
+	ft_freearr(data->env);
 	if (check == 1)
 	{
 		if (data->input)
@@ -49,7 +50,7 @@ void	ms_bomb(t_data *data, int check)
 //if type == 0 returns last return value
 int	r_value(int value, int type)
 {
-	static int	r_v;
+	static int	r_v = 0;
 
 	if (type == 0)
 		return (r_v);

@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:36:53 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/12/18 09:41:36 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/12/28 11:49:58 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	main(int argc, char **argv, char **env)
 	t_data				data;
 
 	set_up_sigaction();
+	ft_fprintf(1, 0, "a PID is %i\n", getpid());
 	get_cmd(&data, env);
 	(void)argc;
 	(void)argv;

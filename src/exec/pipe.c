@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tbezerra <tbezerra@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 11:14:25 by tbezerra          #+#    #+#             */
-/*   Updated: 2024/11/21 22:02:12 by tbezerra         ###   ########.fr       */
+/*   Updated: 2024/12/31 00:56:06 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,64 +46,42 @@ void	exec_last_command(t_data *data)
 		current = current->next;
 	current->pid = fork();
 	if (current->pid < 0)
-	{
-		perror("fork");
-		exit(EXIT_FAILURE);
-	}
+		error_exit("fork");
 	if (current->pid == 0)
 	{
-		// Redireciona a entrada padrão para o pipe anterior
+		ft_fprintf(1, 0, "a PID last cmd is %i\n", getpid()); // TODO remove
 		if (dup2(data->pipe_n[data->n_cmd - 2][0], STDIN_FILENO) == -1)
-		{
-			perror("dup2");
-			exit(EXIT_FAILURE);
-		}
-		close(data->pipe_n[data->n_cmd - 2][0]);
-		close(data->pipe_n[data->n_cmd - 2][1]);
+			error_exit("dup2");
+		close_all_pipes(data);
+		free(data->pipe_n);
 		ft_execve(data, current);
-		exit(EXIT_FAILURE); // Se ft_execve falhar
+		exit(EXIT_FAILURE);
 	}
 }
 
-void	exec_intermediate_commands(t_data *data)
+void	exec_intermediate_commands(t_data *d)
 {
-	t_cmd *current = data->cmd->next;
-	int i = 1;
+	t_cmd	*current;
+	int		i;
 
-	while (i < data->n_cmd - 1)
+	current = d->cmd->next;
+	i = 1;
+	while (i < d->n_cmd - 1)
 	{
 		current->pid = fork();
 		if (current->pid < 0)
-		{
-			perror("fork");
-			exit(EXIT_FAILURE);
-		}
+			error_exit("fork");
 		if (current->pid == 0)
 		{
-			// Redireciona a entrada padrão para o pipe anterior
-			if (dup2(data->pipe_n[i - 1][0], STDIN_FILENO) == -1)
-			{
-				perror("dup2");
-				exit(EXIT_FAILURE);
-			}
-            // Redireciona a saída padrão para o próximo pipe
-			if (dup2(data->pipe_n[i][1], STDOUT_FILENO) == -1)
-			{
-				perror("dup2");
-				exit(EXIT_FAILURE);
-			}
-			close(data->pipe_n[i - 1][0]);
-			close(data->pipe_n[i - 1][1]);
-			close(data->pipe_n[i][0]);
-			close(data->pipe_n[i][1]);
-			ft_execve(data, current);
-			exit(EXIT_FAILURE); // Se ft_execve falhar
+			ft_fprintf(1, 0, "a PID of mid cmd is %i\n", getpid()); // TODO remove
+			dup_pipes(d->pipe_n[i - 1][0], d->pipe_n[i][1], i, d->n_cmd);
+			close_all_pipes(d);
+			free(d->pipe_n);
+			ft_execve(d, current);
+			exit(EXIT_FAILURE);
 		}
 		else
-		{
-			close(data->pipe_n[i - 1][0]);
-			close(data->pipe_n[i - 1][1]);
-		}
+			close_fds(d->pipe_n[i - 1][0], d->pipe_n[i - 1][1]);
 		current = current->next;
 		i++;
 	}
@@ -116,21 +94,15 @@ void	exec_first_command(t_data *data)
 	current = data->cmd;
 	current->pid = fork();
 	if (current->pid < 0)
-	{
-		perror("fork");
-		exit(EXIT_FAILURE);
-	}
+		error_exit("fork");
 	if (current->pid == 0)
 	{
-		// Redireciona a saída padrão para o pipe
+		ft_fprintf(1, 0, "a PID in first cmd is %i\n", getpid()); // TODO remove
 		if (dup2(data->pipe_n[0][1], STDOUT_FILENO) == -1)
-		{
-			perror("dup2");
-			exit(EXIT_FAILURE);
-		}
-		close(data->pipe_n[0][0]);
-		close(data->pipe_n[0][1]);
+			error_exit("dup2");
+		close_all_pipes(data);
+		free(data->pipe_n);
 		ft_execve(data, current);
-		exit(EXIT_FAILURE); // Se ft_execve falhar
+		exit(EXIT_FAILURE);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 02:40:57 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/22 11:25:24 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/12/30 19:48:57 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	print_var(t_data *data, char *cmd, int i, int fd_out)
 	var = NULL;
 	ft_memset(name, 0, 1024);
 	if (cmd[i] == 0)
-		return (ft_fprintf(fd_out, 1, "%c",'$'));
+		return (ft_fprintf(fd_out, 1, "%c", '$'));
 	if (cmd[i] == '?')
 		return (ft_fprintf(fd_out, 2, "%i", r_value(0, 0)));
 	while ((cmd[i]) && cmd[i] != ' ' && cmd[i] != 34)
@@ -56,14 +56,14 @@ void	print_echo(t_data *data, char *cmd, int i, int fd_out)
 		if (cmd[i] == '$')
 			i = print_var(data, cmd, i + 1, fd_out);
 		else
-			ft_fprintf(fd_out, 0,"%c", cmd[i++]);
+			ft_fprintf(fd_out, 0, "%c", cmd[i++]);
 	}
 }
 
 int	ft_echo(t_data *data, t_cmd *cmd, int x)
 {
 	bool	new_line;
-    char	var[1024];
+	char	var[1024];
 	char	c;
 
 	ft_memset(var, 0, 1024);

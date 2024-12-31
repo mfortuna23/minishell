@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:22:58 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/12/23 11:40:56 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/12/31 00:58:34 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,44 +31,6 @@ int	ft_cd(t_data *data)
 	else
 		update_var(data);
 	return (1);
-}
-
-void	unset_var(t_data *data, char *str)
-{
-	t_env	*node;
-	t_env	*tmp;
-
-	node = NULL;
-	tmp = data->var;
-	node = find_var(data, str);
-	if (!node)
-		return ;
-	if (node == data->var)
-	{
-		data->var = node->next;
-		free_env(node);
-		return ;
-	}
-	while (tmp->next != node)
-		tmp = tmp->next;
-	tmp->next = node->next;
-	free_env(node);
-}
-
-int	ft_unset(t_data	*data, t_cmd *cmd)
-{
-	int	i;
-
-	i = 1;
-	r_value(0, 1);
-	if (data->cmd->pipe || !cmd->cmd[i])
-		return (1);
-	while (cmd->cmd[i])
-	{
-		unset_var(data, cmd->cmd[i]);
-		i++;
-	}
-	return (0);
 }
 
 int	ft_env(t_data *data)
@@ -110,11 +72,8 @@ int	export_or_unset(t_data *data, t_cmd *cmd)
 /* return value 0: was executed | 2: NOT builtin  */
 int	check_for_built(t_data *data, t_cmd	*cmd)
 {
-	t_env	*node;
-
-	node = data->var;
-	(void)node;
-	if (!cmd->cmd[0])
+	(void)data;
+	if (!cmd->cmd | !cmd->cmd[0])
 		return (2);
 	if (ft_strncmp(cmd->cmd[0], "env\0", 4) == 0)
 		return (0);
@@ -127,11 +86,11 @@ int	check_for_built(t_data *data, t_cmd	*cmd)
 	else if (ft_strncmp(cmd->cmd[0], "export\0", 7) == 0)
 		return (0);
 	else if (ft_strncmp(cmd->cmd[0], "exit\0", 5) == 0)
-		return (0);
+		return (ft_fprintf(1, 0, "it is builtin crl!!!\n"));
 	return (2);
 }
 
-int execute_built(t_data *data, t_cmd *cmd)
+int	execute_built(t_data *data, t_cmd *cmd)
 {
 	if (ft_strncmp(cmd->cmd[0], "env\0", 4) == 0)
 		return (ft_env(data));
