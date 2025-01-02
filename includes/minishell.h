@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:26:18 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/02 12:05:13 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/02 15:28:47 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,4 +234,7 @@ int		count_vars(t_data *data);
 int		export_no_args(t_data *data, t_cmd *cmd, int count, int n_vars);
 int		execute_built(t_data *data, t_cmd *cmd);
 int		ft_unset(t_data	*data, t_cmd *cmd);
+int		built_flags(char **args, int echo);
+int		pwd(t_data *data, t_cmd *cmd);
+int		ft_cd2(t_data *data);
 #endif

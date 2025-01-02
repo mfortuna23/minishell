@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 02:41:38 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/12/30 19:51:08 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/02 14:04:29 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ int	ft_export(t_data *data, t_cmd *cmd)
 	i = 1;
 	if (cmd->pipe || !cmd->cmd[1])
 		return (3);
+	if (built_flags(cmd->cmd, 1) == 2)
+		return (r_value(2, 1));
 	while (cmd->cmd[i])
 	{
 		if (ft_strncmp(cmd->cmd[i], "$\0", 2) == 0 || \
