@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:26:18 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/12/31 01:01:38 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/02 12:05:13 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,6 +207,8 @@ int		data_check(t_data *data, int check, int r_value);
 void	update_var(t_data *data);
 char	**ft_arrdup(char **old);
 void	sig_reset(void);
+void	sigaction_child(void);
+int		arr_count(char **arr);
 
 /****************************/
 /*			BUITINS			*/

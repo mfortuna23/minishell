@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:34:48 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/12/31 01:06:02 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/02 11:56:55 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,19 +31,20 @@ void	exec_exit(t_data *data, char *path, char **cmd, char **env)
 
 void	ft_execve(t_data *data, t_cmd *cmd)
 {
-	int	r_value;
+	int	value;
 
-	sig_reset();
-	ft_fprintf(1, 0, "a PID is %i\n", getpid());
+	//ft_fprintf(1, 0, "a PID is %i\n", getpid()); TODO remove
+	r_value(0, 1);
+	signal(SIGINT, SIG_DFL);
 	cmd->fd_in = ft_redir_in(data, cmd);
 	cmd->fd_out = ft_redir_out(data, cmd);
 	if (check_for_built(data, data->cmd) <= 1)
 	{
-		r_value = execute_built(data, cmd);
+		value = execute_built(data, cmd);
 		close_fds(cmd->fd_in, cmd->fd_out);
-		printf("this is builtin \n");
+		//printf("this is builtin \n"); // TODO remove
 		ms_bomb(data, 0);
-		exit(r_value);
+		exit(value);
 	}
 	if (cmd->path == NULL)
 	{
@@ -51,17 +52,17 @@ void	ft_execve(t_data *data, t_cmd *cmd)
 			ft_fprintf(2, 0, "%s: command not found\n", cmd->cmd[0]);
 		close_fds(cmd->fd_in, cmd->fd_out);
 		if (cmd->here_doc)
-			r_value = 0;
+			value = 0;
 		else
-			r_value = 127;
+			value = 127;
 		ms_bomb(data, 0);
-		exit (r_value);
+		exit (value);
 	}
 	else
 		exec_exit(data, cmd->path, cmd->cmd, data->env);
 	ms_bomb(data, 0);
 	close_fds(cmd->fd_in, cmd->fd_out);
-	exit(0);
+	exit(r_value(0, 0));
 }
 
 void	init_redic(t_data *data)
@@ -99,7 +100,8 @@ int	ft_execute(t_data *data, t_cmd *cmd)
 	int status;
 
 	(void)cmd;
-	signal(SIGINT, SIG_IGN);
+	sigaction_child();
+	r_value(0, 1);
 	init_redic(data);
 	if (data->n_cmd == 1)
 	{
@@ -108,14 +110,17 @@ int	ft_execute(t_data *data, t_cmd *cmd)
 			ft_execve(data, cmd);
 		waitpid(cmd->pid, &status, 0);
 		status = WEXITSTATUS(status);
-		printf("this is the return value : %i", status);
+		//ft_fprintf(2, 0, "this is the return value : %i", status); // TODO remove
+		if (r_value(0, 0) == 130)
+			return (130);
 		return (status);
 	}
 	status = ft_exec_pipe(data);
 	status = WEXITSTATUS(status);
-	printf("this is the return value : %i", status);
-	//clean_pipes(data);
+	//ft_fprintf(2, 0, "this is the return value : %i", status);// TODO remove
 	free(data->pipe_n);
 	set_up_sigaction();
+	if (r_value(0, 0) == 130)
+		return (130);
 	return (status);
 }

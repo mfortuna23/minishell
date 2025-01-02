@@ -6,12 +6,11 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:36:53 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/12/28 11:49:58 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/12/31 12:36:22 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
 
 void	sigint_handler(int signal)
 {
@@ -23,7 +22,6 @@ void	sigint_handler(int signal)
 		rl_redisplay();
 	}
 }
-
 
 void	set_up_sigaction(void)
 {
@@ -43,7 +41,7 @@ int	main(int argc, char **argv, char **env)
 	t_data				data;
 
 	set_up_sigaction();
-	ft_fprintf(1, 0, "a PID is %i\n", getpid());
+	//ft_fprintf(2, 0, "a PID is %i\n", getpid());// TODO remove
 	get_cmd(&data, env);
 	(void)argc;
 	(void)argv;

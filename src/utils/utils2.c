@@ -6,15 +6,15 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 20:20:07 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/12/30 20:20:46 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/02 11:52:57 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int arr_count(char **arr)
+int	arr_count(char **arr)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (arr[i])
@@ -38,8 +38,30 @@ char	**ft_arrdup(char **old)
 	return (new);
 }
 
-void sig_reset()
+void	sig_reset(void)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
+}
+
+void	sigchild_handler(int signal)
+{
+	if (signal == SIGINT)
+	{
+		ft_fprintf(2, 0,"\n");
+		r_value(130, 1);
+	}
+}
+
+void	sigaction_child(void)
+{
+	struct sigaction	sa;
+
+	(void)sa;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_handler = sigchild_handler;
+	sa.sa_flags = SA_RESTART;
+	sigaction(SIGINT, &sa, NULL);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGTERM, SIG_IGN);
 }

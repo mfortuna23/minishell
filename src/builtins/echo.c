@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 02:40:57 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/12/30 19:48:57 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/02 12:07:32 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,35 +38,41 @@ int	print_var(t_data *data, char *cmd, int i, int fd_out)
 	return (++i);
 }
 
-void	print_echo(t_data *data, char *cmd, int i, int fd_out)
+void	print_echo(t_cmd *cmd, char *args, int x, int fd_out)
 {
 	char	c;
+	int		i;
 
-	c = cmd[i];
-	while (cmd[i])
+	i = 0;
+	c = args[i];
+	while (args[i])
 	{
 		if (c == 39)
 		{
-			while (cmd[++i] != c)
-				ft_putchar_fd(cmd[i], 1);
+			while (args[++i] != c)
+				ft_putchar_fd(args[i], 1);
 			return ;
 		}
-		if (cmd[i] == 34)
+		if (args[i] == 34)
 			i++;
-		if (cmd[i] == '$')
-			i = print_var(data, cmd, i + 1, fd_out);
+		// if (cmd[i] == '$')
+		// 	i = print_var(data, cmd, i + 1, fd_out);
 		else
-			ft_fprintf(fd_out, 0, "%c", cmd[i++]);
+			ft_fprintf(fd_out, 0, "%c", args[i++]);
 	}
+	if (x == arr_count(cmd->cmd) - 1)
+		return ;
+	ft_printf("%c", 32);
 }
 
 int	ft_echo(t_data *data, t_cmd *cmd, int x)
 {
 	bool	new_line;
 	char	var[1024];
-	char	c;
+	// char	c;
 
 	ft_memset(var, 0, 1024);
+	(void)data;
 	new_line = true;
 	if (!cmd->cmd[x])
 		return (0);
@@ -77,10 +83,10 @@ int	ft_echo(t_data *data, t_cmd *cmd, int x)
 	}
 	while (cmd->cmd[x])
 	{
-		c = cmd->cmd[x][0];
-		print_echo(data, cmd->cmd[x], 0, cmd->fd_out);
-		if (c != 34 && cmd->cmd[x][0] != 0)
-			ft_printf("%c", 32);
+		// c = cmd->cmd[x][0];
+		print_echo(cmd, cmd->cmd[x], x, cmd->fd_out);
+		// if ((c != 34 && cmd->cmd[x][0] != 0) || cmd->cmd[x + 1][0] != 0)
+		// 	ft_printf("%c", 32);
 		x++;
 	}
 	if (new_line)
