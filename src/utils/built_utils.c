@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 15:01:23 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/02 15:06:03 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/02 15:29:03 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,19 @@ int	built_flags(char **args, int echo)
 			return (1);
 	}
 	return (ft_fprintf(2, 2, "MS: %s: %s: invalid option\n", args[0], args[1]));
+}
+
+int	ft_cd2(t_data *data)
+{
+	t_env	*var;
+
+	var = NULL;
+	var = find_var(data, "HOME");
+	if (!var)
+	{
+		r_value(1, 1);
+		return (ft_fprintf(2, 1, "MS: cd: HOME not set\n"));
+	}
+	chdir(var->value);
+	return (0);
 }

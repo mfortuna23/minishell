@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:22:58 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/02 15:06:36 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/02 15:28:53 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_cd(t_data *data)
 	if (data->cmd->pipe)
 		return (0);
 	if (!data->tokens[1])
-		return (0);
+		return (ft_cd2(data));
 	if (built_flags(data->cmd->cmd, 1) == 2)
 		return (r_value(2, 1));
 	if (chdir(data->tokens[1]) < 0)

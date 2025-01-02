@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 02:40:57 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/02 15:04:01 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/02 15:26:20 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	ft_echo(t_data *data, t_cmd *cmd, int x)
 		// 	ft_printf("%c", 32);
 		x++;
 	}
-	if (new_line == 1)
+	if (new_line == 0)
 		printf("\n");
 	return (0);
 }
