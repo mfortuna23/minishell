@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 11:14:25 by tbezerra          #+#    #+#             */
-/*   Updated: 2024/12/31 12:26:52 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/02 17:59:29 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ int	ft_init_pipe(t_data *data)
 
 	n_pipes = data->n_cmd - 1;
 	i = 0;
-	data->pipe_n = ft_calloc(n_pipes, sizeof(int *));
+	data->pipe_n = calloc(n_pipes, sizeof(int *));
 	while (i < n_pipes)
 	{
-		data->pipe_n[i] = ft_calloc(2, sizeof(int));
+		data->pipe_n[i] = calloc(2, sizeof(int));
 		if (pipe(data->pipe_n[i]) == -1)
 			return (0);
 		i++;
@@ -53,23 +53,19 @@ void	error_exit(char *error)
 	exit(EXIT_FAILURE);
 }
 
-/* void	clean_pipes(t_data *data)
+void	clean_pipes(t_data *data)
 {
-	int	i;
+	// int	i;
 
-	i = 0;
+	// i = 0;
 	if (!data->pipe_n || !data->pipe_n[0])
 		return ;
-	while (data->pipe_n[i])
-	{
-		printf("\t\t\ti in clean pipes is %i\n", i);
-		i++;
-	}
-	i--;
-	while (i >= 0)
-	{
-		free(data->pipe_n[i]);
-		i--;
-	}
+	// while (data->pipe_n[i])
+	// {
+	// 	ft_fprintf(2, 0, "\t\t\ti in clean pipes is %i\n", i);
+	// 	free(data->pipe_n[i]);
+	// 	i++;
+	// }
 	free(data->pipe_n);
-} */
+	data->pipe_n = NULL;
+}

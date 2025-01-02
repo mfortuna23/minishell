@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 11:14:25 by tbezerra          #+#    #+#             */
-/*   Updated: 2024/12/31 12:32:39 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/02 17:40:56 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,9 @@ void	exec_last_command(t_data *data)
 		if (dup2(data->pipe_n[data->n_cmd - 2][0], STDIN_FILENO) == -1)
 			error_exit("dup2");
 		close_all_pipes(data);
-		free(data->pipe_n);
+		clean_pipes(data);
+		// free(data->pipe_n);
+		// data->pipe_n = NULL;
 		ft_execve(data, current);
 		exit(EXIT_FAILURE);
 	}
@@ -77,6 +79,7 @@ void	exec_intermediate_commands(t_data *d)
 			dup_pipes(d->pipe_n[i - 1][0], d->pipe_n[i][1], i, d->n_cmd);
 			close_all_pipes(d);
 			free(d->pipe_n);
+			d->pipe_n = NULL;
 			ft_execve(d, current);
 			exit(EXIT_FAILURE);
 		}
@@ -101,7 +104,9 @@ void	exec_first_command(t_data *data)
 		if (dup2(data->pipe_n[0][1], STDOUT_FILENO) == -1)
 			error_exit("dup2");
 		close_all_pipes(data);
-		free(data->pipe_n);
+		clean_pipes(data);
+		// free(data->pipe_n);
+		// data->pipe_n = NULL;
 		ft_execve(data, current);
 		exit(EXIT_FAILURE);
 	}

@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/21 11:01:03 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/12/30 20:20:47 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/02 17:08:04 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,11 @@ void	ms_bomb(t_data *data, int check)
 	free(data->prompt);
 	free(data->path);
 	ft_freearr(data->env);
+	if (data->pipe_n != NULL)
+	{
+		free(data->pipe_n);
+		data->pipe_n = NULL;
+	}
 	if (check == 1)
 	{
 		if (data->input)
