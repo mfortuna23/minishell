@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 11:14:25 by tbezerra          #+#    #+#             */
-/*   Updated: 2025/01/02 17:40:56 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/02 18:13:20 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,11 @@ void	close_all_pipes(t_data *data)
 	{
 		close(data->pipe_n[i][0]);
 		close(data->pipe_n[i][1]);
+		free(data->pipe_n[i]);
 		i++;
 	}
+	free(data->pipe_n);
+	data->pipe_n = NULL;
 }
 
 void	exec_last_command(t_data *data)
