@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 19:43:59 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/12/30 19:45:00 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/02 14:04:51 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ int	ft_unset(t_data	*data, t_cmd *cmd)
 
 	i = 1;
 	r_value(0, 1);
+	if (built_flags(cmd->cmd, 1) == 2)
+		return (r_value(2, 1));
 	if (data->cmd->pipe || !cmd->cmd[i])
 		return (1);
 	while (cmd->cmd[i])
