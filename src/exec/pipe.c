@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 11:14:25 by tbezerra          #+#    #+#             */
-/*   Updated: 2024/12/31 00:56:06 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/12/31 12:32:39 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	exec_last_command(t_data *data)
 		error_exit("fork");
 	if (current->pid == 0)
 	{
-		ft_fprintf(1, 0, "a PID last cmd is %i\n", getpid()); // TODO remove
+		//ft_fprintf(2, 0, "a PID last cmd is %i\n", getpid()); // TODO remove
 		if (dup2(data->pipe_n[data->n_cmd - 2][0], STDIN_FILENO) == -1)
 			error_exit("dup2");
 		close_all_pipes(data);
@@ -73,7 +73,7 @@ void	exec_intermediate_commands(t_data *d)
 			error_exit("fork");
 		if (current->pid == 0)
 		{
-			ft_fprintf(1, 0, "a PID of mid cmd is %i\n", getpid()); // TODO remove
+			//ft_fprintf(2, 0, "a PID of mid cmd is %i\n", getpid()); // TODO remove
 			dup_pipes(d->pipe_n[i - 1][0], d->pipe_n[i][1], i, d->n_cmd);
 			close_all_pipes(d);
 			free(d->pipe_n);
@@ -97,7 +97,7 @@ void	exec_first_command(t_data *data)
 		error_exit("fork");
 	if (current->pid == 0)
 	{
-		ft_fprintf(1, 0, "a PID in first cmd is %i\n", getpid()); // TODO remove
+		//ft_fprintf(2, 0, "a PID in first cmd is %i\n", getpid()); // TODO remove
 		if (dup2(data->pipe_n[0][1], STDOUT_FILENO) == -1)
 			error_exit("dup2");
 		close_all_pipes(data);

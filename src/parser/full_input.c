@@ -6,13 +6,13 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 10:38:42 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/12/17 10:25:31 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/12/31 12:38:13 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	ft_errorfullinput (t_data *data)
+int	ft_errorfullinput(t_data *data)
 {
 	data->check = 1;
 	free(data->input);
@@ -22,7 +22,7 @@ int	ft_errorfullinput (t_data *data)
 	return (1);
 }
 
-int get_quotes2(t_data *data)
+int	get_quotes2(t_data *data)
 {
 	char	*new;
 
@@ -62,7 +62,7 @@ int	get_quotes(t_data *data, int i, char c, int check)
 int	find_str(char *s1, char *s2, int tmp)
 {
 	int	i;
-	int j;
+	int	j;
 
 	i = 0;
 	j = 0;

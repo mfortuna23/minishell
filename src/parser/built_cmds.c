@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 10:42:34 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/12/30 23:25:12 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/12/31 12:40:13 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*ft_strdup_noquotes(t_data *data, char *old, char *new, bool exp);
 int	syntax_error(t_data *data, char *error)
 {
 	r_value(2, 1);
-	printf("char error, parser error 2\n");
+	//printf("char error, parser error 2\n"); // TODO remove
 	ft_fprintf(2, 0, error);
 	data->check = 1;
 	return (-983904);
@@ -31,7 +31,7 @@ int	ft_red_infile(t_data *data, t_cmd *current, int y, int x)
 		return (syntax_error(data, \
 		"MS: syntax error near unexpected token '<'\n"));
 	if (!data->tokens[y + 1])
-		return (syntax_error(data,\
+		return (syntax_error(data, \
 		"MS: syntax error near unexpected token `newline'\n"));
 	if (x == 1)
 		add_last_infile(data, &current->in_file, false, data->tokens[++y]);
@@ -117,7 +117,6 @@ void	w_nbr(int nbr, char *new, t_iter *x)
 	while (str[i])
 		new[x->j++] = str[i++];
 	free(str);
-	
 }
 
 void	w_var_inbuffer(t_data *data, char *old, char *new, t_iter *x)
@@ -136,7 +135,7 @@ void	w_var_inbuffer(t_data *data, char *old, char *new, t_iter *x)
 	}
 	var = find_var(data, name);
 	x->i += ft_strlen(name);
-	printf ("the PID is :%i\n", getpid());
+	//printf ("the PID is :%i\n", getpid()); TODO remove
 	if (ft_strncmp(name, "?\0", 2) == 0)
 		w_nbr(data->return_v, new, x);
 	free(name);
@@ -147,7 +146,7 @@ void	w_var_inbuffer(t_data *data, char *old, char *new, t_iter *x)
 }
 
 //allocate memory in new before calling this function
-char *ft_strdup_noquotes(t_data *data, char *old, char *new, bool exp)
+char	*ft_strdup_noquotes(t_data *data, char *old, char *new, bool exp)
 {
 	t_iter	*x;
 
@@ -159,6 +158,7 @@ char *ft_strdup_noquotes(t_data *data, char *old, char *new, bool exp)
 		{
 			w_var_inbuffer(data, old, new, x);
 			while (new[++x->j]);
+
 		}
 		else if (x->c == 34 || x->c == 39)
 		{

@@ -6,20 +6,20 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:27:08 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/12/31 01:10:52 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/12/31 12:25:55 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	print_cmds(t_data *data);
+//void	print_cmds(t_data *data);
 
 int	parasing_error(t_data *data, int pipe)
 {
 	if (pipe == 1)
 		ft_fprintf(2, 1, "MS: syntax error near unexpected token '|' \n");
 	data->check = 1;
-	printf ("char error, new return value is 158\n");
+	//printf ("char error, new return value is 158\n");//TODO remove
 	r_value(158, 1);
 	return (1);
 }
@@ -121,7 +121,7 @@ int	input_user(t_data *data)
 	return (0);
 }
 
-
+/* 
 void print_cmds(t_data *data)
 {
 	t_cmd		*current;
@@ -147,11 +147,13 @@ void print_cmds(t_data *data)
 		while (inf)
 		{
 			printf("infile n %i\n", f++);
-			printf("\001\033[1;93m\002infile is:\001\033[0m\002\t%s\n", inf->name);
+			printf("\001\033[1;93m\002infile is:\001\033[0m\002\t%s\n", \
+			inf->name);
 			printf("\001\033[1;93m\002here_doc?\001\033[0m\002\t%s\n", \
 				inf->here_doc ? "true" : "false");
 			if (inf->hd_buffer)
-				printf("\001\033[1;93m\002hd_buffer is:\001\033[0m\002\t%s\n", inf->hd_buffer);
+				printf("\001\033[1;93m\002hd_buffer is:\001\033[0m\002\t%s\n", \
+				inf->hd_buffer);
 			inf = inf->next;
 		}
 		outf = current->out_file;
@@ -159,7 +161,8 @@ void print_cmds(t_data *data)
 		while (outf)
 		{
 			printf("outfile n %i\n", f++);
-			printf("\001\033[1;93m\002outfile is:\001\033[0m\002\t%s\n", outf->name);
+			printf("\001\033[1;93m\002outfile is:\001\033[0m\002\t%s\n", \
+			outf->name);
 			printf("\001\033[1;93m\002appen?\001\033[0m\002\t%s\n", \
 				outf->appen ? "true" : "false");
 			outf = outf->next;
@@ -171,3 +174,4 @@ void print_cmds(t_data *data)
 		current = current->next;
 	}
 }
+ */

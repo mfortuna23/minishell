@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 11:14:25 by tbezerra          #+#    #+#             */
-/*   Updated: 2024/12/30 23:55:06 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/12/31 12:26:52 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	ft_init_pipe(t_data *data)
 			return (0);
 		i++;
 	}
-	ft_fprintf(2, 0, "there is %i piped fds\n", i);
+	//ft_fprintf(2, 0, "there is %i piped fds\n", i); // TODO remove
 	return (1);
 }
 

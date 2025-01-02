@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 16:37:43 by tbezerra          #+#    #+#             */
-/*   Updated: 2024/12/30 19:55:49 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/12/31 12:28:00 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_no_file_err(char *fname)
 {
-	ft_printf("bash: %s: No such file or directory\n",
+	ft_fprintf(2, 0,"MS: %s: No such file or directory\n",
 		fname);
 	return ;
 }
