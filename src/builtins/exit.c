@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 11:35:17 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/12/30 19:36:43 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/02 16:04:03 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,15 @@ int	exit_error(t_data *data, int args)
 		ft_fprintf(2, 1, "exit\nMS: exit: %s:"
 			" numeric argument required\n", data->cmd->cmd[1]);
 	if (args == 2)
+	{
 		ft_fprintf(2, 1, "exit\nMS: exit: too many arguments\n");
-	r_value(1, 1);
-	data->check = 1;
-	return (1);
+		r_value(2, 1);
+		data->check = 1;
+		return (1);
+	}
+	r_value(2, 1);
+	data->check = -1;
+	return (0);
 }
 
 int	ft_exit(t_data *data, t_cmd *cmd, int i, int check)

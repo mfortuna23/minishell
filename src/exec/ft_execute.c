@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:34:48 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/02 13:36:17 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/02 17:40:34 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	ft_execve(t_data *data, t_cmd *cmd)
 		if (cmd->cmd[0])
 			ft_fprintf(2, 0, "%s: command not found\n", cmd->cmd[0]);
 		close_fds(cmd->fd_in, cmd->fd_out);
+		clean_pipes(data);
 		if (cmd->here_doc)
 			value = 0;
 		else
@@ -120,7 +121,9 @@ int	ft_execute(t_data *data, t_cmd *cmd)
 	status = ft_exec_pipe(data);
 	status = WEXITSTATUS(status);
 	//ft_fprintf(2, 0, "this is the return value : %i", status);// TODO remove
-	free(data->pipe_n);
+	// free(data->pipe_n);
+	// data->pipe_n = NULL;
+	clean_pipes(data);
 	set_up_sigaction();
 	if (r_value(0, 0) == 130)
 		return (130);

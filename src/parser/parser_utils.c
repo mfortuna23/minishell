@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 10:14:09 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/12/30 20:16:37 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/02 16:27:10 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,10 @@ int	split_tokens(t_data *d, t_iter *x)
 					x->c = d->parser[x->i++];
 					while (d->parser[x->i] && (d->parser[x->i++] != x->c))
 						;
-					d->tokens[x->x++] = ft_substr(d->parser, x->j, x->i - x->j);
+					if (d->parser[x->i] < 33)
+						d->tokens[x->x++] = ft_substr(d->parser, x->j, x->i - x->j);
+					else
+						continue ;
 					break ;
 				}
 				if ((d->parser[++x->i] <= ' ' || \

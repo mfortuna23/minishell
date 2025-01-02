@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:38:58 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/12/26 11:03:11 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/02 17:09:53 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ void	data_init(t_data *data, char **env)
 	data->check = 0;
 	data->n_cmd = 1;
 	data->return_v = 0;
+	data->pipe_n = NULL;
 	r_value(0, 1);
 	create_env(data, env);
 	update_env(data);

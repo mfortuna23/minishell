@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 15:01:23 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/02 15:29:03 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/02 15:57:20 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,6 @@ int	ft_cd2(t_data *data)
 		return (ft_fprintf(2, 1, "MS: cd: HOME not set\n"));
 	}
 	chdir(var->value);
+	update_var(data);
 	return (0);
 }
