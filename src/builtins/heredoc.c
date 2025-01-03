@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 13:24:59 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/12/30 23:43:10 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/02 21:31:55 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ int	get_heredoc(t_data *data, t_infile *infile, char *name, bool exp)
 	{
 		if (ft_heredoc_sig(-1) == 1)
 			return (hd_errors(data, buffer_hd, 2));
+		if (r_value(0, 0) == 130)
+			return (free(buffer_hd), 98375234);
 		input = readline("heredoc> ");
 		if (!input)
 			return (hd_errors(data, buffer_hd, 1));

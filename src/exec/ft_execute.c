@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:34:48 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/02 17:40:34 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/03 00:13:40 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,11 @@ void	ft_execve(t_data *data, t_cmd *cmd)
 {
 	int	value;
 
-	//ft_fprintf(1, 0, "a PID is %i\n", getpid()); TODO remove
 	r_value(0, 1);
 	signal(SIGINT, SIG_DFL);
 	cmd->fd_in = ft_redir_in(data, cmd);
 	cmd->fd_out = ft_redir_out(data, cmd);
-	if (check_for_built(data, data->cmd) <= 1)
+	if (cmd->builtin)
 	{
 		value = execute_built(data, cmd);
 		close_fds(cmd->fd_in, cmd->fd_out);
@@ -51,7 +50,6 @@ void	ft_execve(t_data *data, t_cmd *cmd)
 		if (cmd->cmd[0])
 			ft_fprintf(2, 0, "%s: command not found\n", cmd->cmd[0]);
 		close_fds(cmd->fd_in, cmd->fd_out);
-		clean_pipes(data);
 		if (cmd->here_doc)
 			value = 0;
 		else
@@ -93,8 +91,23 @@ int	ft_exec_pipe(t_data *data)
 	exec_last_command(data);
 	close_all_pipes(data);
 	wait_for_children(data);
-	// clean_pipes(data);
 	return (WEXITSTATUS(status));
+}
+
+void	set_cmds(t_data *data)
+{
+	t_cmd	*current;
+
+	current = data->cmd;
+	if (!current)
+		return ;
+	while (current)
+	{
+		if(check_for_built(data, current) == 0)
+			current->builtin = true;
+		current = current->next;
+	}
+	return ;
 }
 
 int	ft_execute(t_data *data, t_cmd *cmd)
@@ -105,6 +118,7 @@ int	ft_execute(t_data *data, t_cmd *cmd)
 	sigaction_child();
 	r_value(0, 1);
 	init_redic(data);
+	set_cmds(data);
 	if (data->n_cmd == 1)
 	{
 		cmd->pid = fork();
@@ -121,9 +135,6 @@ int	ft_execute(t_data *data, t_cmd *cmd)
 	status = ft_exec_pipe(data);
 	status = WEXITSTATUS(status);
 	//ft_fprintf(2, 0, "this is the return value : %i", status);// TODO remove
-	// free(data->pipe_n);
-	// data->pipe_n = NULL;
-	clean_pipes(data);
 	set_up_sigaction();
 	if (r_value(0, 0) == 130)
 		return (130);

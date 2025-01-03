@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:26:18 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/02 15:28:47 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/02 23:49:29 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef struct s_cmd
 	struct s_infile		*in_file;
 	struct s_outfile	*out_file;		//delete later
 	struct s_infile		*here_doc;
+	bool				builtin;
 }			t_cmd;
 
 typedef struct s_infile

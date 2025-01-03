@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:22:58 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/02 17:50:48 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/02 22:57:55 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	check_for_built(t_data *data, t_cmd	*cmd)
 	else if (ft_strncmp(cmd->cmd[0], "export\0", 7) == 0)
 		return (0);
 	else if (ft_strncmp(cmd->cmd[0], "exit\0", 5) == 0)
-		return (ft_fprintf(1, 0, "it is builtin crl!!!\n"));
+		return (0);
 	return (2);
 }
 
