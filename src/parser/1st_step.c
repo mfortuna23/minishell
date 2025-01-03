@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:38:58 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/02 17:09:53 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/03 13:44:50 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ int	get_cmd(t_data *data, char **env)
 		if (data->check == 0)
 		{
 			if (data->cmd->cmd[0] && ft_strnstr(data->cmd->cmd[0], "cd\0", 3))
-				ft_cd(data);
+				ft_cd(data, data->cmd, 0);
 			else
 			{
 				set_path(data);

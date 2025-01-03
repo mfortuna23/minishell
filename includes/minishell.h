@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:26:18 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/02 23:49:29 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/03 13:44:25 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,7 +219,7 @@ int		check_for_built(t_data *data, t_cmd	*cmd);
 int		export_or_unset(t_data *data, t_cmd *cmd);
 int		ft_echo(t_data *data, t_cmd *cmd, int x);
 int		ft_export(t_data *data, t_cmd *cmd);
-int		ft_cd(t_data *data);
+int		ft_cd(t_data *data, t_cmd *cmd, int check);
 int		get_heredoc(t_data *data, t_infile *infile, char *name, bool exp);
 int		here_doc(t_data *data, t_infile *node, bool exp, int y);
 int		hd_errors(t_data *data, char *buffer_hd, int error);
