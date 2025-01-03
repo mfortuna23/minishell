@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 10:14:09 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/02 16:27:10 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/02 21:06:15 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,18 @@ void	less_space(t_data *data, char *arr, int i, int count)
 	data->parser[count] = 0;
 }
 
+int token_create(t_data *d, t_iter *x)
+{
+	x->c = d->parser[x->i++];
+	while (d->parser[x->i] && (d->parser[x->i++] != x->c))
+		;
+	if (d->parser[x->i] < 33)
+		d->tokens[x->x++] = ft_substr(d->parser, x->j, x->i - x->j);
+	else
+		return (1);
+	return (0);
+}
+
 int	split_tokens(t_data *d, t_iter *x)
 {
 	while (d->parser[x->i] && (x->x < d->n_tokens))
@@ -113,14 +125,10 @@ int	split_tokens(t_data *d, t_iter *x)
 			{
 				if ((d->parser[x->i] == 34 || d->parser[x->i] == 39))
 				{
-					x->c = d->parser[x->i++];
-					while (d->parser[x->i] && (d->parser[x->i++] != x->c))
-						;
-					if (d->parser[x->i] < 33)
-						d->tokens[x->x++] = ft_substr(d->parser, x->j, x->i - x->j);
-					else
+					if (token_create(d, x) == 1)
 						continue ;
-					break ;
+					else
+						break ;
 				}
 				if ((d->parser[++x->i] <= ' ' || \
 				d->parser[x->i] == 0) && (x->x < d->n_tokens))

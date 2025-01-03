@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:31:46 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/12/31 01:01:24 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/02 23:50:04 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ t_cmd	*create_node(void)
 	node->pid = -1;
 	node->path_to_cmd = NULL;
 	node->here_doc = NULL;
+	node->builtin = false;
 	return (node);
 }
 

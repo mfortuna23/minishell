@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 02:40:57 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/02 15:26:20 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/03 00:24:46 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	print_var(t_data *data, char *cmd, int i, int fd_out)
 	return (++i);
 }
 
-void	print_echo(t_cmd *cmd, char *args, int x, int fd_out)
+void	print_echo(t_cmd *cmd, char *args, int x)
 {
 	char	c;
 	int		i;
@@ -58,11 +58,11 @@ void	print_echo(t_cmd *cmd, char *args, int x, int fd_out)
 		// if (cmd[i] == '$')
 		// 	i = print_var(data, cmd, i + 1, fd_out);
 		else
-			ft_fprintf(fd_out, 0, "%c", args[i++]);
+			printf("%c", args[i++]);
 	}
 	if (x == arr_count(cmd->cmd) - 1)
 		return ;
-	ft_printf("%c", 32);
+	ft_putchar_fd(' ', 1);
 }
 
 int	ft_echo(t_data *data, t_cmd *cmd, int x)
@@ -82,7 +82,7 @@ int	ft_echo(t_data *data, t_cmd *cmd, int x)
 	while (cmd->cmd[x])
 	{
 		// c = cmd->cmd[x][0];
-		print_echo(cmd, cmd->cmd[x], x, cmd->fd_out);
+		print_echo(cmd, cmd->cmd[x], x);
 		// if ((c != 34 && cmd->cmd[x][0] != 0) || cmd->cmd[x + 1][0] != 0)
 		// 	ft_printf("%c", 32);
 		x++;
