@@ -6,29 +6,64 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:38:58 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/26 13:38:48 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/03 13:44:50 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	create_env(t_data *data)
+void	change_shlvl(t_data *data)
+{
+	t_env	*node;
+	char	*name;
+	char	*full;
+	int		value;
+
+	node = NULL;
+	node = find_var(data, "SHLVL");
+	if (!node)
+		return ;
+	name = ft_strdup("SHLVL=");
+	value = ft_atoi(node->value);
+	value++;
+	full = str_join(name, ft_itoa(value));
+	exist_var(data, node, full, "SHLVL");
+	free(full);
+}
+
+void	update_env(t_data *data)
+{
+	t_env	*node;
+	int		j;
+
+	j = 0;
+	node = data->var;
+	data->env = ft_calloc(count_vars(data) + 1, sizeof(char *));
+	while (node)
+	{
+		if (node->alive)
+			data->env[j++] = ft_strdup(node->full);
+		node = node->next;
+	}
+}
+
+void	create_env(t_data *data, char **env)
 {
 	t_env	*node;
 	int		i;
 
 	i = 0;
 	node = NULL;
-	while (data->env[i])
+	while (env[i])
 	{
 		add_last_env(&data->var);
 		node = find_last_env(&data->var);
-		node->full = ft_strdup(data->env[i]);
-		node->name = ft_substr(data->env[i], 0, \
-		ft_strchr(data->env[i], '=') - data->env[i]);
-		node->value = ft_strdup(ft_strchr(data->env[i], '=') + 1);
+		node->full = ft_strdup(env[i]);
+		node->name = ft_substr(env[i], 0, ft_strchr(env[i], '=') - env[i]);
+		node->value = ft_strdup(ft_strchr(env[i], '=') + 1);
 		i++;
 	}
+	change_shlvl(data);
 }
 
 char	*get_prompt(t_data *data)
@@ -52,10 +87,12 @@ char	*get_prompt(t_data *data)
 	ft_substr(ft_strrchr(data->path, '/'), \
 	0, ft_strlen(data->path)));
 	data->prompt = str_join(data->prompt, ft_strdup(" \001\033[0m\002 > "));
+	ft_freearr(data->env);
+	update_env(data);
 	return (data->prompt);
 }
 
-void	data_init(t_data *data)
+void	data_init(t_data *data, char **env)
 {
 	data->input = NULL;
 	data->parser = NULL;
@@ -65,31 +102,36 @@ void	data_init(t_data *data)
 	data->cmd = NULL;
 	data->n_tokens = 0;
 	data->var = NULL;
+	data->env = NULL;
 	data->i = 0;
 	data->check = 0;
 	data->n_cmd = 1;
-	create_env(data);
+	data->return_v = 0;
+	data->pipe_n = NULL;
+	r_value(0, 1);
+	create_env(data, env);
+	update_env(data);
 }
 
 /* recives input from user */
-int	get_cmd(t_data *data)
+int	get_cmd(t_data *data, char **env)
 {
-	data_init(data);
-	r_value(0, 1);
+	data_init(data, env);
 	signal(SIGQUIT, SIG_IGN);
 	data->input = readline(get_prompt(data));
 	while (input_user(data) >= 0)
 	{
 		if (data->check == 0)
 		{
-			if (ft_strnstr(data->cmd->cmd[0], "cd\0", 3))
-				ft_cd(data);
+			if (data->cmd->cmd[0] && ft_strnstr(data->cmd->cmd[0], "cd\0", 3))
+				ft_cd(data, data->cmd, 0);
 			else
 			{
 				set_path(data);
 				r_value(ft_execute(data, data->cmd), 1);
 			}
 		}
+		data->return_v = r_value(0, 0);
 		if (data->cmd)
 			delete_cmds(data);
 		free(data->prompt);

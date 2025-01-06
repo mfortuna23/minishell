@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:31:46 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/12/11 10:42:55 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/02 23:50:04 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@ t_cmd	*create_node(void)
 	node = malloc(sizeof(t_cmd));
 	node->cmd = ft_calloc(256, sizeof(char *));
 	node->path = NULL;
-	node->fd_in = 0;
+	node->in_n = 0;
 	node->fd_out = 1;
+	node->fd_in = 0;
+	node->out_n = 0;
 	node->in_file = NULL;
 	node->out_file = NULL;
 	node->pipe = false;
@@ -29,10 +31,8 @@ t_cmd	*create_node(void)
 	node->next = NULL;
 	node->pid = -1;
 	node->path_to_cmd = NULL;
-	node->here_doc = false;
-	node->infile = false;
-	node->outfile = false;
-	node->appen	= false;
+	node->here_doc = NULL;
+	node->builtin = false;
 	return (node);
 }
 
@@ -73,10 +73,10 @@ void	free_mem(t_cmd *del)
 		free(del->path);
 	if (del->path_to_cmd != NULL)
 		ft_freearr(del->path_to_cmd);
-	free (del);
+	free(del);
 }
 
-void	delete_last (t_data *data)
+void	delete_last(t_data *data)
 {
 	t_cmd	*last;
 	t_cmd	*del;

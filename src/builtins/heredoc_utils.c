@@ -6,33 +6,40 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 20:13:10 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/23 13:21:36 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/02 21:26:55 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	create_file(t_cmd *cmd, char *buffer)
+int	create_file(t_infile *file, int fd)
 {
-	int		i;
-	int		j;
+	t_iter	*x;
 	char	name[256];
 
-	i = 0;
-	j = 0;
+	x = init_iter();
+	if (!file->hd_buffer)
+		return (-1);
 	ft_memset(name, 0, 256);
-	name[j++] = '.';
-	while (cmd->infile[i])
+	name[x->j++] = '.';
+	while (file->name[x->i])
 	{
-		if (cmd->infile[i] == 34)
-			i++;
-		name[j++] = cmd->infile[i++];
+		if (file->name[x->i] == 34 || file->name[x->i] == 39)
+			x->i++;
+		name[x->j++] = file->name[x->i++];
 	}
-	free(cmd->infile);
-	cmd->infile = ft_strdup(name);
-	cmd->fd_in = open(cmd->infile, O_CREAT | O_RDWR | O_TRUNC, 0666);
-	printf("%s", buffer);
-	close(cmd->fd_in);
+	while (access(name, F_OK) == 0)
+		name[x->j++] = '3';
+	fd = open(name, O_CREAT | O_RDWR | O_TRUNC, 0666);
+	ft_fprintf(fd, 0, "%s", file->hd_buffer);
+	close(fd);
+	fd = open(name, O_RDONLY);
+	if (dup2(fd, STDIN_FILENO) == -1)
+		return (ft_fprintf(2, -1, "dup error aaaaaaaah"));
+	free(x);
+	close(fd);
+	unlink(name);
+	return (fd);
 }
 
 int	hd_errors(t_data *data, char *buffer_hd, int error)
@@ -40,7 +47,7 @@ int	hd_errors(t_data *data, char *buffer_hd, int error)
 	if (buffer_hd)
 		free (buffer_hd);
 	if (error == 1)
-		return (ft_fprintf(2, 1,"MS: warning: here-document"
+		return (ft_fprintf(2, 1, "MS: warning: here-document"
 			" at line 1 delimited by end-of-file (wanted `here')\n"));
 	if (error == 2)
 	{

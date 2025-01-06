@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_path.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 15:20:51 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/14 11:39:26 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/02 22:56:47 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,19 +84,24 @@ char	*relative_path(t_data *data, char *command)
 	return (path_command);
 }
 
-char	*find_path(t_data *data, char *command)
+char	*find_path(t_data *data, t_cmd *comd)
 {
 	char	*path_command;
 
 	path_command = NULL;
-	if (!command || !*command)
+	if (!comd->cmd || !comd->cmd[0])
 		return (NULL);
-	if (command[0] == '/' || (ft_strncmp(command, "./", 2) == 0))
-		path_command = ft_strdup(command);
-	else if (ft_strnstr(command, ".sh", ft_strlen(command))
-		&& ft_strchr(command, '/'))
-		path_command = ft_strdup(command);
+	if (check_for_built(data, comd) == 0)
+	{
+		path_command = ft_strdup("");
+		return (path_command);
+	}
+	if (comd->cmd[0][0] == '/' || (ft_strncmp(comd->cmd[0], "./", 2) == 0))
+		path_command = ft_strdup(comd->cmd[0]);
+	else if (ft_strnstr(comd->cmd[0], ".sh", ft_strlen(comd->cmd[0]))
+		&& ft_strchr(comd->cmd[0], '/'))
+		path_command = ft_strdup(comd->cmd[0]);
 	else
-		path_command = relative_path(data, command);
+		path_command = relative_path(data, comd->cmd[0]);
 	return (path_command);
 }

@@ -6,13 +6,14 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 10:14:09 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/12/04 18:56:04 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/02 21:06:15 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-/* check for special chars not required by the subject also duplicated special chars*/
+/* check for special chars not required by the subject 
+also duplicated special chars*/
 int	check_not_req(t_data *data)
 {
 	int	i;
@@ -24,11 +25,12 @@ int	check_not_req(t_data *data)
 			return (ft_fprintf(2, 1, "MS: syntax error near unexpected"
 					" token '%c'\n", data->tokens[i][0]));
 		if (check_chars(data->tokens[i][0]) == 1 && (data->tokens[i + 1]) \
-		&& check_chars(data->tokens[i + 1][0]) == 1)
+		&& (data->tokens[i + 1][0] == data->tokens[i][0] || \
+		data->tokens[i + 1][0] == '|'))
 			return (ft_fprintf(2, 1, "MS: syntax error near unexpected"
 					" token '%c'\n", data->tokens[i + 1][0]));
 		if ((data->tokens[i][0]) == '|' && (data->tokens[i][1]) == '|')
-			return (ft_fprintf(2, 1, "bash: syntax error near unexpected "
+			return (ft_fprintf(2, 1, "MS: syntax error near unexpected "
 					"token '%c'\n", data->tokens[i][0]));
 		i++;
 	}
@@ -67,6 +69,7 @@ int	token_count(char *s, int i, int count, char c)
 	}
 	return (count);
 }
+
 /* fill data->parser */
 void	less_space(t_data *data, char *arr, int i, int count)
 {
@@ -97,6 +100,17 @@ void	less_space(t_data *data, char *arr, int i, int count)
 	data->parser[count] = 0;
 }
 
+int token_create(t_data *d, t_iter *x)
+{
+	x->c = d->parser[x->i++];
+	while (d->parser[x->i] && (d->parser[x->i++] != x->c))
+		;
+	if (d->parser[x->i] < 33)
+		d->tokens[x->x++] = ft_substr(d->parser, x->j, x->i - x->j);
+	else
+		return (1);
+	return (0);
+}
 
 int	split_tokens(t_data *d, t_iter *x)
 {
@@ -111,11 +125,10 @@ int	split_tokens(t_data *d, t_iter *x)
 			{
 				if ((d->parser[x->i] == 34 || d->parser[x->i] == 39))
 				{
-					x->c = d->parser[x->i++];
-					while (d->parser[x->i] && (d->parser[x->i] != x->c))
-						x->i++;
-					d->tokens[x->x++] = ft_substr(d->parser, x->j, x->i - x->j);
-					break ;
+					if (token_create(d, x) == 1)
+						continue ;
+					else
+						break ;
 				}
 				if ((d->parser[++x->i] <= ' ' || \
 				d->parser[x->i] == 0) && (x->x < d->n_tokens))

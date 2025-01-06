@@ -6,13 +6,13 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 11:35:17 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/22 10:56:02 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/02 16:04:03 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void r_exit(t_data *data)
+void	r_exit(t_data *data)
 {
 	int	value;
 
@@ -24,41 +24,48 @@ void r_exit(t_data *data)
 	r_value(value, 1);
 }
 
-int exit_error(t_data *data, int args)
+int	exit_error(t_data *data, int args)
 {
 	if (args == 1)
 		ft_fprintf(2, 1, "exit\nMS: exit: %s:"
 			" numeric argument required\n", data->cmd->cmd[1]);
 	if (args == 2)
+	{
 		ft_fprintf(2, 1, "exit\nMS: exit: too many arguments\n");
-	r_value(1, 1);
-	data->check = 1;
-	return (1);
+		r_value(2, 1);
+		data->check = 1;
+		return (1);
+	}
+	r_value(2, 1);
+	data->check = -1;
+	return (0);
 }
 
-int ft_exit(t_data *data, int i)
+int	ft_exit(t_data *data, t_cmd *cmd, int i, int check)
 {
-	if (data->cmd->pipe)
+	if (!cmd->cmd || !cmd->cmd[0] || (data->cmd->pipe && check == 1))
 		return (1);
-	if (!data->cmd->cmd)
-		return (1);
-	if (ft_strncmp(data->cmd->cmd[0], "exit\0", 5) != 0)
+	if (ft_strncmp(cmd->cmd[0], "exit\0", 5) != 0)
 		return (1);
 	r_value(0, 1);
-	if (data->cmd->cmd[1])
+	if (cmd->cmd[1])
 	{
-		while (data->cmd->cmd[1][i])
+		while (cmd->cmd[1][i])
 		{
-			if (ft_isdigit(data->cmd->cmd[1][i]) == 0 && \
-			data->cmd->cmd[1][i] != '-')
+			if (ft_isdigit(cmd->cmd[1][i]) == 0 && \
+			cmd->cmd[1][i] != '-')
 				return (exit_error(data, 1));
 			i++;
 		}
-		if (data->cmd->cmd[2])
+		if (cmd->cmd[2])
 			return (exit_error(data, 2));
 		r_exit(data);
 	}
-	data->check = -1;
-	ft_fprintf(2, 0, "exit\n");
-	return (0);
+	if (!data->cmd->pipe && check == 1)
+	{
+		data->check = -1;
+		ft_fprintf(2, 0, "exit\n");
+		return (0);
+	}
+	return (r_value(0, 0));
 }

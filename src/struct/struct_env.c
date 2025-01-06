@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct_env.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 09:19:49 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/11/21 15:15:00 by mfortuna         ###   ########.fr       */
+/*   Updated: 2024/12/30 20:17:21 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	add_last_env(t_env **head)
 		return ;
 	}
 	last = (*head);
-	while(last->next != NULL)
+	while (last->next != NULL)
 		last = last->next;
 	last->next = create_env_node();
 }
