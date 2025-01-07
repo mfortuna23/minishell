@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:34:48 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/03 00:13:40 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/07 16:32:47 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	ft_execve(t_data *data, t_cmd *cmd)
 	if (cmd->builtin)
 	{
 		value = execute_built(data, cmd);
-		close_fds(cmd->fd_in, cmd->fd_out);
 		//printf("this is builtin \n"); // TODO remove
 		ms_bomb(data, 0);
 		exit(value);
@@ -49,18 +48,16 @@ void	ft_execve(t_data *data, t_cmd *cmd)
 	{
 		if (cmd->cmd[0])
 			ft_fprintf(2, 0, "%s: command not found\n", cmd->cmd[0]);
-		close_fds(cmd->fd_in, cmd->fd_out);
 		if (cmd->here_doc)
 			value = 0;
 		else
 			value = 127;
 		ms_bomb(data, 0);
-		exit (value);
+		exit(value);
 	}
 	else
 		exec_exit(data, cmd->path, cmd->cmd, data->env);
 	ms_bomb(data, 0);
-	close_fds(cmd->fd_in, cmd->fd_out);
 	exit(r_value(0, 0));
 }
 

@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:22:58 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/03 13:53:53 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/07 11:59:32 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_cd(t_data *data, t_cmd *cmd, int check)
 	r_value(0, 1);
 	if (data->cmd->pipe && check == 0)
 		return (0);
-	if (!cmd->cmd[1])
+	if (!cmd->cmd[1] || !cmd->cmd[1][0])
 		return (ft_cd2(data));
 	if (built_flags(cmd->cmd, 1) == 2)
 		return (r_value(2, 1));

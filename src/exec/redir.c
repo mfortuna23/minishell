@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 12:17:55 by tbezerra          #+#    #+#             */
-/*   Updated: 2025/01/03 12:28:40 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/07 16:24:10 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int	ft_redir_out(t_data *data, t_cmd *cmd)
 		file = file->next;
 	}
 	fd_out = open_out(data, file->name, file->appen);
+	close(fd_out);
 	return (fd_out);
 }
 
@@ -73,6 +74,7 @@ int	try_open_in(t_data *data, char *name)
 		ms_bomb(data, 0);
 		exit(EXIT_FAILURE);
 	}
+	close(fd);
 	return (fd);
 }
 
@@ -88,10 +90,7 @@ int	ft_redir_in(t_data *data, t_cmd *cmd)
 	while (file->next)
 	{
 		if (!file->here_doc)
-		{
 			fd = try_open_in(data, file->name);
-			close (fd);
-		}
 		file = file->next;
 	}
 	if (file->here_doc)
