@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:34:48 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/07 16:32:47 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/07 21:41:06 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,23 @@ void	exec_exit(t_data *data, char *path, char **cmd, char **env)
 	exit(0);
 }
 
+void	no_pathfound(t_data *data, t_cmd *cmd, int value)
+{
+	if (cmd->cmd[0])
+		ft_fprintf(2, 0, "MS: %s: command not found\n", cmd->cmd[0]);
+	if (cmd->here_doc)
+		value = 0;
+	else
+		value = 127;
+	ms_bomb(data, 0);
+	exit(value);
+}
+
 void	ft_execve(t_data *data, t_cmd *cmd)
 {
 	int	value;
 
+	value = 0;
 	r_value(0, 1);
 	signal(SIGINT, SIG_DFL);
 	cmd->fd_in = ft_redir_in(data, cmd);
@@ -45,16 +58,7 @@ void	ft_execve(t_data *data, t_cmd *cmd)
 		exit(value);
 	}
 	if (cmd->path == NULL)
-	{
-		if (cmd->cmd[0])
-			ft_fprintf(2, 0, "%s: command not found\n", cmd->cmd[0]);
-		if (cmd->here_doc)
-			value = 0;
-		else
-			value = 127;
-		ms_bomb(data, 0);
-		exit(value);
-	}
+		no_pathfound(data, cmd, value);
 	else
 		exec_exit(data, cmd->path, cmd->cmd, data->env);
 	ms_bomb(data, 0);

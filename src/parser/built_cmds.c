@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 10:42:34 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/07 19:02:16 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/07 21:26:47 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,14 @@ int	ft_cmd_args(t_data *data, t_cmd *node, int y, int x)
 	return (y);
 }
 
+//if is valid return 0
+int	valid_varchars(char c)
+{
+	if (ft_isalnum(c) == 1 || c == '_')
+		return (0);
+	return (1);
+}
+
 char	*get_var_name(char *str) // check for ?
 {
 	int		i;
@@ -78,7 +86,7 @@ char	*get_var_name(char *str) // check for ?
 	i = 0;
 	if (str[i] == '?')
 		return (ft_strdup("?"));
-	while (str[i] && str[i] > 32 && str[i] != 34 && str[i] != '$')
+	while (str[i] && valid_varchars(str[i]) == 0)
 		i++;
 	if (i == 0)
 		return (NULL);
@@ -148,14 +156,23 @@ void	w_var_inbuffer(t_data *data, char *old, char *new, t_iter *x)
 
 void	strdup_nq(t_data *data, char *old, char *new, t_iter *x)
 {
-	while (old[x->i] && old[x->i] != x->c)
+	x->i++;
+	if (old[x->i] != x->c)
 	{
-		if (old[x->i] == '$' && x->exp == true)
-			w_var_inbuffer(data, old, new, x);
-		else
-			new[x->j++] = old[x->i++];
+		printf("im in !!!! \n");
+		if (x->c == 39)
+			x->exp = true_false(x->exp);
+		while (old[x->i] && old[x->i] != x->c)
+		{
+			if (old[x->i] == '$' && x->exp == true)
+				w_var_inbuffer(data, old, new, x);
+			else
+				new[x->j++] = old[x->i++];
 		//printf("%i\n", x->i - 1);
+		}
 	}
+	else
+		x->i++;
 }
 
 //allocate memory in new before calling this function
@@ -171,17 +188,10 @@ char	*ft_strdup_noquotes(t_data *data, char *old, char *new, bool exp)// TODO so
 		if (old[x->i] == '$' && x->exp == true)
 			w_var_inbuffer(data, old, new, x);
 		else if (old[x->i] == 34 || old[x->i] == 39)
-		{
-			x->i++;
-			//printf("%c\n", old[x->i]);
-			if (x->c == 39)
-				x->exp = true_false(x->exp);
 			strdup_nq(data, old, new, x);
-		}
 		else
 			new[x->j++] = old[x->i++];
 	}
 	free(x);
-	printf("%s\n", new);
 	return (new);
 }

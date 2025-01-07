@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 10:52:43 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/07 18:37:52 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/07 21:26:14 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	add_last_infile(t_data *d, t_infile **head, bool hd, char *n)
 	t_infile	*file;
 
 	file = NULL;
-	printf("hello, im creating a new file and my name is %s\n", n);
 	if (*head == NULL)
 	{
 		*head = create_infile();

@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 15:20:51 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/02 22:56:47 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/07 21:39:04 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ char	*find_path(t_data *data, t_cmd *comd)
 	char	*path_command;
 
 	path_command = NULL;
-	if (!comd->cmd || !comd->cmd[0])
+	if (!comd->cmd || !comd->cmd[0] || !comd->cmd[0][0])
 		return (NULL);
 	if (check_for_built(data, comd) == 0)
 	{
