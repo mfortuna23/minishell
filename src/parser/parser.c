@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:27:08 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/07 18:54:12 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/07 21:29:40 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,8 @@ int	input_user(t_data *data)
 	// data->check = 1;	// TODO remove after 
 	// print_cmds(data);	// remove
 	// return (0);			// remove
-	if (data->cmd->cmd == NULL)
-		return (1);
+	// if (data->cmd->cmd == NULL)
+	// 	return (1);
 	if (ft_exit(data, data->cmd, 0, 1) == 0)
 		return (-1);
 	if (export_or_unset(data, data->cmd) == 0)
