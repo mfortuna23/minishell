@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 11:14:25 by tbezerra          #+#    #+#             */
-/*   Updated: 2025/01/02 17:59:29 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/07 16:13:26 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	ft_init_pipe(t_data *data)
 
 void	close_fds(int fd_in, int fd_out)
 {
+	printf("closing %i\n", fd_in);
 	if (fd_in > 2)
 		close(fd_in);
 	if (fd_out > 2)

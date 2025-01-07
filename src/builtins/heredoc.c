@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 13:24:59 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/02 21:31:55 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/07 14:53:07 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	get_heredoc(t_data *data, t_infile *infile, char *name, bool exp)
 	return (0);
 }
 
-int	here_doc(t_data *data, t_infile *node, bool exp, int y)
+int	here_doc(t_data *data, t_infile *node, bool exp, int y) //TODO solve
 {
 	char	*here_doc;
 

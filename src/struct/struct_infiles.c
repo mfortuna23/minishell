@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 10:52:43 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/12/31 00:53:32 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/07 18:37:52 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	add_last_infile(t_data *d, t_infile **head, bool hd, char *n)
 	t_infile	*file;
 
 	file = NULL;
+	printf("hello, im creating a new file and my name is %s\n", n);
 	if (*head == NULL)
 	{
 		*head = create_infile();
@@ -83,6 +84,26 @@ void	delete_last_infile(t_infile **head)
 		prev = prev->next;
 	prev->next = NULL;
 	free_in(last);
+}
+
+t_infile	*findlast_in(t_infile **head)
+{
+	t_infile	*current;
+
+	current = NULL;
+	if (!head)
+		return (NULL);
+	current = (*head);
+	if (!current)
+		return (NULL);
+	while (current)
+	{
+		if (current->next == NULL)
+			return (current);
+		current = current->next;
+	}
+	return (NULL);
+	
 }
 
 void	infile_bomb(t_infile *head)
