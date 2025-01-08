@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:27:08 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/07 21:29:40 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/08 14:28:32 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,8 +125,7 @@ int	input_user(t_data *data)
 void print_cmds(t_data *data)
 {
 	t_cmd		*current;
-	t_infile	*inf;
-	t_outfile	*outf;
+	t_files		*inf;
 	int			i;
 	int			f;
 	int			count;
@@ -142,32 +141,20 @@ void print_cmds(t_data *data)
 		if (current->cmd){
 		while (current->cmd[i])
 			printf("%s\n", current->cmd[i++]);}
-		inf = current->in_file;
+		inf = current->file;
 		f = 0;
 		while (inf)
 		{
-			printf("infile n %i\n", f++);
-			printf("\001\033[1;93m\002infile is:\001\033[0m\002\t%s\n", \
+			printf("file n %i\n", f++);
+			printf("\001\033[1;93m\002file is:\001\033[0m\002\t%s\n", \
 			inf->name);
-			printf("\001\033[1;93m\002here_doc?\001\033[0m\002\t%s\n", \
-				inf->here_doc ? "true" : "false");
 			if (inf->hd_buffer)
 				printf("\001\033[1;93m\002hd_buffer is:\001\033[0m\002\t%s\n", \
 				inf->hd_buffer);
+			printf("0 = in; 1 = hd; 2 = out; 3 = ap; file is: %i", inf->redir);
 			inf = inf->next;
 		}
-		outf = current->out_file;
-		f = 0;
-		while (outf)
-		{
-			printf("outfile n %i\n", f++);
-			printf("\001\033[1;93m\002outfile is:\001\033[0m\002\t%s\n", \
-			outf->name);
-			printf("\001\033[1;93m\002appen?\001\033[0m\002\t%s\n", \
-				outf->appen ? "true" : "false");
-			outf = outf->next;
-		}
-		printf("\001\033[1;93m\002pipe?\001\033[0m\002\t\t%s\n", \
+		printf("\n\001\033[1;93m\002pipe?\001\033[0m\002\t\t%s\n", \
 		current->pipe ? "true" : "false");
 		count++;
 		i = 0;
