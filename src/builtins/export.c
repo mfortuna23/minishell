@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 02:41:38 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/02 18:08:51 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/07 19:00:10 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,11 @@ int	new_var(t_data *data, char *str, char *name)
 	node = find_last_env(&data->var);
 	node->name = ft_strdup(name);
 	if ((ft_strchr(str, '=')[1]) == 0)
+	{
+		node->full = ft_strdup(name);
+		node->value = ft_strdup("");
 		return (0);
+	}
 	node->full = ft_strdup(str);
 	if ((ft_strchr(node->full, '=')[1]) == 0)
 		return (0);

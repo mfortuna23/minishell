@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 10:42:34 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/12/31 12:40:13 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/07 21:26:47 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	syntax_error(t_data *data, char *error)
 	return (-983904);
 }
 
-int	ft_red_infile(t_data *data, t_cmd *current, int y, int x)
+int	ft_red_infile(t_data *data, t_cmd *c, int y, int x)
 {
 	while (data->tokens[y][x] == '<')
 		x++;
@@ -34,11 +34,11 @@ int	ft_red_infile(t_data *data, t_cmd *current, int y, int x)
 		return (syntax_error(data, \
 		"MS: syntax error near unexpected token `newline'\n"));
 	if (x == 1)
-		add_last_infile(data, &current->in_file, false, data->tokens[++y]);
+		add_last_infile(data, &c->in_file, false, data->tokens[++y]);
 	if (x > 1)
 	{
-		add_last_infile(data, &current->in_file, true, data->tokens[++y]);
-		return (here_doc(data, current->in_file, true, y));
+		add_last_infile(data, &c->in_file, true, data->tokens[++y]);
+		return (here_doc(data, findlast_in(&c->in_file), true, y));
 	}
 	return (2);
 }
@@ -70,6 +70,14 @@ int	ft_cmd_args(t_data *data, t_cmd *node, int y, int x)
 	return (y);
 }
 
+//if is valid return 0
+int	valid_varchars(char c)
+{
+	if (ft_isalnum(c) == 1 || c == '_')
+		return (0);
+	return (1);
+}
+
 char	*get_var_name(char *str) // check for ?
 {
 	int		i;
@@ -78,7 +86,7 @@ char	*get_var_name(char *str) // check for ?
 	i = 0;
 	if (str[i] == '?')
 		return (ft_strdup("?"));
-	while (str[i] && str[i] > 32 && str[i] != 34 && str[i] != '$')
+	while (str[i] && valid_varchars(str[i]) == 0)
 		i++;
 	if (i == 0)
 		return (NULL);
@@ -97,6 +105,7 @@ t_iter	*init_iter(void)
 	iter->j = 0;
 	iter->x = 0;
 	iter->y = 0;
+	iter->exp = true;
 	return (iter);
 }
 
@@ -145,27 +154,41 @@ void	w_var_inbuffer(t_data *data, char *old, char *new, t_iter *x)
 		new[x->j++] = var->value[i++];
 }
 
+void	strdup_nq(t_data *data, char *old, char *new, t_iter *x)
+{
+	x->i++;
+	if (old[x->i] != x->c)
+	{
+		printf("im in !!!! \n");
+		if (x->c == 39)
+			x->exp = true_false(x->exp);
+		while (old[x->i] && old[x->i] != x->c)
+		{
+			if (old[x->i] == '$' && x->exp == true)
+				w_var_inbuffer(data, old, new, x);
+			else
+				new[x->j++] = old[x->i++];
+		//printf("%i\n", x->i - 1);
+		}
+	}
+	else
+		x->i++;
+}
+
 //allocate memory in new before calling this function
-char	*ft_strdup_noquotes(t_data *data, char *old, char *new, bool exp)
+char	*ft_strdup_noquotes(t_data *data, char *old, char *new, bool exp)// TODO solve
 {
 	t_iter	*x;
 
 	x = init_iter();
+	x->exp = exp;
 	while (old[x->i])
 	{
 		x->c = old[x->i];
-		if (x->c == '$' && exp == true)
-		{
+		if (old[x->i] == '$' && x->exp == true)
 			w_var_inbuffer(data, old, new, x);
-			while (new[++x->j]);
-
-		}
-		else if (x->c == 34 || x->c == 39)
-		{
-			x->i++;
-			if (x->c == 39)
-				exp = true_false(exp);
-		}
+		else if (old[x->i] == 34 || old[x->i] == 39)
+			strdup_nq(data, old, new, x);
 		else
 			new[x->j++] = old[x->i++];
 	}
