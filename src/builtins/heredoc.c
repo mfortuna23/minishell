@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 13:24:59 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/07 14:53:07 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/08 14:06:18 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*w_buffer_hd(t_data *data, char *input, char *buffer_hd, bool exp)
 	return (tmp);
 }
 
-int	get_heredoc(t_data *data, t_infile *infile, char *name, bool exp)
+int	get_heredoc(t_data *data, t_files *infile, char *name, bool exp)
 {
 	char	*input;
 	char	*buffer_hd;
@@ -84,11 +84,10 @@ int	get_heredoc(t_data *data, t_infile *infile, char *name, bool exp)
 	return (0);
 }
 
-int	here_doc(t_data *data, t_infile *node, bool exp, int y) //TODO solve
+int	here_doc(t_data *data, t_files *node, bool exp, int y) //TODO solve
 {
 	char	*here_doc;
 
-	node->here_doc = true;
 	(void)y;
 	if (node->name[0] == 34 || node->name[0] == 39)
 	{

@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:34:48 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/07 21:41:06 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/08 14:44:13 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	no_pathfound(t_data *data, t_cmd *cmd, int value)
 {
 	if (cmd->cmd[0])
 		ft_fprintf(2, 0, "MS: %s: command not found\n", cmd->cmd[0]);
-	if (cmd->here_doc)
+	if (cmd->file != NULL)
 		value = 0;
 	else
 		value = 127;
@@ -48,8 +48,7 @@ void	ft_execve(t_data *data, t_cmd *cmd)
 	value = 0;
 	r_value(0, 1);
 	signal(SIGINT, SIG_DFL);
-	cmd->fd_in = ft_redir_in(data, cmd);
-	cmd->fd_out = ft_redir_out(data, cmd);
+	ft_redir_all(data, cmd);
 	if (cmd->builtin)
 	{
 		value = execute_built(data, cmd);

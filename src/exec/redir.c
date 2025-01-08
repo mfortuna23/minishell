@@ -6,23 +6,23 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 12:17:55 by tbezerra          #+#    #+#             */
-/*   Updated: 2025/01/07 16:24:10 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/08 14:52:23 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	open_out(t_data *data, char *name, bool ap)
+int	open_out(t_data *data, char *name, enum e_type redir)
 {
 	int	fd;
 
-	if (ap)
+	if (redir == R_AP)
 		fd = open(name, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	else
 		fd = open(name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd < 0)
 	{
-		perror("open");
+		perror(name);
 		ms_bomb(data, 0);
 		exit(EXIT_FAILURE);
 	}
@@ -33,27 +33,8 @@ int	open_out(t_data *data, char *name, bool ap)
 		ms_bomb(data, 0);
 		exit(EXIT_FAILURE);
 	}
+	close(fd);
 	return (fd);
-}
-
-int	ft_redir_out(t_data *data, t_cmd *cmd)
-{
-	int			fd_out;
-	t_outfile	*file;
-
-	file = cmd->out_file;
-	fd_out = 0;
-	if (!file)
-		return (fd_out);
-	while (file->next != NULL)
-	{
-		fd_out = open_out(data, file->name, file->appen);
-		close(fd_out);
-		file = file->next;
-	}
-	fd_out = open_out(data, file->name, file->appen);
-	close(fd_out);
-	return (fd_out);
 }
 
 int	try_open_in(t_data *data, char *name)
@@ -63,7 +44,7 @@ int	try_open_in(t_data *data, char *name)
 	fd = open(name, O_RDONLY);
 	if (fd < 0)
 	{
-		perror("open");
+		perror(name);
 		ms_bomb(data, 0);
 		exit(EXIT_FAILURE);
 	}
@@ -78,26 +59,21 @@ int	try_open_in(t_data *data, char *name)
 	return (fd);
 }
 
-int	ft_redir_in(t_data *data, t_cmd *cmd)
+void	ft_redir_all(t_data *data, t_cmd *cmd)
 {
-	t_infile	*file;
-	int			fd;
+	t_files	*file;
 
-	file = cmd->in_file;
-	fd = 0;
+	file = cmd->file;
 	if (file == NULL)
-		return (fd);
-	while (file->next)
+		return ;
+	while (file)
 	{
-		if (!file->here_doc)
-			fd = try_open_in(data, file->name);
+		if (file->redir == R_HD)
+			create_file(file, 0);
+		else if (file->redir == R_IN)
+			try_open_in(data, file->name);
+		else if (file->redir == R_OUT || file->redir == R_AP)
+			open_out(data, file->name, file->redir);
 		file = file->next;
 	}
-	if (file->here_doc)
-	{
-		cmd->here_doc = file;
-		return (create_file(file, 0));
-	}
-	try_open_in(data, file->name);
-	return (fd);
 }

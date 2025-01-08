@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:31:46 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/02 23:50:04 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/08 14:44:33 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,12 @@ t_cmd	*create_node(void)
 	node->fd_out = 1;
 	node->fd_in = 0;
 	node->out_n = 0;
-	node->in_file = NULL;
-	node->out_file = NULL;
+	node->file = NULL;
 	node->pipe = false;
 	node->return_value = 0;
 	node->next = NULL;
 	node->pid = -1;
 	node->path_to_cmd = NULL;
-	node->here_doc = NULL;
 	node->builtin = false;
 	return (node);
 }
@@ -65,10 +63,8 @@ void	free_mem(t_cmd *del)
 {
 	if (del->cmd != NULL)
 		ft_freearr(del->cmd);
-	if (del->in_file)
-		infile_bomb(del->in_file);
-	if (del->out_file)
-		outfile_bomb(del->out_file);
+	if (del->file)
+		files_bomb(del->file);
 	if (del->path != NULL)
 		free(del->path);
 	if (del->path_to_cmd != NULL)

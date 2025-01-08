@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 10:42:34 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/07 21:26:47 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/08 14:02:24 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ int	ft_red_infile(t_data *data, t_cmd *c, int y, int x)
 		return (syntax_error(data, \
 		"MS: syntax error near unexpected token `newline'\n"));
 	if (x == 1)
-		add_last_infile(data, &c->in_file, false, data->tokens[++y]);
+		add_last_file(data, &c->file, R_IN, data->tokens[++y]);
 	if (x > 1)
 	{
-		add_last_infile(data, &c->in_file, true, data->tokens[++y]);
-		return (here_doc(data, findlast_in(&c->in_file), true, y));
+		add_last_file(data, &c->file, R_HD, data->tokens[++y]);
+		return (here_doc(data, findlast_file(&c->file), true, y));
 	}
 	return (2);
 }
@@ -56,9 +56,9 @@ int	ft_redirect(t_data *data, t_cmd *current, int y, int x)
 		return (syntax_error(data, \
 		"MS: syntax error near unexpected token `newline'\n"));
 	if (x > 1)
-		add_last_outfile(data, &current->out_file, true, data->tokens[y]);
+		add_last_file(data, &current->file, R_AP, data->tokens[y]);
 	else
-		add_last_outfile(data, &current->out_file, false, data->tokens[y]);
+		add_last_file(data, &current->file, R_OUT, data->tokens[y]);
 	return (2);
 }
 

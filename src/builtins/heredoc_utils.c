@@ -6,13 +6,13 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 20:13:10 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/02 21:26:55 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/08 14:43:30 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	create_file(t_infile *file, int fd)
+int	create_file(t_files *file, int fd)
 {
 	t_iter	*x;
 	char	name[256];
