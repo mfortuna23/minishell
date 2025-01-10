@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:27:08 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/08 14:28:32 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/10 10:47:15 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ int	ft_strtok(t_data *data, int i, int j, char c)
 		else
 			data->parser[j++] = data->input[i++];
 	}
+	// TODO CHECK FOR NO CMD JUST SPACES BETWEEN QUOTES
 	return (token_error(data));
 }
 

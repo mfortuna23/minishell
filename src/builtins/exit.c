@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 11:35:17 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/02 16:04:03 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/08 16:41:14 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	exit_error(t_data *data, int args)
 		data->check = 1;
 		return (1);
 	}
-	r_value(2, 1);
+	r_value(1, 1);
 	data->check = -1;
 	return (0);
 }
@@ -53,7 +53,7 @@ int	ft_exit(t_data *data, t_cmd *cmd, int i, int check)
 		while (cmd->cmd[1][i])
 		{
 			if (ft_isdigit(cmd->cmd[1][i]) == 0 && \
-			cmd->cmd[1][i] != '-')
+			cmd->cmd[1][i] != '-' && cmd->cmd[1][i] != '+')
 				return (exit_error(data, 1));
 			i++;
 		}

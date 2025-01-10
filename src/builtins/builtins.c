@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:22:58 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/07 11:59:32 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/08 16:37:09 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@ int	ft_cd(t_data *data, t_cmd *cmd, int check)
 		return (0);
 	if (!cmd->cmd[1] || !cmd->cmd[1][0])
 		return (ft_cd2(data));
+	if (cmd->cmd[2])
+		return (r_value(1, 1), \
+		ft_fprintf(2, 1, "MS: cd: too many arguments\n"));
 	if (built_flags(cmd->cmd, 1) == 2)
 		return (r_value(2, 1));
 	if (chdir(cmd->cmd[1]) < 0)
