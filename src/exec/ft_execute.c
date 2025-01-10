@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:34:48 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/08 14:44:13 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/10 11:09:27 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	exec_exit(t_data *data, char *path, char **cmd, char **env)
 
 void	no_pathfound(t_data *data, t_cmd *cmd, int value)
 {
-	if (cmd->cmd[0])
+	if (cmd->cmd[0])// TODO check for file or directory
 		ft_fprintf(2, 0, "MS: %s: command not found\n", cmd->cmd[0]);
 	if (cmd->file != NULL)
 		value = 0;
@@ -47,12 +47,11 @@ void	ft_execve(t_data *data, t_cmd *cmd)
 
 	value = 0;
 	r_value(0, 1);
-	signal(SIGINT, SIG_DFL);
+	signal(SIGINT, SIG_DFL);// TODO CHILD PROCESS MAKES \n not parrent
 	ft_redir_all(data, cmd);
 	if (cmd->builtin)
 	{
 		value = execute_built(data, cmd);
-		//printf("this is builtin \n"); // TODO remove
 		ms_bomb(data, 0);
 		exit(value);
 	}
@@ -103,7 +102,7 @@ void	set_cmds(t_data *data)
 		return ;
 	while (current)
 	{
-		if(check_for_built(data, current) == 0)
+		if (check_for_built(data, current) == 0)
 			current->builtin = true;
 		current = current->next;
 	}

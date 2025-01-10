@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 10:38:42 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/12/31 12:38:13 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/09 10:20:01 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,10 @@ int	get_quotes(t_data *data, int i, char c, int check)
 			{
 				if (data->input[i] == 0)
 				{
-					check = get_quotes2(data);
-					if (check == 1)
-						return (1);
+					ft_fprintf(2, 1, "MS: syntax error expected '%c'\n", c);
+					r_value(158, 1);
+					data->check = 1;
+					return(1);
 				}
 				else
 					i++;

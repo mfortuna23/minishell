@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 10:42:34 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/08 14:02:24 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/10 10:46:08 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,12 @@ int	ft_redirect(t_data *data, t_cmd *current, int y, int x)
 int	ft_cmd_args(t_data *data, t_cmd *node, int y, int x)
 {
 	while ((data->tokens[y]) && (check_chars(data->tokens[y][x]) == 0))
-		node->cmd[data->i++] = ft_strdup_noquotes(data, \
+	{
+		node->cmd[data->i] = ft_strdup_noquotes(data, \
 			data->tokens[y++], ft_calloc(256, sizeof(char)), true);
+		if (node->cmd[data->i] != NULL)
+			data->i++;
+	}
 	return (y);
 }
 
@@ -156,19 +160,20 @@ void	w_var_inbuffer(t_data *data, char *old, char *new, t_iter *x)
 
 void	strdup_nq(t_data *data, char *old, char *new, t_iter *x)
 {
+	bool	exp;
+
+	exp = x->exp;
 	x->i++;
 	if (old[x->i] != x->c)
 	{
-		printf("im in !!!! \n");
 		if (x->c == 39)
 			x->exp = true_false(x->exp);
 		while (old[x->i] && old[x->i] != x->c)
 		{
-			if (old[x->i] == '$' && x->exp == true)
+			if (old[x->i] == '$' && x->exp == true && exp == true)
 				w_var_inbuffer(data, old, new, x);
 			else
 				new[x->j++] = old[x->i++];
-		//printf("%i\n", x->i - 1);
 		}
 	}
 	else
@@ -176,7 +181,7 @@ void	strdup_nq(t_data *data, char *old, char *new, t_iter *x)
 }
 
 //allocate memory in new before calling this function
-char	*ft_strdup_noquotes(t_data *data, char *old, char *new, bool exp)// TODO solve
+char	*ft_strdup_noquotes(t_data *data, char *old, char *new, bool exp)
 {
 	t_iter	*x;
 
@@ -191,6 +196,12 @@ char	*ft_strdup_noquotes(t_data *data, char *old, char *new, bool exp)// TODO so
 			strdup_nq(data, old, new, x);
 		else
 			new[x->j++] = old[x->i++];
+	}
+	if (x->j == 0)
+	{
+		free(new);
+		free(x);
+		return (NULL);
 	}
 	free(x);
 	return (new);

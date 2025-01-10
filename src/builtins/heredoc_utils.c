@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 20:13:10 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/08 14:43:30 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/09 10:08:45 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	create_file(t_files *file, int fd)
 
 int	hd_errors(t_data *data, char *buffer_hd, int error)
 {
+	ft_heredoc_sig(-2);
 	if (buffer_hd)
 		free (buffer_hd);
 	if (error == 1)
@@ -53,7 +54,7 @@ int	hd_errors(t_data *data, char *buffer_hd, int error)
 	{
 		data->check = 1;
 		r_value(130, 1);
-		return (error);
+		return (89734);
 	}
 	return (3);
 }
@@ -66,12 +67,6 @@ int	ft_heredoc_sig(int sig)
 	{
 		rl_done = 1;
 		end = true;
-		printf("\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-		ioctl(0, TIOCSTI, "");
-		r_value(130, 1);
 	}
 	if (sig == -2)
 	{
