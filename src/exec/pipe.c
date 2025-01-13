@@ -6,22 +6,24 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 11:14:25 by tbezerra          #+#    #+#             */
-/*   Updated: 2025/01/03 00:12:03 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/13 12:49:45 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	wait_for_children(t_data *data)
+int	wait_for_children(t_data *data)
 {
-	int	i;
+	int		status;
+	t_cmd	*current;
 
-	i = 0;
-	while (i < data->n_cmd)
+	current = data->cmd;
+	while (current)
 	{
-		wait(NULL);
-		i++;
+		waitpid(current->pid, &status, 0);
+		current = current->next;
 	}
+	return (WEXITSTATUS(status));
 }
 
 void	close_all_pipes(t_data *data)

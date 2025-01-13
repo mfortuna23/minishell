@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:38:58 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/07 21:31:03 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/13 21:33:15 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char	*get_prompt(t_data *data)
 	data->prompt = ft_strdup("\001\033[7;96m\002 Minishell \001\033[0m\002");
 	var = find_var(data, "USER");
 	if (!var)
-		user = "undifined";
+		user = "undefined";
 	else
 		user = var->value;
 	data->prompt = str_join(data->prompt, ft_strdup("\001\033[7;99m\002 @"));
