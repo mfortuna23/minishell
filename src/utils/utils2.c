@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 20:20:07 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/10 11:05:42 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/13 11:56:57 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	sigchild_handler(int signal)
 {
 	if (signal == SIGINT)
 	{
-		ft_fprintf(2, 0,"\n");
+		printf("\n");
 		r_value(130, 1);
 	}
 }
@@ -64,4 +64,28 @@ void	sigaction_child(void)
 	sigaction(SIGINT, &sa, NULL);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGTERM, SIG_IGN);
+}
+
+void	child_sig(int sig)
+{
+	if (sig == SIGINT)
+	{
+		signal(SIGINT, SIG_DFL);
+		printf("\n");
+		r_value(130, 1);
+	}
+}
+
+void sig_inchild(void)
+{
+	// struct sigaction	sa;
+
+	// (void)sa;
+	// sigemptyset(&sa.sa_mask);
+	// sa.sa_handler = child_sig;
+	// sa.sa_flags = SA_RESTART;
+	// sigaction(SIGINT, &sa, NULL);
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+	signal(SIGTERM, SIG_DFL);
 }

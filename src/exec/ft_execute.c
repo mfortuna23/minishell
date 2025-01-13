@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:34:48 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/10 11:09:27 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/13 19:58:53 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ void	ft_execve(t_data *data, t_cmd *cmd)
 
 	value = 0;
 	r_value(0, 1);
-	signal(SIGINT, SIG_DFL);// TODO CHILD PROCESS MAKES \n not parrent
+	sig_inchild();
+	//signal(SIGINT, SIG_DFL);
 	ft_redir_all(data, cmd);
 	if (cmd->builtin)
 	{
@@ -78,9 +79,6 @@ void	init_redic(t_data *data)
 
 int	ft_exec_pipe(t_data *data)
 {
-	int	status;
-
-	status = 0;
 	if (!data || !data->cmd)
 		return (1);
 	if (ft_init_pipe(data) == 0)
@@ -89,8 +87,7 @@ int	ft_exec_pipe(t_data *data)
 	exec_intermediate_commands(data);
 	exec_last_command(data);
 	close_all_pipes(data);
-	wait_for_children(data);
-	return (WEXITSTATUS(status));
+	return (wait_for_children(data));
 }
 
 void	set_cmds(t_data *data)

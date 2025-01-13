@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 10:42:34 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/10 10:46:08 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/13 20:00:25 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,7 +197,7 @@ char	*ft_strdup_noquotes(t_data *data, char *old, char *new, bool exp)
 		else
 			new[x->j++] = old[x->i++];
 	}
-	if (x->j == 0)
+	if (x->j == 0 && old[0] == '$')
 	{
 		free(new);
 		free(x);

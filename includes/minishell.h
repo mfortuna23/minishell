@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:26:18 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/08 14:43:34 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/13 21:20:41 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,7 +181,7 @@ void		clean_pipes(t_data *data);
 
 int			ft_exec_pipe(t_data *data);
 int			ft_init_pipe(t_data *data);
-void		wait_for_children(t_data *data);
+int			wait_for_children(t_data *data);
 void		close_all_pipes(t_data *data);
 void		exec_last_command(t_data *data);
 void		exec_intermediate_commands(t_data *data);
@@ -210,6 +210,7 @@ char		**ft_arrdup(char **old);
 void		sig_reset(void);
 void		sigaction_child(void);
 int			arr_count(char **arr);
+void 		sig_inchild(void);
 
 /****************************/
 /*			BUITINS			*/
@@ -238,4 +239,6 @@ int			ft_unset(t_data	*data, t_cmd *cmd);
 int			built_flags(char **args, int echo);
 int			pwd(t_data *data, t_cmd *cmd);
 int			ft_cd2(t_data *data);
+int			valid_varchars(char c);
+
 #endif
