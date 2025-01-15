@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 15:20:51 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/15 00:20:45 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/15 11:24:23 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ char	*find_path(t_data *data, t_cmd *comd)
 		return (path_command);
 	}
 	if (comd->cmd[0][0] == '/' || (ft_strncmp(comd->cmd[0], "./", 2) == 0))
-		is_exec(comd);
+		return (is_exec(comd));
 	else
 		path_command = relative_path(data, comd->cmd[0]);
 	return (path_command);
