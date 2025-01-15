@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:22:58 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/08 16:37:09 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/15 00:05:33 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ int	ft_cd(t_data *data, t_cmd *cmd, int check)
 	if (chdir(cmd->cmd[1]) < 0)
 	{
 		if (access(cmd->cmd[1], X_OK) < 0)
-			r_value(ft_fprintf(1, 1, "MS: cd: %s: No such file"
+			r_value(ft_fprintf(2, 1, "MS: cd: %s: No such file"
 					" or directory\n", cmd->cmd[1]), 1);
 		else
-			r_value(ft_fprintf(1, 1, "MS: cd: %s"
+			r_value(ft_fprintf(2, 1, "MS: cd: %s"
 					": Not a directory\n", cmd->cmd[1]), 1);
 	}
 	else
@@ -102,7 +102,7 @@ int	check_for_built(t_data *data, t_cmd	*cmd)
 int	execute_built(t_data *data, t_cmd *cmd)
 {
 	if (!cmd->cmd | !cmd->cmd[0])
-	return (0);
+		return (0);
 	if (ft_strncmp(cmd->cmd[0], "env\0", 4) == 0)
 		return (ft_env(data));
 	else if (ft_strncmp(cmd->cmd[0], "pwd\0", 4) == 0)

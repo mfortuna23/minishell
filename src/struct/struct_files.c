@@ -6,13 +6,13 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/08 11:38:44 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/08 14:13:56 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/15 00:32:43 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-t_files		*node_file(t_data *data, enum e_type redir, char *name)
+t_files	*node_file(t_data *data, enum e_type redir, char *name)
 {
 	t_files	*new;
 
@@ -75,12 +75,6 @@ void	delete_last_file(t_files **head)
 		prev = prev->next;
 	free_file(last);
 	prev->next = NULL;
-}
-
-void	files_bomb(t_files *head)
-{
-	while (head != NULL)
-		delete_last_file(&head);
 }
 
 t_files	*findlast_file(t_files **head)

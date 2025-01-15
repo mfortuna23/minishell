@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 09:19:49 by mfortuna          #+#    #+#             */
-/*   Updated: 2024/12/30 20:17:21 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/15 00:09:55 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_env	*create_env_node(void)
 	env->w = false;
 	return (env);
 }
+
 void	add_last_env(t_env **head)
 {
 	t_env	*last;

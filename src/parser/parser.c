@@ -6,20 +6,19 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:27:08 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/13 20:34:50 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/15 00:12:56 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	print_cmds(t_data *data);
+//void	print_cmds(t_data *data);
 
 int	parasing_error(t_data *data, int pipe)
 {
 	if (pipe == 1)
 		ft_fprintf(2, 1, "MS: syntax error near unexpected token '|' \n");
 	data->check = 1;
-	//printf ("char error, new return value is 158\n");//TODO remove
 	r_value(158, 1);
 	return (1);
 }
@@ -75,6 +74,13 @@ int	ft_strtok(t_data *data, int i, int j, char c)
 	data->parser = ft_calloc(1024, sizeof(char));
 	while (data->input[i])
 	{
+		c = data->input[i];
+		if (c == 34 || c == 39)
+		{
+			data->parser[j++] = data->input[i++];
+			while (data->input[i] != c)
+				data->parser[j++] = data->input[i++];
+		}
 		if (check_chars(data->input[i]) > 0)
 		{
 			c = data->input[i];
@@ -87,10 +93,14 @@ int	ft_strtok(t_data *data, int i, int j, char c)
 		else
 			data->parser[j++] = data->input[i++];
 	}
-	// TODO CHECK FOR NO CMD JUST SPACES BETWEEN QUOTES
 	return (token_error(data));
 }
 
+// data->check = 1;	// TODO remove after 
+// print_cmds(data);	// remove
+// return (0);			// remove
+// if (data->cmd->cmd == NULL)
+// 	return (1);
 /* recives and manages input from user */
 int	input_user(t_data *data)
 {
@@ -102,19 +112,14 @@ int	input_user(t_data *data)
 		return (-1);
 	}
 	if (get_fullinput(data) == 1)
-		return (1);	
+		return (1);
 	add_history(data->input);
-	if (ft_strtok(data, 0, 0,'a') == 1)
+	if (ft_strtok(data, 0, 0, 'a') == 1)
 		return (1);
 	create_cmds(data);
 	data->i = 0;
 	if (parsing(data, 0, 0) == 1)
 		return (1);
-	// data->check = 1;	// TODO remove after 
-	// print_cmds(data);	// remove
-	// return (0);			// remove
-	// if (data->cmd->cmd == NULL)
-	// 	return (1);
 	if (ft_exit(data, data->cmd, 0, 1) == 0)
 		return (-1);
 	if (export_or_unset(data, data->cmd) == 0)
@@ -122,8 +127,8 @@ int	input_user(t_data *data)
 	return (0);
 }
 
-
-void print_cmds(t_data *data)
+/*
+void	print_cmds(t_data *data)
 {
 	t_cmd		*current;
 	t_files		*inf;
@@ -162,3 +167,4 @@ void print_cmds(t_data *data)
 		current = current->next;
 	}
 }
+*/

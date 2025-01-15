@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 13:24:59 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/09 10:07:31 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/15 00:05:42 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,3 @@ int	here_doc(t_data *data, t_files *node, bool exp, int y) //TODO solve
 	free(here_doc);
 	return (2);
 }
-

@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 11:35:17 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/08 16:41:14 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/14 22:47:44 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,18 +27,22 @@ void	r_exit(t_data *data)
 int	exit_error(t_data *data, int args)
 {
 	if (args == 1)
-		ft_fprintf(2, 1, "exit\nMS: exit: %s:"
+	{
+		printf("exit\n");
+		ft_fprintf(2, 1, "MS: exit: %s:"
 			" numeric argument required\n", data->cmd->cmd[1]);
+	}
 	if (args == 2)
 	{
-		ft_fprintf(2, 1, "exit\nMS: exit: too many arguments\n");
-		r_value(2, 1);
+		printf("exit\n");
+		ft_fprintf(2, 1, "MS: exit: too many arguments\n");
+		r_value(1, 1);
 		data->check = 1;
 		return (1);
 	}
-	r_value(1, 1);
+	r_value(2, 1);
 	data->check = -1;
-	return (0);
+	return (2);
 }
 
 int	ft_exit(t_data *data, t_cmd *cmd, int i, int check)
@@ -64,7 +68,7 @@ int	ft_exit(t_data *data, t_cmd *cmd, int i, int check)
 	if (!data->cmd->pipe && check == 1)
 	{
 		data->check = -1;
-		ft_fprintf(2, 0, "exit\n");
+		ft_fprintf(1, 0, "exit\n");
 		return (0);
 	}
 	return (r_value(0, 0));

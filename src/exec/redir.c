@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 12:17:55 by tbezerra          #+#    #+#             */
-/*   Updated: 2025/01/08 14:52:23 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/15 00:24:36 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,5 +75,18 @@ void	ft_redir_all(t_data *data, t_cmd *cmd)
 		else if (file->redir == R_OUT || file->redir == R_AP)
 			open_out(data, file->name, file->redir);
 		file = file->next;
+	}
+}
+
+void	init_redic(t_data *data)
+{
+	t_cmd	*cmd;
+
+	cmd = data->cmd;
+	while (cmd)
+	{
+		cmd->in_n = data->n_cmd;
+		cmd->out_n = data->n_cmd;
+		cmd = cmd->next;
 	}
 }
