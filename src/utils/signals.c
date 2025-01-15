@@ -1,48 +1,54 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/03 11:36:53 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/15 00:07:51 by mfortuna         ###   ########.fr       */
+/*   Created: 2025/01/15 00:30:31 by mfortuna          #+#    #+#             */
+/*   Updated: 2025/01/15 00:33:26 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-void	sigint_handler(int signal)
+void	sigchild_handler(int signal)
 {
 	if (signal == SIGINT)
-	{
-		printf("\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		rl_redisplay();
-	}
+		r_value(130, 1);
 }
 
-void	set_up_sigaction(void)
+void	sigaction_child(void)
 {
 	struct sigaction	sa;
 
 	(void)sa;
 	sigemptyset(&sa.sa_mask);
-	sa.sa_handler = sigint_handler;
+	sa.sa_handler = sigchild_handler;
 	sa.sa_flags = SA_RESTART;
 	sigaction(SIGINT, &sa, NULL);
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGTERM, SIG_IGN);
 }
 
-int	main(int argc, char **argv, char **env)
+void	child_sig(int sig)
 {
-	t_data				data;
+	if (sig == SIGINT)
+	{
+		printf("\n");
+		exit(130);
+	}
+}
 
-	set_up_sigaction();
-	get_cmd(&data, env);
-	(void)argc;
-	(void)argv;
-	return (r_value(0, 0));
+void	sig_inchild(void)
+{
+	struct sigaction	sa;
+
+	(void)sa;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_handler = child_sig;
+	sa.sa_flags = SA_RESTART;
+	sigaction(SIGINT, &sa, NULL);
+	signal(SIGQUIT, SIG_DFL);
+	signal(SIGTERM, SIG_DFL);
 }

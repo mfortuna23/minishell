@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:31:46 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/08 14:44:33 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/15 00:33:08 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,17 +90,4 @@ void	delete_last(t_data *data)
 	del = last->next;
 	last->next = NULL;
 	free_mem(del);
-}
-
-void	delete_cmds(t_data *data)
-{
-	if (data->input)
-		free(data->input);
-	if (data->parser)
-		free(data->parser);
-	if (data->tokens)
-		ft_freearr(data->tokens);
-	while (data->cmd)
-		delete_last(data);
-	return ;
 }

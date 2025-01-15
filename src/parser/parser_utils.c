@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 10:14:09 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/02 21:06:15 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/15 00:43:03 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,6 @@ int	check_not_req(t_data *data)
 					"token '%c'\n", data->tokens[i][0]));
 		i++;
 	}
-	return (0);
-}
-
-int	check_chars(char c)
-{
-	if (c == '|' || c == '<' || c == '>' )
-		return (1);
-	if (c == '&' || c == ';' || c == '\\')
-		return (2);
 	return (0);
 }
 
@@ -100,7 +91,7 @@ void	less_space(t_data *data, char *arr, int i, int count)
 	data->parser[count] = 0;
 }
 
-int token_create(t_data *d, t_iter *x)
+int	token_create(t_data *d, t_iter *x)
 {
 	x->c = d->parser[x->i++];
 	while (d->parser[x->i] && (d->parser[x->i++] != x->c))

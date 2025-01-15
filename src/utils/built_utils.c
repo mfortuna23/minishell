@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 15:01:23 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/03 13:54:07 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/14 19:39:32 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 int	pwd(t_data *data, t_cmd *cmd)
 {
 	r_value(0, 1);
-	if (cmd->cmd[1])
+	if (cmd->cmd[1] && cmd->cmd[1][0] == '-')
 	{
-		ft_fprintf(2, 2, "MS: pwd: %s: invalid argument\n", cmd->cmd[1]);
+		ft_fprintf(2, 2, "MS: pwd: %s: invalid option\n", cmd->cmd[1]);
 		return (r_value(2, 1));
 	}
 	printf("%s\n", data->path);

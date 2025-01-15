@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:26:18 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/13 21:20:41 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/15 00:47:04 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <dirent.h>
 # include <signal.h>
 # include <stdlib.h>
+# include <sys/stat.h>
 
 typedef struct s_data
 {
@@ -66,7 +67,6 @@ typedef struct s_cmd
 	pid_t				pid;			//parser will not handle this
 	struct s_cmd		*next;			//if there is pipe else null
 	struct s_files		*file;
-	
 	bool				builtin;
 }			t_cmd;
 
@@ -125,6 +125,9 @@ int			parasing_error(t_data *data, int pipe);
 t_iter		*init_iter(void);
 char		*ft_strdup_noquotes(t_data *data, char *old, char *new, bool exp);
 bool		true_false(bool exp);
+void		update_env(t_data *data);
+void		change_shlvl(t_data *data);
+char		*get_var_name(char *str);
 
 /****************************/
 /*		STRUCT_CMDS.C		*/
@@ -140,6 +143,7 @@ void		add_last_file(t_data *data, t_files **head, \
 enum e_type redir, char *name);
 void		files_bomb(t_files *head);
 t_files		*findlast_file(t_files **head);
+void		delete_last_file(t_files **head);
 
 /****************************/
 /*		STRUCT_ENV.C		*/
@@ -160,10 +164,14 @@ int			exist_var(t_data *data, t_env *node, char *str, char *name);
 
 void		free_path(char **array);
 char		**get_paths(t_data *data);
-char		*ft_check_command_location(t_data *data, char *command, char *path_i);
+char		*ft_check_command_location(t_data *data, char *command, \
+char *path_i);
 char		*relative_path(t_data *data, char *command);
 char		*find_path(t_data *data, t_cmd *command);
 void		set_path(t_data *data);
+void		is_exec(t_cmd *cmd);
+void		no_file(t_data *data, t_cmd *cmd);
+void		no_pathfound(t_data *data, t_cmd *c);
 
 /****************************/
 /*			EXEC			*/
@@ -173,7 +181,6 @@ void		clear_exit(t_data *data, int status);
 void		ft_fork_exit(t_data *data);
 int			ft_execute(t_data *data, t_cmd *cmd);
 void		ft_execve(t_data *data, t_cmd *cmd);
-void		clean_pipes(t_data *data);
 
 /****************************/
 /*			Pipes			*/
@@ -195,6 +202,7 @@ void		dup_pipes(int fd_in, int fd_out, int current, int n_cmds);
 /****************************/
 
 void		ft_redir_all(t_data *data, t_cmd *cmd);
+void		init_redic(t_data *data);
 
 /****************************/
 /*			UTILS			*/
@@ -207,10 +215,16 @@ int			r_value(int value, int type);
 int			data_check(t_data *data, int check, int r_value);
 void		update_var(t_data *data);
 char		**ft_arrdup(char **old);
-void		sig_reset(void);
 void		sigaction_child(void);
 int			arr_count(char **arr);
-void 		sig_inchild(void);
+void		sig_inchild(void);
+
+/****************************/
+/*			SIGNALS			*/
+/****************************/
+
+void		sigaction_child(void);
+void		sig_inchild(void);
 
 /****************************/
 /*			BUITINS			*/

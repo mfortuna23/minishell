@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 02:41:38 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/13 21:30:44 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/14 14:11:21 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,13 @@ char	*export_name(char *str, char *name)
 			return (NULL);
 		}
 		i ++;
+	}
+	if (str[0] == '=')
+	{
+		r_value(1, 1);
+		ft_fprintf(2, 2, "MS: export: `%s': not a valid "
+			"identifier\n", str);
+		return (NULL);
 	}
 	return (name);
 }

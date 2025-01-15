@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/30 20:20:07 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/13 11:56:57 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/15 00:33:16 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,54 +38,21 @@ char	**ft_arrdup(char **old)
 	return (new);
 }
 
-void	sig_reset(void)
+void	files_bomb(t_files *head)
 {
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
+	while (head != NULL)
+		delete_last_file(&head);
 }
 
-void	sigchild_handler(int signal)
+void	delete_cmds(t_data *data)
 {
-	if (signal == SIGINT)
-	{
-		printf("\n");
-		r_value(130, 1);
-	}
-}
-
-void	sigaction_child(void)
-{
-	struct sigaction	sa;
-
-	(void)sa;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_handler = sigchild_handler;
-	sa.sa_flags = SA_RESTART;
-	sigaction(SIGINT, &sa, NULL);
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGTERM, SIG_IGN);
-}
-
-void	child_sig(int sig)
-{
-	if (sig == SIGINT)
-	{
-		signal(SIGINT, SIG_DFL);
-		printf("\n");
-		r_value(130, 1);
-	}
-}
-
-void sig_inchild(void)
-{
-	// struct sigaction	sa;
-
-	// (void)sa;
-	// sigemptyset(&sa.sa_mask);
-	// sa.sa_handler = child_sig;
-	// sa.sa_flags = SA_RESTART;
-	// sigaction(SIGINT, &sa, NULL);
-	signal(SIGINT, SIG_DFL);
-	signal(SIGQUIT, SIG_DFL);
-	signal(SIGTERM, SIG_DFL);
+	if (data->input)
+		free(data->input);
+	if (data->parser)
+		free(data->parser);
+	if (data->tokens)
+		ft_freearr(data->tokens);
+	while (data->cmd)
+		delete_last(data);
+	return ;
 }

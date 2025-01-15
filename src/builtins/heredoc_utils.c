@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 20:13:10 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/09 10:08:45 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/15 00:07:08 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,7 @@ int	create_file(t_files *file, int fd)
 		return (ft_fprintf(2, -1, "dup error aaaaaaaah"));
 	free(x);
 	close(fd);
-	unlink(name);
-	return (fd);
+	return (unlink(name), fd);
 }
 
 int	hd_errors(t_data *data, char *buffer_hd, int error)
@@ -49,7 +48,7 @@ int	hd_errors(t_data *data, char *buffer_hd, int error)
 		free (buffer_hd);
 	if (error == 1)
 		return (ft_fprintf(2, 1, "MS: warning: here-document"
-			" at line 1 delimited by end-of-file (wanted `here')\n"));
+				" at line 1 delimited by end-of-file (wanted `here')\n"));
 	if (error == 2)
 	{
 		data->check = 1;

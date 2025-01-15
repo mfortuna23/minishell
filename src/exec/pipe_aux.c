@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 11:14:25 by tbezerra          #+#    #+#             */
-/*   Updated: 2025/01/13 11:44:51 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/15 00:03:06 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	ft_init_pipe(t_data *data)
 			return (0);
 		i++;
 	}
-	//ft_fprintf(2, 0, "there is %i piped fds\n", i); // TODO remove
 	return (1);
 }
 
@@ -51,21 +50,4 @@ void	error_exit(char *error)
 {
 	perror(error);
 	exit(EXIT_FAILURE);
-}
-
-void	clean_pipes(t_data *data)
-{
-	// int	i;
-
-	// i = 0;
-	if (!data->pipe_n || !data->pipe_n[0])
-		return ;
-	// while (data->pipe_n[i])
-	// {
-	// 	ft_fprintf(2, 0, "\t\t\ti in clean pipes is %i\n", i);
-	// 	free(data->pipe_n[i]);
-	// 	i++;
-	// }
-	free(data->pipe_n);
-	data->pipe_n = NULL;
 }
