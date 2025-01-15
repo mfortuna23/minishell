@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:26:18 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/15 00:47:04 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/15 11:18:31 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,7 @@ char *path_i);
 char		*relative_path(t_data *data, char *command);
 char		*find_path(t_data *data, t_cmd *command);
 void		set_path(t_data *data);
-void		is_exec(t_cmd *cmd);
+char		*is_exec(t_cmd *cmd);
 void		no_file(t_data *data, t_cmd *cmd);
 void		no_pathfound(t_data *data, t_cmd *c);
 
