@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 02:41:38 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/07 19:00:10 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/14 14:11:21 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,21 @@ char	*export_name(char *str, char *name)
 	while (str[i] && str[i] != '=')
 	{
 		name[i] = str[i];
+		if (valid_varchars(name[i]) != 0)
+		{
+			r_value(1, 1);
+			ft_fprintf(2, 2, "MS: export: `%s': not a valid "
+				"identifier\n", str);
+			return (NULL);
+		}
 		i ++;
+	}
+	if (str[0] == '=')
+	{
+		r_value(1, 1);
+		ft_fprintf(2, 2, "MS: export: `%s': not a valid "
+			"identifier\n", str);
+		return (NULL);
 	}
 	return (name);
 }
@@ -76,21 +90,24 @@ void	export_var(t_data *data, char *str, bool alive)
 	char	name[256];
 
 	r_value(0, 1);
-	var = find_var(data, export_name(str, name));
+	export_name(str, name);
+	if (name[0] == 0)
+		return ;
+	var = find_var(data, name);
 	if (!alive)
 	{
 		if (var)
 			return ;
 		add_last_env(&data->var);
 		var = find_last_env(&data->var);
-		var->name = ft_strdup(export_name(str, name));
-		var->full = ft_strdup(export_name(str, name));
+		var->name = ft_strdup(name);
+		var->full = ft_strdup(name);
 		var->alive = alive;
 	}
 	else if (var)
-		exist_var(data, var, str, export_name(str, name));
+		exist_var(data, var, str, name);
 	else
-		new_var(data, str, export_name(str, name));
+		new_var(data, str, name);
 }
 
 // vars cannot start numbers!!!!!!!!

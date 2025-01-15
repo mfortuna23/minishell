@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 15:20:51 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/07 21:39:04 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/15 11:24:23 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,10 +97,7 @@ char	*find_path(t_data *data, t_cmd *comd)
 		return (path_command);
 	}
 	if (comd->cmd[0][0] == '/' || (ft_strncmp(comd->cmd[0], "./", 2) == 0))
-		path_command = ft_strdup(comd->cmd[0]);
-	else if (ft_strnstr(comd->cmd[0], ".sh", ft_strlen(comd->cmd[0]))
-		&& ft_strchr(comd->cmd[0], '/'))
-		path_command = ft_strdup(comd->cmd[0]);
+		return (is_exec(comd));
 	else
 		path_command = relative_path(data, comd->cmd[0]);
 	return (path_command);

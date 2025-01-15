@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:34:48 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/07 21:41:06 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/15 00:24:31 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,60 +29,30 @@ void	exec_exit(t_data *data, char *path, char **cmd, char **env)
 	exit(0);
 }
 
-void	no_pathfound(t_data *data, t_cmd *cmd, int value)
-{
-	if (cmd->cmd[0])
-		ft_fprintf(2, 0, "MS: %s: command not found\n", cmd->cmd[0]);
-	if (cmd->here_doc)
-		value = 0;
-	else
-		value = 127;
-	ms_bomb(data, 0);
-	exit(value);
-}
-
 void	ft_execve(t_data *data, t_cmd *cmd)
 {
 	int	value;
 
 	value = 0;
 	r_value(0, 1);
-	signal(SIGINT, SIG_DFL);
-	cmd->fd_in = ft_redir_in(data, cmd);
-	cmd->fd_out = ft_redir_out(data, cmd);
+	sig_inchild();
+	ft_redir_all(data, cmd);
 	if (cmd->builtin)
 	{
 		value = execute_built(data, cmd);
-		//printf("this is builtin \n"); // TODO remove
 		ms_bomb(data, 0);
 		exit(value);
 	}
 	if (cmd->path == NULL)
-		no_pathfound(data, cmd, value);
+		no_pathfound(data, cmd);
 	else
 		exec_exit(data, cmd->path, cmd->cmd, data->env);
 	ms_bomb(data, 0);
 	exit(r_value(0, 0));
 }
 
-void	init_redic(t_data *data)
-{
-	t_cmd	*cmd;
-
-	cmd = data->cmd;
-	while (cmd)
-	{
-		cmd->in_n = data->n_cmd;
-		cmd->out_n = data->n_cmd;
-		cmd = cmd->next;
-	}
-}
-
 int	ft_exec_pipe(t_data *data)
 {
-	int	status;
-
-	status = 0;
 	if (!data || !data->cmd)
 		return (1);
 	if (ft_init_pipe(data) == 0)
@@ -91,8 +61,7 @@ int	ft_exec_pipe(t_data *data)
 	exec_intermediate_commands(data);
 	exec_last_command(data);
 	close_all_pipes(data);
-	wait_for_children(data);
-	return (WEXITSTATUS(status));
+	return (wait_for_children(data));
 }
 
 void	set_cmds(t_data *data)
@@ -104,7 +73,7 @@ void	set_cmds(t_data *data)
 		return ;
 	while (current)
 	{
-		if(check_for_built(data, current) == 0)
+		if (check_for_built(data, current) == 0)
 			current->builtin = true;
 		current = current->next;
 	}
@@ -113,7 +82,7 @@ void	set_cmds(t_data *data)
 
 int	ft_execute(t_data *data, t_cmd *cmd)
 {
-	int status;
+	int	status;
 
 	(void)cmd;
 	sigaction_child();
@@ -128,16 +97,13 @@ int	ft_execute(t_data *data, t_cmd *cmd)
 		waitpid(cmd->pid, &status, 0);
 		status = WEXITSTATUS(status);
 		set_up_sigaction();
-		//ft_fprintf(2, 0, "this is the return value : %i", status); // TODO remove
 		if (r_value(0, 0) == 130)
-			return (130);
+			return (ft_fprintf(1, 130, "\n"));
 		return (status);
 	}
 	status = ft_exec_pipe(data);
-	status = WEXITSTATUS(status);
-	//ft_fprintf(2, 0, "this is the return value : %i", status);// TODO remove
 	set_up_sigaction();
 	if (r_value(0, 0) == 130)
-		return (130);
+		return (ft_fprintf(1, 130, "\n"));
 	return (status);
 }
