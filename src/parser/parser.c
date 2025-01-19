@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/05 11:27:08 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/15 00:12:56 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/19 22:00:23 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ int	input_user(t_data *data)
 {
 	data->check = 0;
 	data->n_cmd = 1;
+	data->return_v = r_value(0, 0);
 	if (!data->input)
 	{
 		data->check = 1;

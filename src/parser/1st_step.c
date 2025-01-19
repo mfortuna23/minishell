@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:38:58 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/15 00:27:34 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/19 22:00:18 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int	get_cmd(t_data *data, char **env)
 				r_value(ft_execute(data, data->cmd), 1);
 			}
 		}
-		data->return_v = r_value(0, 0);
 		if (data->cmd)
 			delete_cmds(data);
 		free(data->prompt);
