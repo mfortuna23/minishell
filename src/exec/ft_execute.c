@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:34:48 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/15 00:24:31 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/19 21:55:34 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,13 +95,14 @@ int	ft_execute(t_data *data, t_cmd *cmd)
 		if (cmd->pid == 0)
 			ft_execve(data, cmd);
 		waitpid(cmd->pid, &status, 0);
-		status = WEXITSTATUS(status);
+		r_value(WEXITSTATUS(status), 1);
 		set_up_sigaction();
 		if (r_value(0, 0) == 130)
 			return (ft_fprintf(1, 130, "\n"));
-		return (status);
+		return (r_value(0, 0));
 	}
 	status = ft_exec_pipe(data);
+	r_value(status, 1);
 	set_up_sigaction();
 	if (r_value(0, 0) == 130)
 		return (ft_fprintf(1, 130, "\n"));

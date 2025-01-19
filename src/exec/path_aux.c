@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 16:56:07 by tbezerra          #+#    #+#             */
-/*   Updated: 2025/01/15 11:34:01 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/19 20:11:59 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	set_path(t_data *data)
 
 char	*is_exec(t_cmd *cmd)
 {
-	struct stat file_stat;
+	struct stat	file_stat;
 
 	if (stat(cmd->cmd[0], &file_stat) == 0)
 	{
@@ -47,7 +47,7 @@ char	*is_exec(t_cmd *cmd)
 		{
 			if ((S_ISDIR(file_stat.st_mode)))
 				return (NULL);
-			return (ft_strdup(cmd->cmd[0]));			
+			return (ft_strdup(cmd->cmd[0]));
 		}
 		else
 			return (NULL);
