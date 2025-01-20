@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:36:53 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/19 21:56:31 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/20 14:29:18 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ int	main(int argc, char **argv, char **env)
 {
 	t_data				data;
 
+	if (argc > 1)
+		return (ft_fprintf(2, 0, "invalid number of arguments\n"));
 	set_up_sigaction();
 	get_cmd(&data, env);
 	(void)argc;
