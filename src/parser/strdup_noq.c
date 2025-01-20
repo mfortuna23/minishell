@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   strdup_noq.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 00:40:50 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/15 00:41:46 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/20 13:21:37 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ void	strdup_nq(t_data *data, char *old, char *new, t_iter *x)
 			x->exp = true_false(x->exp);
 		while (old[x->i] && old[x->i] != x->c)
 		{
+			if (old[x->i] == 34 || old[x->i] == 39)
+				break ;
 			if (old[x->i] == '$' && x->exp == true && exp == true)
 				w_var_inbuffer(data, old, new, x);
 			else

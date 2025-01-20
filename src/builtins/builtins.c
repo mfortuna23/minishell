@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:22:58 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/15 00:05:33 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/20 13:31:41 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_cd(t_data *data, t_cmd *cmd, int check)
 	if (cmd->cmd[2])
 		return (r_value(1, 1), \
 		ft_fprintf(2, 1, "MS: cd: too many arguments\n"));
-	if (built_flags(cmd->cmd, 1) == 2)
+	if (built_flags(cmd->cmd, 1) == -1)
 		return (r_value(2, 1));
 	if (chdir(cmd->cmd[1]) < 0)
 	{
@@ -44,7 +44,7 @@ int	ft_env(t_data *data)
 
 	node = data->var;
 	r_value(0, 1);
-	if (built_flags(data->cmd->cmd, 1) == 2)
+	if (built_flags(data->cmd->cmd, 1) == -1)
 		return (r_value(2, 1));
 	while (node)
 	{

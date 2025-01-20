@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/15 00:30:31 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/19 20:39:52 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/20 13:56:59 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	child_sig(int sig)
 {
 	if (sig == SIGINT)
 	{
-		printf("\n");
 		exit(130);
 	}
 }
@@ -44,7 +43,6 @@ void	sig_inchild(void)
 {
 	struct sigaction	sa;
 
-	(void)sa;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_handler = child_sig;
 	sa.sa_flags = SA_RESTART;

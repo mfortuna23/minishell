@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execute.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:34:48 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/20 10:28:06 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/20 12:07:51 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,9 @@ void	set_cmds(t_data *data)
 	t_cmd	*current;
 
 	current = data->cmd;
+	sigaction_child();
+	r_value(0, 1);
+	init_redic(data);
 	if (!current)
 		return ;
 	while (current)
@@ -85,9 +88,6 @@ int	ft_execute(t_data *data, t_cmd *cmd)
 	int	status;
 
 	(void)cmd;
-	sigaction_child();
-	r_value(0, 1);
-	init_redic(data);
 	set_cmds(data);
 	if (data->n_cmd == 1)
 	{
@@ -95,15 +95,19 @@ int	ft_execute(t_data *data, t_cmd *cmd)
 		if (cmd->pid == 0)
 			ft_execve(data, cmd);
 		waitpid(cmd->pid, &status, 0);
-		status = WEXITSTATUS(status);
-		set_up_sigaction();
-		if (r_value(0, 0) == 130)
-			return (ft_fprintf(1, 130, "\n"));
-		return (status);
+		if (WIFEXITED(status))
+			return (set_up_sigaction(), WEXITSTATUS(status));
+		if (WIFSIGNALED(status))
+		{
+			if (WTERMSIG(status) == SIGINT)
+				write(1, "\n", 1);
+			if (WCOREDUMP(status))
+				write(1, "Quit (core dumped)\n", 20);
+			return (set_up_sigaction(), WTERMSIG(status) + 128);
+		}
+		return (set_up_sigaction(), WEXITSTATUS(status));
 	}
 	status = ft_exec_pipe(data);
 	set_up_sigaction();
-	if (r_value(0, 0) == 130)
-		return (ft_fprintf(1, 130, "\n"));
 	return (status);
 }

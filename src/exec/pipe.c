@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 11:14:25 by tbezerra          #+#    #+#             */
-/*   Updated: 2025/01/15 00:15:33 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/20 12:05:27 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,16 @@ int	wait_for_children(t_data *data)
 	{
 		waitpid(current->pid, &status, 0);
 		current = current->next;
+	}
+	if (WIFEXITED(status))
+		return (set_up_sigaction(), WEXITSTATUS(status));
+	if (WIFSIGNALED(status))
+	{
+		if (WTERMSIG(status) == SIGINT)
+			write(1, "\n", 1);
+		if (WCOREDUMP(status))
+			write(1, "Quit (core dumped)\n", 20);
+		return (set_up_sigaction(), WTERMSIG(status) + 128);
 	}
 	return (WEXITSTATUS(status));
 }
