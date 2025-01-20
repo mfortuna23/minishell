@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 15:01:23 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/14 19:39:32 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/20 13:58:04 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,22 +26,34 @@ int	pwd(t_data *data, t_cmd *cmd)
 
 //if it is called from echo echo must be 0
 //if returns 1 echo has -n option
-//if returns 2 wrong option
-int	built_flags(char **args, int echo)
+//if returns -1 wrong option
+int	built_flags(char **arg, int echo)
 {
 	int	i;
+	int	j;
 
+	j = 1; 
 	i = 1;
-	if (!args[1] || args[1][0] != '-')
-		return (0);
+	if (!arg[1] || arg[1][0] != '-')
+		return (1);
 	if (echo == 0)
 	{
-		while (args[1][i] == 'n')
-			i++;
-		if (args[1][i] == 0)
-			return (1);
+		while (arg[j] && arg[j][0] && arg[j][0] == '-')
+		{
+			while (arg[j][i] == 'n')
+				i++;
+			if (arg[j][i] == 0)
+			{
+				j++;
+				i = 1;
+			}
+			else
+				return (j);
+		}
+		if (arg[j][i] == 0)
+			return (j);
 	}
-	return (ft_fprintf(2, 2, "MS: %s: %s: invalid option\n", args[0], args[1]));
+	return (ft_fprintf(2, -1, "MS: %s: %s: invalid option\n", arg[0], arg[j]));
 }
 
 int	ft_cd2(t_data *data)

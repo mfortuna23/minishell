@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 02:40:57 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/03 12:27:35 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/20 13:39:22 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ int	ft_echo(t_data *data, t_cmd *cmd, int x)
 	if (!cmd->cmd[x])
 		return (0);
 	new_line = built_flags(cmd->cmd, 0);
-	if (new_line == 2)
+	if (new_line == -1)
 		return (2);
-	x = new_line + 1;
+	x = new_line;
 	while (cmd->cmd[x])
 	{
 		ft_fprintf(1, 0, "%s", cmd->cmd[x]);
@@ -68,7 +68,7 @@ int	ft_echo(t_data *data, t_cmd *cmd, int x)
 		ft_fprintf(1, 0, " ");
 		x++;
 	}
-	if (new_line == 0)
+	if (new_line == 1)
 		printf("\n");
 	return (0);
 }

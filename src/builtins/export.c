@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 02:41:38 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/15 23:04:00 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/20 13:31:57 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ int	ft_export(t_data *data, t_cmd *cmd) //TODO varname+=value fml
 	i = 1;
 	if (cmd->pipe || !cmd->cmd[1])
 		return (3);
-	if (built_flags(cmd->cmd, 1) == 2)
+	if (built_flags(cmd->cmd, 1) == -1)
 		return (r_value(2, 1));
 	while (cmd->cmd[i])
 	{
