@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 02:41:38 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/14 14:11:21 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/15 23:04:00 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	new_var(t_data *data, char *str, char *name)
 	node->name = ft_strdup(name);
 	if ((ft_strchr(str, '=')[1]) == 0)
 	{
-		node->full = ft_strdup(name);
+		node->full = ft_strdup(str);
 		node->value = ft_strdup("");
 		return (0);
 	}
