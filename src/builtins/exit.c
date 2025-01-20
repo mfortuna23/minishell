@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 11:35:17 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/20 13:58:48 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/20 14:04:36 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	r_exit(t_data *data)
 	while (value >= 256)
 		value = value - 256;
 	r_value(value, 1);
+	data->return_v = value;
 }
 
 int	exit_error(t_data *data, int args)
