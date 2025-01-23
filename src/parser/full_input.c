@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/16 10:38:42 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/15 00:42:24 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/21 10:46:57 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,12 +109,12 @@ int	get_fullinput(t_data *data)
 	q = -1;
 	p = -1;
 	i = 0;
-	set_heredoc_signals();
-	ft_heredoc_sig(-2);
 	while (data->input[i] && data->input[i] <= 32)
 		i++;
 	if (data->input[i] == 0)
 		return (data_check(data, 1, 1));
+	set_heredoc_signals();
+	ft_heredoc_sig(-2);
 	while (p == -1 || q == -1)
 	{
 		q = get_quotes(data, 0, 'a', 0);

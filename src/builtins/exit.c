@@ -6,23 +6,29 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 11:35:17 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/20 14:04:36 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/23 10:38:18 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	r_exit(t_data *data)
+int	r_exit(t_data *data, t_cmd *cmd, int check)
 {
 	int	value;
 
-	value = ft_atoi(data->cmd->cmd[1]);
+	value = ft_atoi(cmd->cmd[1]);
 	while (value < 0)
 		value += 256;
 	while (value >= 256)
 		value = value - 256;
 	r_value(value, 1);
 	data->return_v = value;
+	if (check == 1)
+	{
+		printf("exit\n");
+		return (0);
+	}
+	return (value);
 }
 
 int	exit_error(t_data *data, int args)
@@ -64,13 +70,13 @@ int	ft_exit(t_data *data, t_cmd *cmd, int i, int check)
 		}
 		if (cmd->cmd[2])
 			return (exit_error(data, 2));
-		r_exit(data);
+		return (r_exit(data, cmd, check));
 	}
 	if (!data->cmd->pipe && check == 1)
 	{
 		data->check = -1;
-		ft_fprintf(1, r_value(data->return_v, 1), "exit\n");
-		return (0);
+		ft_fprintf(1, 1, "exit\n");
+		return (r_value(data->return_v, 1), 0);
 	}
-	return (0);
+	return (r_value(data->return_v, 1));
 }

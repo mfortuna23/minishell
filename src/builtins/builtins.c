@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:22:58 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/20 13:31:41 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/22 10:15:29 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,17 @@ int	ft_cd(t_data *data, t_cmd *cmd, int check)
 	return (1);
 }
 
-int	ft_env(t_data *data)
+int	ft_env(t_data *data, t_cmd *cmd)
 {
 	t_env	*node;
 
 	node = data->var;
-	r_value(0, 1);
-	if (built_flags(data->cmd->cmd, 1) == -1)
+	if (built_flags(cmd->cmd, 1) == -1)
 		return (r_value(2, 1));
+	if (cmd->cmd[1])
+		return (ft_fprintf(2, r_value(1, 1), \
+			"MS : env: %s: invalid argument\n", cmd->cmd[1]));
+	r_value(0, 1);
 	while (node)
 	{
 		if (node->alive)
@@ -104,7 +107,7 @@ int	execute_built(t_data *data, t_cmd *cmd)
 	if (!cmd->cmd | !cmd->cmd[0])
 		return (0);
 	if (ft_strncmp(cmd->cmd[0], "env\0", 4) == 0)
-		return (ft_env(data));
+		return (ft_env(data, cmd));
 	else if (ft_strncmp(cmd->cmd[0], "pwd\0", 4) == 0)
 		return (pwd(data, cmd));
 	else if (ft_strncmp(cmd->cmd[0], "echo\0", 5) == 0)
