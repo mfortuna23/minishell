@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_execute.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/28 11:34:48 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/20 12:07:51 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/23 00:30:59 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	ft_execve(t_data *data, t_cmd *cmd)
 	if (cmd->path == NULL)
 		no_pathfound(data, cmd);
 	else
-		exec_exit(data, cmd->path, cmd->cmd, data->env);
+		execve(cmd->path, cmd->cmd, data->env);
 	ms_bomb(data, 0);
 	exit(r_value(0, 0));
 }

@@ -6,11 +6,25 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 20:13:10 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/15 00:07:08 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/20 20:03:47 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+int	create(char *name, char *hd_buffer, int fd, t_iter *x)
+{
+	while (access(name, F_OK) == 0)
+		name[x->j++] = '3';
+	fd = open(name, O_CREAT | O_RDWR | O_TRUNC, 0666);
+	ft_fprintf(fd, 0, "%s", hd_buffer);
+	close(fd);
+	fd = open(name, O_RDONLY);
+	if (dup2(fd, STDIN_FILENO) == -1)
+		return (ft_fprintf(2, -1, "dup error\n"));
+	close(fd);
+	return (fd);
+}
 
 int	create_file(t_files *file, int fd)
 {
@@ -26,18 +40,12 @@ int	create_file(t_files *file, int fd)
 	{
 		if (file->name[x->i] == 34 || file->name[x->i] == 39)
 			x->i++;
+		if (file->name[x->i] == 0)
+			break ;
 		name[x->j++] = file->name[x->i++];
 	}
-	while (access(name, F_OK) == 0)
-		name[x->j++] = '3';
-	fd = open(name, O_CREAT | O_RDWR | O_TRUNC, 0666);
-	ft_fprintf(fd, 0, "%s", file->hd_buffer);
-	close(fd);
-	fd = open(name, O_RDONLY);
-	if (dup2(fd, STDIN_FILENO) == -1)
-		return (ft_fprintf(2, -1, "dup error aaaaaaaah"));
+	fd = create(name, file->hd_buffer, fd, x);
 	free(x);
-	close(fd);
 	return (unlink(name), fd);
 }
 

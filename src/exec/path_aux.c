@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/17 16:56:07 by tbezerra          #+#    #+#             */
-/*   Updated: 2025/01/19 20:11:59 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/23 10:16:25 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,14 @@ char	*is_exec(t_cmd *cmd)
 
 	if (stat(cmd->cmd[0], &file_stat) == 0)
 	{
-		if (access(cmd->cmd[0], X_OK) == 0)
+		if ((S_ISDIR(file_stat.st_mode)))
+			return (NULL);
+		if ((file_stat.st_mode & S_IXUSR) || \
+			(file_stat.st_mode & S_IXGRP) || \
+			(file_stat.st_mode & S_IXOTH))
 		{
-			if ((S_ISDIR(file_stat.st_mode)))
-				return (NULL);
-			return (ft_strdup(cmd->cmd[0]));
+			if (access(cmd->cmd[0], X_OK) == 0)
+				return (ft_strdup(cmd->cmd[0]));
 		}
 		else
 			return (NULL);

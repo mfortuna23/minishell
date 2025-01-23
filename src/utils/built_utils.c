@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 15:01:23 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/20 13:58:04 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/23 10:37:50 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,28 +32,26 @@ int	built_flags(char **arg, int echo)
 	int	i;
 	int	j;
 
-	j = 1; 
+	j = 1;
 	i = 1;
 	if (!arg[1] || arg[1][0] != '-')
 		return (1);
-	if (echo == 0)
+	if (echo != 0)
+		return (ft_fprintf(2, -1, "MS: %s: %s: invalid option\n", \
+		arg[0], arg[j]));
+	while (arg[j] && arg[j][0])
 	{
-		while (arg[j] && arg[j][0] && arg[j][0] == '-')
-		{
-			while (arg[j][i] == 'n')
-				i++;
-			if (arg[j][i] == 0)
-			{
-				j++;
-				i = 1;
-			}
-			else
-				return (j);
-		}
-		if (arg[j][i] == 0)
-			return (j);
+		if (arg[j][0] != '-')
+			break ;
+		while (arg[j][i] == 'n')
+			i++;
+		if (arg[j][i] != 0)
+			return (ft_fprintf(2, -1, "MS: %s: %s: invalid option\n", \
+		arg[0], arg[j]));
+		i = 1;
+		j++;
 	}
-	return (ft_fprintf(2, -1, "MS: %s: %s: invalid option\n", arg[0], arg[j]));
+	return (j);
 }
 
 int	ft_cd2(t_data *data)

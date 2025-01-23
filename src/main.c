@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/03 11:36:53 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/20 14:29:18 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/21 11:46:51 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ void	sigint_handler(int signal)
 {
 	if (signal == SIGINT)
 	{
+		rl_replace_line("", 0);
 		printf("\n");
 		rl_on_new_line();
-		rl_replace_line("", 0);
 		rl_redisplay();
 		r_value(130, 1);
 	}

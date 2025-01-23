@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/19 11:14:25 by tbezerra          #+#    #+#             */
-/*   Updated: 2025/01/20 12:05:27 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/23 00:41:07 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,24 @@
 int	wait_for_children(t_data *data)
 {
 	int		status;
+	bool	new_line;
 	t_cmd	*current;
 
+	new_line = false;
 	current = data->cmd;
 	while (current)
 	{
 		waitpid(current->pid, &status, 0);
+		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+			new_line = true;
 		current = current->next;
 	}
+	if (new_line)
+		write(1, "\n", 1);
 	if (WIFEXITED(status))
 		return (set_up_sigaction(), WEXITSTATUS(status));
 	if (WIFSIGNALED(status))
 	{
-		if (WTERMSIG(status) == SIGINT)
-			write(1, "\n", 1);
 		if (WCOREDUMP(status))
 			write(1, "Quit (core dumped)\n", 20);
 		return (set_up_sigaction(), WTERMSIG(status) + 128);
