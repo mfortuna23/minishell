@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfortuna <mfortuna@student.42.pt>          +#+  +:+       +#+        */
+/*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 02:41:38 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/20 13:31:57 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/24 08:27:43 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void	export_var(t_data *data, char *str, bool alive)
 }
 
 // vars cannot start numbers!!!!!!!!
-int	ft_export(t_data *data, t_cmd *cmd) //TODO varname+=value fml
+int	ft_export(t_data *data, t_cmd *cmd)
 {
 	int	i;
 
