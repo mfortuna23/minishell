@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 02:41:38 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/24 08:27:43 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/27 10:21:22 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,8 @@ void	export_var(t_data *data, char *str, bool alive)
 	char	name[256];
 
 	r_value(0, 1);
-	export_name(str, name);
+	if (export_name(str, name) == NULL)
+		return ;
 	if (name[0] == 0)
 		return ;
 	var = find_var(data, name);

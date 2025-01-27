@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/12 10:14:09 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/15 00:43:03 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/27 10:09:44 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ int	check_not_req(t_data *data)
 	int	i;
 
 	i = 0;
+	if (!data || !data->tokens || !data->tokens[i])
+		return (1);
 	while (data->tokens[i])
 	{
 		if (check_chars(data->tokens[i][0]) == 2)
@@ -52,7 +54,7 @@ int	token_count(char *s, int i, int count, char c)
 				while (c != s[i] && (s[i]))
 					i++;
 				if (s[i] == 0)
-					return (-1);
+					return (count);
 			}
 			while (s[i] > ' ')
 				i++;
