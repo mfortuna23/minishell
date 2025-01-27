@@ -6,7 +6,7 @@
 /*   By: mfortuna <mfortuna@student.42porto.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 20:13:10 by mfortuna          #+#    #+#             */
-/*   Updated: 2025/01/20 20:03:47 by mfortuna         ###   ########.fr       */
+/*   Updated: 2025/01/27 10:51:07 by mfortuna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	create(char *name, char *hd_buffer, int fd, t_iter *x)
 	close(fd);
 	fd = open(name, O_RDONLY);
 	if (dup2(fd, STDIN_FILENO) == -1)
-		return (ft_fprintf(2, -1, "dup error\n"));
+		return (close(fd), ft_fprintf(2, -1, "dup error\n"));
 	close(fd);
 	return (fd);
 }
