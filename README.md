@@ -13,7 +13,6 @@ A custom UNIX command-line interpreter written in C, replicating core Bash funct
 ### My Key Contributions
 ✔ **Lexer/Parser System**  
 - Implemented tokenization with state machine for quotes (`'`, `"`) and special chars (`|`, `>`)  
-- Built abstract syntax tree (AST) for command execution flow  
 
 ✔ **Environment Variables & Expansion**  
 - Designed `$VAR` expansion with proper scoping rules  
