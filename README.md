@@ -2,7 +2,7 @@
 
 A custom UNIX command-line interpreter written in C, replicating core Bash functionalities.
 
-[![Build Status](https://img.shields.io/github/actions/workflow/status/mfortuna23/minishell/ci.yml?branch=main)](https://github.com/mfortuna23/minishell/actions)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/mfortuna23/minishell/ci.yml?branch=main)](https://github.com/mfortuna23/minishell)
 [![Code Size](https://img.shields.io/github/languages/code-size/mfortuna23/minishell)](https://github.com/mfortuna23/minishell)
 
 ## 🚀 Features
