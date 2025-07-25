@@ -29,6 +29,9 @@ git clone https://github.com/mfortuna23/minishell
 cd minishell && make
 ./minishell
 ```
+
+<img width="879" height="530" alt="image" src="https://github.com/user-attachments/assets/dfc61224-10cd-4a91-aece-627eb2c6c970" />
+
  
  Sources :
  https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf
