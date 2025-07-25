@@ -15,13 +15,23 @@ A custom UNIX command-line interpreter written in C, replicating core Bash funct
 - Implemented tokenization with state machine for quotes (`'`, `"`) and special chars (`|`, `>`)  
 - Built abstract syntax tree (AST) for command execution flow  
 
+✔ **Environment Variables & Expansion**  
+- Designed `$VAR` expansion with proper scoping rules  
+- Implemented special variables (`$?`, `$$`)  
+- Handled edge cases: `echo "$USER"` vs `echo '$USER'`  
+
+✔ **Heredoc Implementation**  
+- Created delimiter-based input system (`<< EOF`)  
+- Supported variable expansion in heredoc blocks  
+- Prevented SIGINT interruption during heredoc input  
+
 ✔ **Memory Management**  
 - Zero-leak guarantee via rigorous allocation tracking  
 - Safe garbage collection system for orphaned processes  
 
 ✔ **Builtins**  
-- `cd` with relative/absolute path support  
-- `export`/`unset` for environment variables  
+- `cd` with relative/absolute path  
+- `export`/`unset` with syntax validation  
 
 ## 🛠️ Installation
 ```bash
