@@ -45,7 +45,7 @@ VAL_SUPP		= ignore_readline_leaks.supp
 all: $(NAME) 
 
 $(NAME) : $(OBJS) $(NAMELIB)
-	$(CC) -g $(CFLAGS) -o $(NAME) $(SRC) $(NAMELIB) $(LDFLAGS)
+	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(NAMELIB) $(LDFLAGS)
 
 $(NAMELIB) : $(LIBFT_PATH)
 	$(MAKE) $(LIBFT_PATH)
